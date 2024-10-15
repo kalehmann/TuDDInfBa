@@ -1,0 +1,162 @@
+\documentclass{scrreprt}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 0\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+% See https://tex.stackexchange.com/a/79254
+\newcommand{\dropsign}[1]{\smash{\llap{\raisebox{-.5\normalbaselineskip}{$#1$\hspace{2\arraycolsep}}}}}%
+
+
+\begin{document}
+\paragraph{Ü0.2 Polynome und Nullstellen}
+\begin{enumerate}[(a)]
+\item Geben Sie alle reellen Lösungen der Gleichung
+  $x\qty\big(2x-\sqrt{3})\sqrt{3x+4} = 0$ an.
+
+  \subparagraph{Lsg.} $x_1 = 0$, $x_2 = \frac{\sqrt{3}}{2}$, $x_3 = -\frac{4}{3}$
+
+\item Finden Sie alle reellen Nullstellen der Polynomfunktion
+  $p\qty\big(x) = \qty\big(x^2+3x-10)\qty\big(x^2-1)$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    p\qty\big(x) &= \qty\big(x^2+3x-10)\qty\big(x^2-1) &\\
+                 &= \qty\big(x+5)\qty\big(x-2)\qty\big(x^2-1)
+  \end{flalign*}
+  $\Rightarrow$ $x_1 = -5$, $x_2 = 2$, $x_3 = -1$, $x_4 = 1$
+
+\item Zeigen Sie, dass $x = 1$ eine Nullstelle von
+  $p\qty\big(x) = x^3 - 6x^2 + 11x - 6$ ist.
+  Berechnen Sie $q\qty\big(x)$ so, dass
+  $p\qty\big(x) = \qty\big(x - 1)q\qty\big(x)$ gilt.
+  Wenden Sie dazu Polynomdivision an.
+  Bestimmen Sie anschließend die restlichen Nullstellen von $p\qty\big(x)$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    p\qty\big(1) &= 1^3 - 6 \cdot 1^2 + 11 \cdot 1 - 6 &\\
+                 &=1 - 6 + 11 - 6 \\
+                 &= 0
+  \end{flalign*}
+  Weiter ist
+  \[
+    \begin{array}{lllllr}
+      \dropsign{-} \big(x^3 - & 6x^2 + &11x - &6\big) &: \qty\big(x - 1) &= x^2 - 5x + 6 \\
+      \big(x^3 - &\phantom{6} x^2\big) \\
+      \cline{1-2}
+      & \dropsign{-} \phantom{\big(} -5x^2 + &11x \\
+      & \big(-5x^2 + &\phantom{2}5x\big) \\
+      \cline{2-3}
+      && \dropsign{-} \phantom{1}6x - &6 \\
+      && \big(6x - &6\big) \\
+      \cline{3-4}
+      &&& 0
+    \end{array}
+  \]
+  Somit ist $q\qty\big(x) = x^2 - 5x + 6$.
+  Aus $q\qty\big(x) = x^2 - 5x + 6 = \qty\big(x - 2)\qty\big(x - 3)$ folgt
+  $x_2 = 2$ und $x_3 = 3$.
+\end{enumerate}
+\newpage
+
+\paragraph{Ü0.3 analytische Geometrie im $\mathbb{R}^2$}
+
+Sei $g \coloneqq \qty{\begin{pmatrix}x\\y\end{pmatrix} \in \mathbb{R}^2 \:\middle|\: y = 3x + 1}$
+eine Gerade in $\mathbb{R}^2$.
+
+\begin{enumerate}[(a)]
+\item Bestimmen Sie den Schnittpunkt mit der Geraden
+  $h \coloneqq \qty{\begin{pmatrix}x\\y\end{pmatrix} \in \mathbb{R}^2 \:\middle|\: y = -x - 3}$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    3x + 1 &= -x - 3 & {\big |} +3 \\
+    3x + 4 &= -x & {\big |} +x \\
+    4x + 4 &= 0 \\
+    \Rightarrow x = -1
+  \end{flalign*}
+  Nun ist $y = 3 \cdot \qty\big(-1) + 1 = -2$.
+  Es folgt der Schnittpunkt $\begin{pmatrix}-1\\-2\end{pmatrix}$.
+
+\item Geben Sie $g$ in Parameterdarstellung an.
+
+  \subparagraph{Lsg.} Bestimme zwei Punkte auf $g$, zum Beispiel
+  $\begin{pmatrix}0\\1\end{pmatrix}$ für $x_0 = 0$ und
+  $\begin{pmatrix}1\\4\end{pmatrix}$ für $x_1 = 1$.
+  Nun ist \[
+    g = \qty{
+      \begin{pmatrix}0\\1\end{pmatrix} + \lambda \cdot
+      \qty(\begin{pmatrix}1\\4\end{pmatrix} - \begin{pmatrix}0\\1\end{pmatrix})
+      \:\middle|\: \lambda
+      \in \mathbb{R}
+    } = \qty{
+      \begin{pmatrix}0\\1\end{pmatrix} + \lambda \cdot
+      \begin{pmatrix}1\\3\end{pmatrix}
+      \:\middle|\: \lambda
+      \in \mathbb{R}
+    }
+  \]
+
+\item Berechnen Sie den Abstand des Punktes
+  $q = \begin{pmatrix}3\\0\end{pmatrix}$ zum Schnittpunkt der Geraden $g$ und
+  $h$.
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    \norm{\begin{pmatrix}3\\0\end{pmatrix} - \begin{pmatrix}-1\\-2\end{pmatrix}}_2
+    = \sqrt{4^2 + \qty\big(-2)^2} = \sqrt{20}
+  \]
+
+\newpage
+\item Berechnen Sie den Abstand des Punktes $q$ zu der Geraden $g$
+
+  \subparagraph{Lsg.} Es ist $\begin{pmatrix}1\\3\end{pmatrix}$ ein
+  Richtungsvektor von $g$.
+  Somit ist $\begin{pmatrix}-3\\1\end{pmatrix}$ ein Normalenvektor von $g$.
+  Sein nun $g' = \qty{q + \mu \cdot \begin{pmatrix}-3\\1\end{pmatrix} \:\middle|\: \mu \in \mathbb{R}}$.
+  Anschließend setzt man $g$ mit $g'$ gleich:
+  \[
+    \begin{pmatrix}0\\1\end{pmatrix} + \lambda \cdot
+    \begin{pmatrix}1\\3\end{pmatrix}
+    =
+    \begin{pmatrix}3\\0\end{pmatrix} + \mu \cdot
+    \begin{pmatrix}-3\\1\end{pmatrix}
+  \]
+  Entweder löst man das Gleichungssystem normal, oder sieht direkt die Lösung
+  mit $\lambda = 0$ und $\mu = 1$.
+  Es folgt der Schnittpunkt $\begin{pmatrix}0\\1\end{pmatrix}$.
+  Schließlich ist
+  \[
+    \norm{\begin{pmatrix}3\\0\end{pmatrix} - \begin{pmatrix}0\\1\end{pmatrix}}_2
+    = \sqrt{3^2 + 1^2} = \sqrt{10}
+  \]
+  
+\end{enumerate}
+
+\end{document}
