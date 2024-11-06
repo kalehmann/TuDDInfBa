@@ -1,0 +1,301 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+% See https://tex.stackexchange.com/a/118217
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 3\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+
+\paragraph{Ü 3.1} Für eine Gewürzmischung sollen verschiedene Gewürze zu gleichen
+Teilen vermischt werden.
+Zur Auswahl stehen Anis, Basilikum, Chili und Dill.
+Je nach Kombination der Gewürze können unterschiedliche Gewürzmischungen entstehen.
+Dabei sind folgende Bedingungen sämtlich einzuhalten:
+\begin{itemize}
+\item Anis und Dill können, wenn überhaupt, nur gemeinsam verwendet werden.
+\item Wenn Dill dabei ist, dann ist auch Chili dabei.
+\item Eine Mischung, die Anis nicht enthält, muss Basilikum enthalten.
+\item Basilikum und Dill schließen sich gegenseitig aus.
+\end{itemize}
+
+\begin{enumerate}
+\item Stellen Sie jede der vier Bedingungen als aussagenlogischen Ausdruck dar.
+  Verwenden Sie dabei die Bezeichnungen A, B, C und D für die Verwendung des
+  entsprechenden Gewürzes mit diesem Anfangsbuchstaben.
+
+  \subparagraph{Lsg.} Es sind
+  \begin{enumerate}[(1)]
+  \item $A \iff D$
+  \item $D \Rightarrow C$
+  \item $\neg A \Rightarrow B$
+  \item $B \Rightarrow \neg D \land D \Rightarrow \neg B$
+  \end{enumerate}
+
+\item Ermitteln Sie alle möglichen Gewürzmischungen.
+
+  \subparagraph{Lsg.} Mit den obigen Regeln sind die folgenden drei Mischungen
+  möglich:
+
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    A & B & C & D \\
+    \hline
+    x &  & x & x \\
+      & x & x &  \\
+      & x & & \\
+    \hline
+  \end{tabular}
+
+  Alternativ sei $\beta \colon \qty\big{A, B, C, D} \to \qty\big{0, 1}$.
+
+  Dann ist
+  \begin{enumerate}[1. Fall:]
+  \item $\beta(A) = 1 \Rightarrow \beta(D) = 1 \Rightarrow \beta(C) = 1 \Rightarrow \beta(B) = 0$.
+  \item $\beta(A) = 0 \Rightarrow \beta(D) = 0 \Rightarrow \beta(B) = 1$
+    \begin{enumerate}[(1)]
+    \item $\beta(C) = 0$
+    \item $\beta(C) = 1$
+    \end{enumerate}
+  \end{enumerate}
+
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 3.2}
+\begin{enumerate}[(a)]
+\item Disjunktion $\lor$ und Konjunktion $\land$ sind 2-stellige boolsche
+  Funktionen.
+  Verwenden Sie eine Wertetabelle, um die Distributivität der Konjunktion $\land$
+  über der Disjunktion $\lor$ zu beweisen.
+
+  \subparagraph{Lsg.}\:\\
+  \begin{tabular}{|c|c|c|cc|}
+    \hline
+    A & B & C & $A \land \qty\big(B \lor C)$ & $\qty\big(A \land B) \lor \qty\big(A \land C)$ \\
+    \hline
+    - & - & - & - & - \\
+    + & - & - & - & - \\
+    + & + & - & + & + \\
+    + & - & + & + & + \\
+    + & + & + & + & + \\
+    - & + & - & - & - \\
+    - & - & + & - & - \\
+    - & + & + & - & - \\
+    \hline
+  \end{tabular}
+
+\item Zeigen Sie, dass $\qty\big((A \Rightarrow B) \land A) \Rightarrow B$ für
+  beliebige Ausdrücke $A$, $B$ eine Tautologie ist.
+
+  \subparagraph{Lsg.}\:\\
+  \begin{tabular}{|c|c|ccc|}
+    \hline
+    $A$ & $B$ & $A \Rightarrow B$ & $\qty\big(A \Rightarrow B) \land A$ & $\qty\big((A \Rightarrow B) \land A) \Rightarrow B$ \\
+    \hline
+    - & - & + & - & + \\
+    + & - & - & - & + \\
+    - & + & + & - & + \\
+    + & + & + & + & + \\
+    \hline
+  \end{tabular}
+
+  Alternativ mit Umformen
+  \begin{flalign*}
+    \qty\big((A \Rightarrow B) \land A) \Rightarrow B
+    \overset{Def. Implikation}&\iff
+    \neg \qty\big((\neg A \lor B) \land A) \lor B \\
+    \overset{Distri.}&\iff
+    \neg \qty\big((\underset{Wahr}{\underbrace{(\neg A \land A)}} \lor (B \land A)) \land A) \lor B \\
+    &\iff
+    \neg \qty\big((B \land A) \land A) \lor B \\
+    \overset{Asso.}&\iff
+    \neg \qty\big(B \land (A \land A)) \lor B \\
+    \overset{Idem.}&\iff
+    \neg \qty\big(B \land A) \lor B \\
+    \overset{De Morgan}&\iff
+    \qty\big(\neg B \lor \neg A) \lor B \\
+    \overset{Kommu.}&\iff
+    \qty\big(\neg A \lor \neg B) \lor B \\
+    \overset{Asso.}&\iff
+    \neg A \lor \underset{Wahr}{\underbrace{\qty\big(\neg B \lor B)}} \\
+    &\iff 1
+  \end{flalign*}
+
+\newpage
+\item Zeigen Sie, dass das \emph{Prinzip der Kontraposition} gilt, d.h. für alle
+  Ausdrücke $A$, $B$ ist $A \Rightarrow B$ äquivalent zu
+  $\neg B \Rightarrow \neg A$.
+  Verwenden Sie dazu die Rechenregeln aus der Vorlesung.
+
+  \subparagraph{Lsg.}
+  Gemäß der Vorlesung ist $A \Rightarrow B$ gleich $\neg A \lor B$.
+  Also ist auch $\neg B \Rightarrow \neg A$ gleich
+  $\neg \qty\big(\neg B) \lor \neg A$ oder $B \lor \neg A$.
+  Schließlich ist die Konjuktion auch kommutativ, also ist
+  $B \lor \neg A$ gleich $\neg A \lor B$.
+
+\item Untersuchen Sie, ob die folgenden beiden aussagenlogischen Ausdrücke
+  äquivalent sind:
+  \begin{flalign*}
+    A &\coloneqq x \Rightarrow y \\
+    B &\coloneqq x \Rightarrow \neg \qty\big(y \Rightarrow \neg x)
+  \end{flalign*}
+  Verwenden Sie auch dazu die Rechenregeln aus der Vorlesung.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    x \Rightarrow \neg \qty\big(y \Rightarrow \neg x)
+    \overset{Def. Implikation}&\iff
+    \neg x \lor \neg \qty\big(\neg y \lor \neg x) \\
+    \overset{De Morgan}&\iff
+    \neg x \lor \qty(\neg \qty\big(\neg y) \land \neg\qty\big(\neg x)) \\
+    \overset{\text{Doppelte Negation}}&\iff
+    \neg x \lor \qty\big(y \land x) \\
+    \overset{\text{Distributivität}}&\iff
+    \qty\big(\neg x \lor y) \land \underset{Wahr}{\underbrace{\qty\big(\neg x \lor x)}} \\
+    &\iff
+    \neg x \lor y \\
+    \overset{Def. Implikation}&\iff
+    x \Rightarrow y
+  \end{flalign*}
+
+\item Impliziert der Ausdruck $D \coloneqq \neg x$ den Ausdruck $x \Rightarrow y$?
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    D \Rightarrow \neg x \lor y
+    \overset{Def. Implikation}&\iff
+    \neg D \lor \qty\big(\neg x \lor y) \\
+    \overset{Def. D}&\iff
+    \neg \qty\big(\neg x) \lor \qty\big(\neg x \lor y) \\
+    \overset{Idempotenz}&\iff
+    x \lor \qty\big(\neg x \lor y) \\
+    \overset{Idempotenz}&\iff
+    x \lor \qty\big((\neg x \lor \neg x) \lor y) \\
+    \overset{\text{Assoziativität}}&\iff
+    \underset{Wahr}{\underbrace{\qty\big(x \lor \neg x)}} \lor \qty\big(\neg x \lor y) \\
+    &\iff
+    1
+  \end{flalign*}
+
+  $\Rightarrow$ die Ausdrücke sind nicht äquivalent
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 3.3} Durch untenstehende Wertetabelle ist eine boolsche Funktion
+$f \colon \qty\big{0, 1}^3 \to \qty\big{0, 1}$ gegeben.
+
+\begin{tabular}{|c|c|c|c|}
+  \hline
+  $x_1$ & $x_2$ & $x_3$ & $f\qty\big(x_1, x_2, x_3)$ \\
+  \hline
+  0 & 0 & 0 & 0 \\
+  0 & 0 & 1 & 1 \\
+  0 & 1 & 0 & 1 \\
+  0 & 1 & 1 & 0 \\
+  1 & 0 & 0 & 1 \\
+  1 & 0 & 1 & 0 \\
+  1 & 1 & 0 & 1 \\
+  1 & 1 & 1 & 1 \\
+  \hline
+\end{tabular}
+
+\begin{enumerate}[(a)]
+\item Bestimmen Sie die Darstellung der Funktion in disjunktiver Normalform (DNF).
+  \subparagraph{Lsg.}
+  \[
+    \qty\big(\neg x_1 \land \neg x_2 \land x_3) \lor
+    \qty\big(\neg x_1 \land x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land \neg x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land x_2 \land x_3)
+  \]
+  Durch Anwendung gängiger Rechenregeln kürzt sich der Ausdruck zu
+  \[
+    \qty\big(\neg x_1 \land \neg x_2 \land x_3) \lor
+    \qty\big(\neg x_1 \land x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land \neg x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land x_2)
+  \]
+
+\item Bestimmen Sie eine Darstellung der Funktion in konjunktiver Normalform (KNF).
+
+  \subparagraph{Lsg.} Die Konjunktive Normalform lässt sich aus den Spalten mit
+  0 als Funktionswert ablesen:
+  \[
+    \qty\big(x_1 \lor x_2 \lor x_3) \land
+    \qty\big(x_1 \lor \neg x_2 \lor x_3) \land
+    \qty\big(\neg x_1 \lor x_2 \neg \lor x_3)
+  \]
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 3.4} Ein Ritter kommt an zwei große steinerne Tore, vor denen je
+eine Wache steht.
+Hinter einem der Tore führt der Weg zu Ruhm, ewigen Glück, hinter dem anderen
+Tore in den sicheren Tod.
+Der Ritter weiß, dass eine der Wachen stets die Wahrheit spricht, die andere
+stets lügt.
+Doch welche, das weiß er nicht.
+Er darf nur einer der Wachen eine einzige Frage stellen.
+Welche Frage sollte das sein.
+
+\subparagraph{Lsg.} ``\emph{Wird mir die andere Wache sagen, dass ich durch das
+  Tor hinter dir in den Tod trete?}''
+
+Seien $W_1, W_2$ die Wachen und $T_1, T_2$ die Tore.
+Ein + markiert, dass die Wache die Wahrheit sagt beziehungsweise das Tor in den
+Tod führt.
+
+\begin{tabular}{|ccccc|}
+  \hline
+  $W_1$ & $W_2$ & $T_1$ & $T_2$ & Die Antwort von $W_1$ \\
+  + & - & + & - & Nein \\
+  - & + & + & - & Nein \\
+  + & - & - & + & Ja \\
+  - & + & - & + & Ja \\
+  \hline
+\end{tabular}
+
+Dementsprechend tritt man bei Ja in das Tor hinter der Wache, bei Nein in das
+andere Tor.
+
+\end{document}
