@@ -1,0 +1,115 @@
+\documentclass{scrreprt}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 1\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N1}
+\begin{enumerate}[(a)]
+\item Beweisen Sie, dass für beliebige Teilmengen $A$, $B$ und $C$ einer Menge
+  $U$ gilt:
+  \[
+    \qty\big(A \setminus B) \cap \qty\big(A \setminus C) = A \setminus \qty\big(B \cup C)
+  \]
+
+  Die in der Vorlesung aufgelisteten Rechenregeln für Mengenoperationen können
+  Sie dazu verwenden.
+  Geben Sie in den entsprechenden Beweisschritten dann mit an, welche Rechenregel
+  Sie wo genau anwenden.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty\big(A \setminus B) \cap \qty\big(A \setminus C)
+    &= \qty\big{e \:{\big |}\: e \in \qty\big(A \setminus B) \text{ und } e \in \qty\big(A \setminus C)} && \text{(Def. Schnitt)} && \\
+    &= \qty\big{e
+        \:{\big |}\:
+        \qty\big(e \in A \text{ und } e \notin B)
+        \text{ und }
+        \qty\big(e \in A \text{ und } e \notin C)
+      } && \text{(Def. Differenz)} \\
+    &= \qty\big{e
+        \:{\big |}\:
+        e \in A \text{ und } e \notin B \text{ und } e \notin C
+      } && \text{(Assoziativität)} \\
+    &= \qty\big{e
+        \:{\big |}\:
+        e \in A \text{ und } e \notin \qty\big{a \:{\big |}\: a \in B \text{ und } a \in C}
+      }  \\
+    &= \qty\big{e
+        \:{\big |}\:
+        e \in A \text{ und } e \notin \qty\big(B \cup C)
+      } && \text{(Def. Vereinigung)} \\
+    &= A \setminus \qty\big(B \cup C) && \text{(Def. Differenz)}
+  \end{flalign*}
+
+\item Gegeben sind die Mengen
+  $A_m = \qty\big{n \in \mathbb{N} \:{\big |}\: m < n \leq 4m}$
+  für $m = 0, 1, 2, \ldots$
+  Geben Sie die Mengen $A_0$, $A_1$ und $A_2$, sowie die Potenzmengen
+  $\mathcal{P}\qty\big(A_0)$ und $\mathcal{P}\qty\big(A_1)$ als Mengen
+  konkreter Elemente an.
+
+  Bestimmen Sie die Mächtigkeit $\abs{\mathcal{P}\qty\big(A_m)}$ für
+  beliebiges $m \in \mathbb{N}$.
+
+  \subparagraph{Lsg.} Es sind
+  \[
+    A_0 = \emptyset,
+    A_1 = \qty\big{2, 3, 4},
+    A_2 = \qty\big{3, 4, 5, 6, 7, 8}
+  \]
+
+  Weiter sind
+  \[
+    \mathcal{P}\qty\big(A_0) = \qty\big{\emptyset},
+    \mathcal{P}\qty\big(A_1) = \qty\big{
+      \emptyset, \qty\big{2}, \qty\big{3}, \qty\big{4},
+      \qty\big{2, 3}, \qty\big{2, 4}, \qty\big{3, 4},
+      \qty\big{2, 3, 4}
+    }
+  \]
+
+  Schließlich ist $A_m = \qty\big{m + 1, \ldots, 4m}$ mit der Mächtigkeit
+  \[
+    \abs{\qty\big{m + 1, \ldots, 4m}} = 4m - m = 3m
+  \]
+
+  Aus der Vorlesung ist bereits bekannt, dass
+  $\abs{\mathcal{P}\qty\big(A)} = 2^{\abs{A}}$.
+
+  $\Rightarrow$ $\abs{\mathcal{P}\qty\big(A_m)} = 2^{3m}$
+\end{enumerate}
+\end{document}
