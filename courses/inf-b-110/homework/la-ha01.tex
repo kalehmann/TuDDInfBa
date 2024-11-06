@@ -1,0 +1,130 @@
+\documentclass{scrreprt}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 1\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 1.2} Es seien $m_1$ $m_2$ $m_3$ $m_4$ $m_5$ $m_6$ $m_7$ die Ziffern
+Ihrer Matrikelnummer.
+
+\begin{enumerate}[(a)]
+\item Berechnen Sie $x \coloneqq \qty\big(-1)^{m_6} + \qty\big(-1)^{m_7} \cdot i$.
+  Bestimmen Sie $z \coloneqq x^{m_5 + 5}$ in Eulerscher Darstellung auf 2 Arten:
+  \begin{itemize}
+  \item Berechnen Sie zuerst $z$ in arithmetischer Darstellung und rechnen Sie
+    dann in Polarkoordinaten um.
+  \item Bestimmen Sie zuerst die Eulersche Darstellung von $x$ und berechnen Sie dann
+    die $\qty\big(m_5 + 5)$-te Potenz.
+  \end{itemize}
+
+  \subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+    \hline
+    $m_1$ & $m_2$ & $m_3$ & $m_4$ & $m_5$ & $m_6$ & $m_7$ \\
+    \hline
+  \end{tabular}
+
+  Nun ist $x \coloneqq \qty\big(-1)^5 + \qty\big(-1)^8 \cdot i = -1 + i$ und
+  \begin{flalign*}
+    \qty\big(-1 + i)^2
+    &= \qty\big(\qty(-1) \cdot \qty(-1) - 1 \cdot 1) + \qty\big(\qty(-1) \cdot 1 + 1 \cdot \qty(-1)) \cdot i
+      = -2i & \\
+    \qty\big(-1 + i)^4
+    &= \qty\big(-2i)^2 = \qty\big(0 \cdot 0 - \qty(-2) \cdot \qty(-2)) + \qty\big(0 \cdot \qty(-2) + \qty(-2) \cdot 0) \cdot i
+      = -4 \\
+    z \coloneqq \qty\big(-1 + i)^{m_5 + 5} &= \qty\big(-1 + i)^{12} = \qty\big(-4)^{3} = -64
+  \end{flalign*}
+
+  In Polardarstellung von $z$ ist nun $r = \sqrt{\qty\big(-64)^2 + 0^2} = 64$,
+  $\sin\qty\big(\varphi) = \frac{0}{64} = 0$ und
+  $\cos\qty\big{\varphi} = \frac{-64}{64} = -1$.
+
+  $\Rightarrow \varphi = \pi, z = 64 \cdot \qty(\cos\qty\big(\pi) + \sin\qty\big(\pi) \cdot i)$
+
+  Weiter ist für die Eulersche Darstellung von $x$ nun
+  $r = \sqrt{\qty\big(-1)^2 + 1^2} = \sqrt{2}$,
+  $\sin\qty\big(\varphi) = \frac{1}{\sqrt{2}}$ und
+  $\cos\qty\big{\varphi} = -\frac{1}{\sqrt{2}}$.
+
+  $\Rightarrow \varphi = \frac{3}{4}\pi, x = \sqrt{2} \cdot e^{i\frac{3}{4}\pi}$
+
+  Schließlich ist $x^{m_5 + 5} = x^{12} = \qty(\sqrt{2} \cdot e^{i\frac{3}{4}\pi})^{12} = 64 \cdot e^{i9\pi} = 64 \cdot e^{i\pi}$
+
+\item Bestimmen Sie $y \coloneqq \qty\big(m_1 + m_4) + \qty\big(m_2 + m_5) \cdot i$.
+  Bestimmen Sie $\qty\big(\overline{y})^{-1}$.
+
+  \subparagraph{Lsg.} Es ist $y \coloneqq 9 + 16 \cdot i$ und
+  $\overline{y} = 9 - 16 \cdot i$.
+  Weiter ist
+  \[
+    \qty\big(9 - 16 \cdot i)^{-1}
+    = \frac{9}{9^2 + 16^2} + \frac{16}{9^2 + 16^2} \cdot i
+    = \frac{9}{337} + \frac{16}{337} \cdot i
+  \]
+
+\newpage
+\item Beweisen Sie, dass für alle komplexen Zahlen $x \ne 0$ die Gleichung
+  $\overline{x}^{-1} = \overline{x^{-1}}$ gilt.
+
+  Hinweise: Formulieren Sie den Beweis sorgfältig!
+  Es gibt (mindestens) 2 Beweismöglichkeiten.
+
+  \subparagraph{Lsg.} Sei $x = a + b \cdot i$, $a, b \ne 0$.
+  In der Vorlesung wurde bereits gezeigt, dass
+  \[
+    x^{-1} = \frac{a}{a^2 + b^2} + \frac{-b}{a^2 + b^2} \cdot i
+  \]
+  Somit ist
+  \[
+    \overline{x^{-1}} = \frac{a}{a^2 + b^2} + \frac{b}{a^2 + b^2} \cdot i
+  \]
+
+  Sein nun $c = -b$.
+  Dann ist $a + c \cdot i = \overline{x}$ und
+  \begin{flalign*}
+    \qty\big(a + c)^{-1}
+    &= \frac{a}{a^2 + c^2} + \frac{-c}{a^2 + c^2} \cdot i && {\Big |} c = (-b) & \\
+    &= \frac{a}{a^2 + \qty\big(-b)^2} + \frac{-\qty\big(-b)}{a^2 + \qty\big(-b)^2} \cdot i && {\Big |} (-b)^2 = b^2 & \\
+    &= \frac{a}{a^2 + b^2} + \frac{-\qty\big(-b)}{a^2 + b^2} \cdot i && {\Big |} -(-b) = b\\
+    &= \frac{a}{a^2 + b^2} + \frac{b}{a^2 + b^2} \cdot i \\
+    &= \overline{x}^{-1} && \text{(siehe oben)}
+  \end{flalign*}
+\end{enumerate}
+\end{document}
