@@ -1,0 +1,288 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 4\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü4.3 Rechenregeln in Vektorräumen}
+Beweisen Sie, dass die folgenden Aussagen in einem Vektorraum $V$ über einem
+Körper $K$ für alle $\lambda \in K$ und alle Vektoren $u \in V$ gelten:
+\begin{enumerate}[(a)]
+\item $\lambda \cdot u = 0_V \iff \lambda = 0 \lor u = 0_V$
+
+  \subparagraph{Lsg.} Die Richtung ``$\Leftarrow$'' wurde bereits in der Vorlesung gezeigt.
+  Da $K$ ein Körper ist und $\lambda \in K$, existiert $\lambda^{-1} \in K$ mit
+  $\lambda \cdot \lambda^{-1} = 1$.
+  Sei nun $\lambda \ne 0$, dann ist
+  \begin{flalign*}
+    \lambda \cdot u &= 0_V && {\Big |} \cdot \lambda^{-1} & \\
+    \lambda^{-1} \cdot \qty\big(\lambda \cdot u) &= \lambda^{-1} 0_V && {\Big |} \text{ siehe ``$\Leftarrow$''} \\
+    \lambda^{-1} \cdot \qty\big(\lambda \cdot u) &= 0_V && {\Big |} \text{(V8)} \\
+    \qty\big(\lambda^{-1} \cdot \lambda) \cdot u &= 0_V && {\Big |} \text{Kommutativität in $K$} \\
+    \qty\big(\lambda \cdot \lambda^{-1}) \cdot u &= 0_V && {\Big |} \text{Inverses in $K$} \\
+    1_K \cdot u &= 0_V && {\Big |} \text{(V7)} \\
+    u &= 0_V
+  \end{flalign*}
+
+  $\Rightarrow$ aus $\lambda \ne 0_K$ folgt $u = 0_V$.
+
+  Somit steht die Kontraposition $u \ne 0_V \Rightarrow \lambda = 0$.
+
+\item $\qty\big(-1) \cdot u = -u$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    u + \qty\big(-1) \cdot u &= (1) \cdot u + \qty\big(-1) \cdot u & \\
+    \overset{\text{V9}}&= \qty\big(1 - 1) \cdot u \\
+    &= 0 \cdot u \\
+    \overset{\text{Siehe (a), ``$\Leftarrow$''}}&= 0
+  \end{flalign*}
+
+  $\Rightarrow \qty\big(-1) \cdot u$ ist invers zu $u$ und somit
+  $\qty\big(-1) \cdot u = -u$.
+
+  \textbf{Alternativ:}
+  Es ist
+  \begin{flalign*}
+    \qty\big(-1) \cdot u &= \qty\big(-1) \cdot u + 0 & \\
+                         &= \qty\big(-1) \cdot u + u + \qty\big(-u) \\
+    \overset{\text{(V9)}}&= \qty\big(-1 + 1) \cdot u + \qty\big(-u) \\
+                         &= 0 \cdot u + \qty\big(-u) \\
+    \overset{\text{Teilaufgabe (a)}}&= -u \\
+  \end{flalign*}
+
+\item $\qty\big(-\lambda) \cdot \qty\big(-u) = \lambda u$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty\big(-\lambda) \cdot \qty\big(-u)
+    \overset{\text{(b)}}&\Rightarrow
+    \qty\big(-\lambda) \cdot \qty\big((-1) \cdot u) & \\
+    \overset{\text{(V8)}}&\Rightarrow
+    \qty\big(-\lambda \cdot -1) \cdot \cdot u \\
+    \overset{\text{Rechenregeln in $K$}}&\Rightarrow
+    \lambda \cdot u
+  \end{flalign*}
+\end{enumerate}
+
+\paragraph{Ü 4.4 Vektorräume von Abbildungen}
+
+Zeigen Sie: Ist $X$ eine Menge und $W$ ein $K$-Vektorraum, so wird die Menge der
+Abbildungen
+$\qty\big{f \:\mid\: f \colon X \to W} \coloneqq \text{Abb}\qty\big(X, W)$ durch
+punktweise definierte Addition:
+$\qty\big(f \oplus g)\qty\big(x) \coloneqq f\qty\big(x) + g\qty\big(x)$ und
+Skalarmultiplikation (mit $\lambda \in K$):
+$\qty\big(\lambda f)\qty\big(x) \coloneqq \lambda \cdot f\qty\big(x)$
+zu einem $K$-Vektorraum.
+Im Spezialfall $X = \qty\big{1, \ldots, n}$ und $W = K$ ergibt sich der
+Standardraum $K^n$.
+
+\subparagraph{Lsg.}
+\begin{enumerate}[(V1)]
+\item Seien $f, g \in \text{Abb}\qty\big(X, W)$ und $x \in X$ beliebig.
+  Seien weiter $f\qty\big(x) = a$ und $g\qty\big(x) = b$.
+  Dann sind $a, b \in W$, da $f$ und $g$ Abbildungen nach $W$ sind.
+  Da $W$ ein $K$-Vektorraum ist, ist auch $a + b \in W$.
+
+  Weil $x$ beliebig, ist auch die Abbildung $h \in \text{Abb}\qty\big(X, W)$ mit
+  $h\qty\big(x) = f\qty\big(x) + g\qty\big(x)$.
+
+\item Seien $f, g, h \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty(f \oplus \qty\big(g \oplus g))\qty\big(x) = f\qty\big(x) + \qty(g\qty\big(x) + h\qty\big(x))
+    \overset{\text{Assoziativität in $W$}} = \qty\big(f\qty\big(x) + g\qty\big(x)) + h\qty\big(x) =
+    \qty(\qty\big(f \oplus g) \oplus g)\qty\big(x)
+  \]
+
+\item Seien $f, g \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty(f \oplus g)\qty\big(x) = f\qty\big(x) + g\qty\big(x)
+    \overset{\text{Kommutativität in $W$}} = g\qty\big(x) + f\qty\big(x) =
+    \qty\big(g \oplus f)\qty\big(x)
+  \]
+
+\item Sei $a \colon X \to W, x \mapsto 0_W$ und $g \in \text{Abb}\qty\big(X, W)$
+  beliebig.
+  \[
+    \qty\big(a \oplus g)\qty\big(x) = 0_W + g\qty\big(x) = g\qty\big(x)
+    = g\qty\big(x) + 0_W = \qty\big(g \oplus a)\qty\big(x)
+  \]
+  $\Rightarrow$ es existiert ein Nullelement.
+
+\item Sei $f \in \text{Abb}\qty\big(X, W)$ beliebig und
+  $g \colon X \to W, x \mapsto -f\qty\big(x)$.
+
+  Da $f\qty\big(x) \in W$ und $W$ ein $K$-Vektorraum, muss
+  $-f\qty\big(x)$ existieren.
+  Nun ist \[
+    \qty\big(f \oplus g)\qty\big(x) = f\qty\big(x) + g\qty\big(x)
+    = f\qty\big(x) + \qty(-f\qty\big(x))
+    = 0_W
+  \]
+  $\Rightarrow \qty\big(f \oplus g)\qty\big(x)$ entspricht dem Nullelement aus (V4)
+
+\item Seien $\lambda \in K$ und $f \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist $\qty\big(\lambda \cdot f)\qty\big(x) = \lambda \cdot f\qty\big(x)$
+  und da $f\qty\big(x) \in W$ und $W$ ein $K$-Vektorraum ist, ist auch
+  $\lambda \cdot f\qty\big(x)$ wieder in $W$ enthalten und somit auch
+  $\qty\big(\lambda \cdot f) \in \text{Abb}\qty\big(X, W)$
+
+\item Sei $f \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty\big(1 \cdot f)\qty\big(x) = 1 \cdot f\qty\big(x) = f\qty\big(x)
+    = \qty\big(f)\qty\big(x)
+  \]
+
+\item Seien $\lambda, \mu \in K$ und $f \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty(\qty\big(\lambda \cdot \mu) \cdot f)\qty\big(x) =
+    \qty\big(\lambda \cdot \mu) \cdot f\qty\big(x)
+    \overset{\text{Assoziativität in $W$}}=
+    \lambda \cdot \qty\big(\mu \cdot f\qty\big(x))
+    = \qty(\lambda \cdot \qty\big(\mu \cdot f))\qty\big(x)
+  \]
+
+\item Seien $\lambda, \mu \in K$ und $f \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty(\qty\big(\lambda + \mu) \cdot f)\qty\big(x) =
+    \qty\big(\lambda + \mu) \cdot f\qty\big(x)
+    \overset{\text{Distributivität in $W$}}=
+    \lambda \cdot f\qty\big(x) + \mu \cdot f\qty\big(x)
+    = \qty(\lambda \cdot f)\qty\big(x) + \qty(\mu \cdot f)\qty\big(x)
+  \]
+
+\item Seien $\lambda \in K$ und $f, g \in \text{Abb}\qty\big(X, W)$ beliebig.
+  Dann ist
+  \[
+    \qty(\lambda \cdot \qty\big(f \oplus g))\qty\big(x) =
+    \lambda \cdot \qty(f\qty\big(x) + g\qty\big(x))
+    \overset{\text{Distributivität in $W$}}=
+    \lambda \cdot f\qty\big(x) + \lambda \cdot g\qty\big(x)
+    = \qty(\lambda \cdot f)\qty\big(x) + \qty(\lambda \cdot g)\qty\big(x)
+  \]
+\end{enumerate}
+
+\paragraph{Ü 4.5 Untervektorräume}
+Beweisen bzw. widerlegen Sie, dass die folgenden Mengen Untervektorräume der
+angegebenen $\mathbb{R}$- bzw. $\mathbb{C}$-Vektorräume sind:
+
+\begin{enumerate}[(a)]
+\item $\qty{\qty\big(x_1, x_2, x_3)^T \in \mathbb{R}^3 \:\middle|\: x_1 + x_2 + 2x_3 = 1} \subseteq \mathbb{R}^3$
+
+  \subparagraph{Lsg.} Es ist
+  $0_{\mathbb{R}^3} = \begin{pmatrix} 0 \\ 0 \\ 0 \end{pmatrix}$, allerdings ist
+  $0 + 0 + 2 \cdot 0 \ne 1$.
+
+  $\Rightarrow$ kein Untervektorraum.
+
+\item $\qty{\qty\big(x_1, x_2, x_3)^T \in \mathbb{R}^3 \:\middle|\: x_1 + x_2 + 2x_3 = 0} \subseteq \mathbb{R}^3$
+
+  \subparagraph{Lsg.} Für $0_{\mathbb{R}^3}$ ist $0 + 0 + 2 \cdot 0 = 0$, also
+  ist das Nullelement enthalten.
+
+  Weiter gilt für 2 beliebige Elemente $x, y$ bereits
+  $x_1 + x_2 + 2 \cdot x_3 = 0$ und $y_1 + y_2 + 2 \cdot y_3 = 0$,
+  also ist auch
+  \[
+    \qty\big(x_1 + y_1) + \qty\big(x_2 + y_2) + \qty\big(2 \cdot x_3 + 2 \cdot y_3) =
+    = \underset{= 0}{\underbrace{\qty\big(x_1 + x_2 + 2 \cdot x_3)}} +
+    \underset{= 0}{\underbrace{\qty\big(y_1 + y_2 + 2 \cdot y_3)}} = 0
+  \]
+  Somit ist die Menge bezüglich der Addition abgeschlossen.
+
+  Schließlich ist für ein beliebiges $\lambda \in \mathbb{R}$ und $x$ auch
+  $\lambda \cdot \qty\big(x_1 + x_2 + 2 \cdot x_3) = 0$.
+  Somit ist die Menge auch bezüglich der Skalarmultiplikation abgeschlossen
+  und es handelt sich tatsächlich um einen Unterraum.
+
+\newpage
+\item $\qty{\qty\big(x, ix)^T \in \mathbb{C}^2 \:\middle|\: x \in \mathbb{R}} \subseteq \mathbb{C}^2$
+
+  \subparagraph{Lsg.} Es ist
+  $0_{\mathbb{C}^2} = \begin{pmatrix} 0 \\ 0 \end{pmatrix}$ in der Menge
+  enthalten.
+
+  Weiter sind für beliebige $x, y \in \mathbb{R}$ auch
+  $\qty\big(x + y, \qty(x + y)i)^T$ in der Menge enthalten, da
+  $\qty(x + y) \in \mathbb{R}$.
+
+  Schließlich sind für ein beliebige $, x \in \mathbb{R}$ die Skalarmultiplikation
+  $i \cdot \qty\big(x, ix)^T = \qty\big(ix, ix \cdot i)^T$
+  und $ix \notin \mathbb{R}$.
+
+  Somit handelt es sich nicht um einen Unterraum.
+  (Ausnahme, man nimmt $\mathbb{C}^2$ als $\mathbb{R}$-Vektorraum an)
+
+\item $\qty{\qty\big(a, b, c)^T \in \mathbb{R}^3 \:\middle|\: c = a \cdot b} \subseteq \mathbb{R}^3$
+
+  \subparagraph{Lsg.} Seien $\qty\big(2, 3, 6)^T, \qty\big(3, 4, 12)^T$ aus der
+  Menge.
+  Dann ist $\qty\big(2, 3, 6)^T + \qty\big(3, 4, 12)^T = \qty\big(5, 7, 18)$
+  nicht enthalten, da $18 \ne 5 \cdot 7$.
+
+\item $\qty\big{p \colon \mathbb{R} \to \mathbb{R}, x \mapsto a_0 + a_1x + \ldots + a_nx^n \:\big|\: a_0, a_1, \ldots, a_n \in \mathbb{R}} \subseteq \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+
+  \subparagraph{Lsg.} Sei $f \colon \mathbb{R} \to \mathbb{R}, x \mapsto 0$.
+  Dann ist $f = 0_{\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})}$ und in der Menge
+  enthalten.
+
+  Seien weiter $f, g \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ beliebig
+  mit $f\qty\big(x) = a_0 + a_1x + \ldots + a_nx^n$ und
+  $g\qty\big(x) = b_0 + b_1x + \ldots + b_nx^n$.
+  Da $\mathbb{R}$ vollständig bezüglich der Addition ist, sind auch alle
+  Koeffizienten von
+  $\qty\big(f + g)\qty\big(x) = a_0 + b_0 + \qty\big(a_1 + b_1)x_1 + \ldots + \qty\big(a_n + b_n)x^n$
+  in $\mathbb{R}$ enthalten.
+  Somit ist die Menge ebenfalls vollständig bezüglich der Addition.
+
+  Schließlich sind für ein beliebiges $\lambda \in \mathbb{R}$ und
+  $f \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+  mit $f\qty\big(x) = a_0 + a_1x + \ldots + a_nx^n$
+  alle Koeffizienten $\lambda \cdot a_0, \lambda \cdot a_1, \ldots, \lambda \cdot a_n$
+  in $\mathbb{R}$ enthalten.
+  Somit ist die Menge auch bezüglich der Skalarmultiplikation abgeschlossen
+  und es handelt sich tatsächlich um einen Unterraum.
+\end{enumerate}
+
+\end{document}
