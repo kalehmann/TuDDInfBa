@@ -1,0 +1,509 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+% See https://tex.stackexchange.com/a/118217
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 4\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+
+\paragraph{Ü 4.1} Verwenden Sie den Algorithmus aus der Vorlesung, um zu
+entscheiden, ob die folgenden aussagenlogischen Ausdrücke erfüllbar sind.
+Falls ja, geben Sie eine erfüllende Belegung an.
+
+\begin{enumerate}[(1)]
+\item $\qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3 \lor \neg x_4) \land
+  \qty\big(\neg x_1 \lor \neg x_2 \lor x_3) \land
+  \qty\big(\neg x_1 \lor x_2) \land x_1$
+
+  \subparagraph{Lsg.} Bei dem Ausdruck handelt es sich um eine Horn-Formel.
+  Also suchen wir zuerst eine \emph{postive 1-Klausel} und markieren diese.
+  \[
+    \qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3 \lor \neg x_4) \land
+    \qty\big(\neg x_1 \lor \neg x_2 \lor x_3) \land
+    \qty\big(\neg x_1 \lor x_2) \land \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_1$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\colorbox{yellow}{$\neg x_1$} \lor \neg x_2 \lor \neg x_3 \lor \neg x_4) \land
+    \qty\big(\colorbox{yellow}{$\neg x_1$} \lor \neg x_2 \lor x_3) \land
+    \qty\big(\colorbox{yellow}{$\neg x_1$} \lor x_2) \land \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  nun
+  \[
+    \qty\big(\neg x_2 \lor \neg x_3 \lor \neg x_4) \land
+    \qty\big(\neg x_2 \lor x_3) \land
+    \qty\big(x_2) \land \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+
+  Suchen wir nun die nächste \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    \qty\big(\neg x_2 \lor \neg x_3 \lor \neg x_4) \land
+    \qty\big(\neg x_2 \lor x_3) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_2$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\colorbox{green}{$\neg x_2$} \lor \neg x_3 \lor \neg x_4) \land
+    \qty\big(\colorbox{green}{$\neg x_2$} \lor x_3) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land
+    \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  nun
+  \[
+    \qty\big(\neg x_3 \lor \neg x_4) \land
+    \qty\big(x_3) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land
+    \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  Suchen wir nun die nächste \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    \qty\big(\neg x_3 \lor \neg x_4) \land
+    \qty\big(\colorbox{purple!30}{$x_3$}) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land
+    \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_3$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\colorbox{purple!30}{$\neg x_3$} \lor \neg x_4) \land
+    \qty\big(\colorbox{purple!30}{$x_3$}) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land
+    \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  nun
+  \[
+    \qty\big(\neg x_4) \land
+    \qty\big(\colorbox{purple!30}{$x_3$}) \land
+    \qty\big(\colorbox{green}{$x_2$}) \land
+    \qty\big(\colorbox{yellow}{$x_1$})
+  \]
+  In diesem Ausdruck findet sich keine weitere, unmarkierte
+  \emph{positive 1-Klausel}.
+  Da der Ausdruck keine leeren Klauseln entsprichthält, haben wir hier eine
+  erfüllende Belegung mit $x_1 = 1$, $x_2 = 1$, $x_3 = 1$ und $x_4 = 0$.
+
+\newpage
+\item $\qty\big(\neg x_1 \lor \neg x_3 \lor x_2) \land x_4 \land
+  \qty\big(\neg x_1 \lor \neg x_4 \lor \neg x_2) \land
+  \qty\big(\neg x_4 \lor \neg x_1) \land
+  \qty\big(x_1 \lor \neg x_3)$
+
+  \subparagraph{Lsg.} Auch bei diesem Ausdruck handelt es sich um eine
+  Horn-Formel.
+  Suchen wir erneut eine \emph{positive 1-Klausel} und markieren diese:
+  \[
+    \qty\big(\neg x_1 \lor \neg x_3 \lor x_2) \land
+    \qty\big(\colorbox{green}{$x_4$}) \land
+    \qty\big(\neg x_1 \lor \neg x_4 \lor \neg x_2) \land
+    \qty\big(\neg x_4 \lor \neg x_1) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_4$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\neg x_1 \lor \neg x_3 \lor x_2) \land
+    \qty\big(\colorbox{green}{$x_4$}) \land
+    \qty\big(\neg x_1 \lor \colorbox{green}{$\neg x_4$} \lor \neg x_2) \land
+    \qty\big(\colorbox{green}{$\neg x_4$} \lor \neg x_1) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  nun
+  \[
+    \qty\big(\neg x_1 \lor \neg x_3 \lor x_2) \land
+    \qty\big(\colorbox{green}{$x_4$}) \land
+    \qty\big(\neg x_1 \lor \neg x_2) \land
+    \neg x_1 \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  In diesem Ausdruck findet sich keine weitere, unmarkierte
+  \emph{positive 1-Klausel}.
+  Da der Ausdruck keine leeren Klauseln enthält, haben wir hier eine
+  erfüllende Belegung mit $x_1 = 0$, $x_2 = 0$, $x_3 = 0$ und $x_4 = 1$.
+
+\item $\qty\big(\neg x_1 \lor x_2) \land
+  \qty\big(\neg x_2 \lor x_3) \land
+  \qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3) \land x_2 \land
+  \qty\big(x_2 \lor \neg x_3) \land
+  \qty\big(x_1 \lor \neg x_3)$
+
+  \subparagraph{Lsg.}  Auch bei diesem Ausdruck handelt es sich um eine
+  Horn-Formel.
+  Suchen wir erneut eine \emph{positive 1-Klausel} und markieren diese:
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\neg x_2 \lor x_3) \land
+    \qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2 \lor \neg x_3) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_2$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\colorbox{blue!20}{$\neg x_2$} \lor x_3) \land
+    \qty\big(\neg x_1 \lor \colorbox{blue!20}{$\neg x_2$} \lor \neg x_3) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2 \lor \neg x_3) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  nun
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(x_3) \land
+    \qty\big(\neg x_1 \lor \neg x_3) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2 \lor \neg x_3) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  Suchen wir nun die nächste \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor \neg x_3) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2 \lor \neg x_3) \land
+    \qty\big(x_1 \lor \neg x_3)
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_3$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor \colorbox{red!20}{$\neg x_3$}) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2 \lor \neg \colorbox{red!20}{$\neg x_3$}) \land
+    \qty\big(x_1 \lor \neg \colorbox{red!20}{$\neg x_3$})
+  \]
+  nun
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big(\neg x_1) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2) \land
+    \qty\big(x_1)
+  \]
+
+  Suchen wir nochmal die nächste \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    \qty\big(\neg x_1 \lor x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big(\neg x_1) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2) \land
+    \qty\big(\colorbox{orange!50}{$x_1$})
+  \]
+  Nun streichen wir jedes auftreten von $\neg x_1$ in den anderen Klauseln.
+  Also wird aus
+  \[
+    \qty\big(\colorbox{orange!50}{$\neg x_1$} \lor x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big(\colorbox{orange!50}{$\neg x_1$}) \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2) \land
+    \qty\big(\colorbox{orange!50}{$x_1$})
+  \]
+  nun
+  \[
+    \qty\big(x_2) \land
+    \qty\big(\colorbox{red!20}{$x_3$}) \land
+    \qty\big() \land
+    \qty\big(\colorbox{blue!20}{$x_2$}) \land
+    \qty\big(x_2) \land
+    \qty\big(\colorbox{orange!50}{$x_1$})
+  \]
+
+  Durch die leere Klausel gibt es keine erfüllende Belegung.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 4.2}
+\begin{enumerate}[(a)]
+\item Beweisen Sie: für jede natürliche Zahl $n > 0$ existiert eine
+  Primfaktorzerlegung
+  \[
+    n = p_1^{a_1} \cdot p_2^{a_2} \cdot \ldots \cdot p_k^{a_k}
+  \]
+  mit $k \in \mathbb{N}$, Primzahlen $p_1, \ldots, p_k$ und
+  $a_1, \ldots, a_k \in \mathbb{N} \setminus \qty\big{0}$.
+
+  \subparagraph{Lsg.} Für $n = 1$ existiert das leere Produkt mit $k = 0$.
+
+  Angenommen es gäbe natürliche Zahlen, die keine Primfaktorzerlegung haben.
+  Da $\mathbb{N}$ wohlgeordnet ist, existiert eine kleinste solche Zahl $n_0$.
+
+  Dann ist $n_0$ keine Primzahl, denn ansonsten hätte $n_0$ die Primfaktorzerlegung
+  $n_0 = n_0^1$.
+  Also existieren mindestens zwei weitere Teiler $a, b \in \mathbb{N}$ mit
+  $1 < a < n_0$ und $1 < b < n_0$, sowie $n_0 = a \cdot b$.
+  Da $n_0$ die kleinste Zahl ohne Primfaktorzerlegung ist, haben $a$ und $b$ eine
+  Primfaktorzerlegung.
+  Dann hat $n_0$ als Produkt zweier Primfaktorzerlegungen $a$ und $b$ auch eine
+  Primfaktorzerlegung.
+
+  Ein Widerspruch.
+
+\item Finden Sie die Primfaktorzerlegung für die Zahlen 60, 432 und 3465.
+
+  \subparagraph{Lsg.}
+  \begin{itemize}
+  \item $60 = 2^2 \cdot 3 \cdot 5$
+  \item $432 = 2^4 \cdot 3^3$
+  \item $3465 = 3^2 \cdot 5 \cdot 7 \cdot 11$
+  \end{itemize}
+
+\item Wie viele dreistellige Zahlen gibt es, deren drei Ziffern untereinander
+  und von 0 verschieden sind und bei denen das Produkt ihrer Ziffern durch 81
+  teilbar ist?
+
+  \subparagraph{Lsg.} Es ist $81 = 3^4$.
+  Nun sind lediglich $3$, $3^2$ und $3 \cdot 2$ einstellig
+  Zahlen mit der $3$ als Primfaktor.
+  Diese drei Ziffern lassen sich in den 6 Kombinationen
+  \begin{itemize}
+  \item 369
+  \item 396
+  \item 639
+  \item 693
+  \item 936
+  \item 963
+  \end{itemize}
+  zusammensetzen.
+\end{enumerate}
+
+\newpage
+\paragraph{4.3} Beweisen Sie mit der Methode der vollständigen Induktion:
+\begin{enumerate}[(a)]
+\item Für alle $n \in \mathbb{N}$ gilt:
+  $\displaystyle \sum_{k = 0}^n q^k = \frac{1 - q^{n + 1}}{1 - q}$
+  für jedes $q \in \mathbb{R}, q \ne 1$.
+
+  \subparagraph{Lsg.} Sei die Aussage
+  \[
+    P\qty\big(n) \colon \sum_{k = 0}^n q^k = \frac{1 - q^{n + 1}}{1 - q},
+    \quad q \in \mathbb{R}, q \ne 1
+  \]
+  \textbf{Induktionsanfang:} Es ist $P(0) \colon q^0 = \frac{1 - q^1}{1 - q} = 1$
+  für alle $q \in \mathbb{R}, q \ne 1$ wahr.
+
+  \textbf{Induktionsschritt} Sei $P(n)$ für ein beliebiges $n \ in \mathbb{N}$
+  wahr.
+  Dann ist
+  \begin{flalign*}
+    P(n + 1) \colon \sum_{k = 0}^{n + 1} q^k &= \frac{1 - q^{n + 2}}h{1 - q} & \\
+   \sum_{k = 0}^{n} q^k + q^{n + 1} &= \frac{1 - q^{n + 1} + q^{n + 1} - q^{n + 2}}{1 - q} \\
+   \sum_{k = 0}^{n} q^k + q^{n + 1} &= \frac{1 - q^{n + 1}}{q - 1} + \frac{q^{n + 1} - q^{n + 2}}{1 - q} \\
+   \sum_{k = 0}^{n} q^k + q^{n + 1} &= \frac{1 - q^{n + 1}}{q - 1} + \frac{\qty\big(1 - q)q^{n + 1}}{1 - q} \\
+   \sum_{k = 0}^{n} q^k + q^{n + 1} &= \frac{1 - q^{n + 1}}{q - 1} + q^{n + 1}
+  \end{flalign*}
+  und das ist unter Berücksichtigung von $P(n)$ wahr.
+
+  Also folgt aus dem Satz über die vollständige Induktion die Behauptung.
+
+\newpage
+\item Für alle $n \in \mathbb{N}, n \geq 1$ gilt:
+  $\displaystyle \sum_{k = 1}^n k^2 = \frac{n\qty\big(n + 1)\qty\big(n + 2)}{6}$
+
+  \subparagraph{Lsg.} Sei die Aussage
+  \[
+    P\qty\big(n) \colon \sum_{k = 1}^n k^2 = \frac{n\qty\big(n + 1)\qty\big(2n + 1)}{6}
+  \]
+  \textbf{Induktionsanfang:} Es ist $P(1) \colon 1^2 = \frac{1 \cdot \qty\big(1 + 1) \qty\big(2 \cdot 1 + 1)}{6} = 1$
+  wahr.
+
+  \textbf{Induktionsschritt:} Sei $P(n)$ für ein beliebiges $n \in \mathbb{N}$ wahr.
+  Dann ist
+  \begin{flalign*}
+    \sum_{k = 1}^{n + 1} k^2 &= \sum_{k = 1}^n + \qty\big(n + 1)^2 & \\
+    \overset{P(n)}&= \frac{n\qty\big(n + 1)\qty\big(2n + 1)}{6} + \qty\big(n + 1)^2 \\
+    &= \frac{n\qty\big(n + 1)\qty\big(2n + 1)}{6} + \qty\big(n^2 + 2n + 1) \\
+    &= \frac{n\qty\big(n + 1)\qty\big(2n + 1)}{6} + \frac{6n^2 + 12n + 6}{6} \\
+    &= \frac{n\qty\big(n + 1)\qty\big(2n + 1)}{6} + \frac{3 \cdot \qty\big(2n + 2)\qty\big(n + 1)}{6} \\
+    &= \frac{n\qty\big(n + 1)\qty\big(2n + 1) + 3 \cdot \qty\big(2n + 2)\qty\big(n + 1)}{6} \\
+    &= \frac{\qty\big(n + 1) \cdot \qty(n\qty\big(2n + 1) + 3 \cdot \qty\big(2n + 2))}{6} \\
+    &= \frac{\qty\big(n + 1) \cdot \qty(n\qty\big(2n + 1) + 3 \cdot \qty\big(2n + 1) + 3)}{6} \\
+    &= \frac{\qty\big(n + 1) \cdot \qty(n\qty\big(2n + 1) + 2 \cdot \qty\big(2n + 1) + \qty\big(2n + 4))}{6} \\
+    &= \frac{\qty\big(n + 1) \cdot \qty(\qty\big(n + 2)\qty\big(2n + 1) + \qty\big(2n + 4))}{6} \\
+    &= \frac{\qty\big(n + 1) \cdot \qty(\qty\big(n + 2)\qty\big(2n + 1) + 2 \qty\big(n + 2))}{6} \\
+    &= \frac{\qty\big(n + 1)\qty\big(n + 2)\qty\big(2n + 3)}{6} \\
+    &= \frac{\qty\big(n + 1)\qty\big((n + 1) + 1)\qty\big(2(n + 1) + 1)}{6}
+  \end{flalign*}
+
+\newpage
+\item Für die in der Vorlesung rekursiv definierte Addition und Multiplikation in
+  $\mathbb{N}$ gilt die Eigenschaft der Distributivität:
+  \[
+    \forall \: a, b, c \in \mathbb{N} \colon a \cdot \qty\big(b + c) = a \cdot b + a \cdot c
+  \]
+
+  \subparagraph{Lsg.} Wir bezeichnen die folgenden Definitionen für die rekursiv
+  definierten Operationen aus der Vorlesung:
+
+  \begin{minipage}[t]{.45\textwidth}
+    \begin{flalign*}
+      A_1 &\colon n + 0 = n \\
+      A_2 &\colon n + m^+ = \qty\big(n + m)^+
+    \end{flalign*}
+  \end{minipage}
+  \begin{minipage}[t]{.45\textwidth}
+    \begin{flalign*}
+      M_1 &\colon n \cdot 0 = 0 \\
+      M_2 &\colon n \cdot m^+ = n \cdot m + n
+    \end{flalign*}
+  \end{minipage}
+
+  Sei nun die Aussage
+  \[
+    A\qty\big(n) \colon a \cdot \qty\big(b + n) = a \cdot b + a \cdot n
+  \]
+  mit beliebigen $a, b \in \mathbb{N}$.
+
+  \textbf{Behauptung:} $A\qty\big(n)$ ist für alle $n \in \mathbb{N}$ wahr.
+
+  \textbf{Induktionsanfang:}
+  \[
+    A\qty\big(0) \colon a \cdot \qty\big(b + 0)
+    \overset{A_1}\iff a \cdot b
+    \overset{A_1}\iff a \cdot b + 0
+    \overset{M_1}\iff a \cdot b + a \cdot 0
+  \]
+
+  \textbf{Induktionsschritt:} Sei $A\qty\big(n)$ für ein beliebiges
+  $n \in \mathbb{N}$ wahr.
+  Es ist zu zeigen, dass $A\qty\big(n) \Rightarrow A\qty\big(n + 1)$.
+
+  Nun ist
+  \begin{flalign*}
+    A\qty\big(n + 1) \colon a \cdot \qty\big(b + n^+)
+    \overset{A_2}&\iff a \cdot \qty\big(b + n)^+ & \\
+    \overset{M_2}&\iff a \cdot \qty\big(b + n)^+ \\
+    \overset{M_2}&\iff a \cdot \qty\big(b + n) + a \\
+    \overset{\text{Induktionsvorraussetzung}}&\iff a \cdot b + a \cdot n + a \\
+    \overset{M_2}&\iff a \cdot b + a \cdot n^+
+  \end{flalign*}
+  Somit ist $A\qty\big(n) \Rightarrow A\qty\big(n + 1)$ und aus dem Satz über die
+  vollständige Induktion folgt $A\qty\big(n)$ für alle $n \in \mathbb{N}$.
+
+  Wenn man stattdessen die Aussage für ein festes $a$ und $c$ oder ein festes
+  $b$ und $c$ erstellt, funktionieren die Beweise analog.
+
+\newpage
+\item Für alle $n \in \mathbb{N}$ ist $n^5 - n$ durch 5 teilbar.
+
+  \subparagraph{Lsg.} Sei die Aussage
+  \[
+    P\qty\big(n) \colon 5 | n^5 - n
+  \]
+  und die Behauptung $P\qty\big(n)$ ist wahr für alle $n \in \mathbb{R}$
+
+  \textbf{Induktionsanfang:} Für $n = 0$ ist $n^5 - n = 0$ und tatsächlich ist
+  $5 | 0$.
+  Also ist $P\qty\big(0)$ wahr.
+
+  \textbf{Induktionsschritt:} Sei $P\qty\big(n)$ für ein beliebiges
+  $n \in \mathbb{N}$ wahr.
+  Es ist zu zeigen, dass $P\qty\big(n) \Rightarrow P\qty\big(n + 1)$.
+
+  Nun ist
+  \begin{flalign*}
+    \qty\big(n + 1)^5 - \qty\big(n + 1) &= \qty\big(n^2 + 2n + 1)\qty\big(n + 1)^3 - \qty\big(n + 1) &\\
+                                        &= \qty\big(n^3 + 3n^2 + 3n + 1)\qty\big(n + 1)^2 - \qty\big(n + 1) \\
+                                        &= \qty\big(n^4 + 4n^3 + 6n^2 + 4n + 1)\qty\big(n + 1) - \qty\big(n + 1) \\
+                                        &= \qty\big(n^5 + 5n^4 + 10n^3 + 10n^2 + 5n + 1) - \qty\big(n + 1) \\
+                                        &= n^5 + 5n^4 + 10n^3 + 10n^2 + 4n \\
+                                        &= n^5 - n + 5n^4 + 10n^3 + 10n^2 + 5n \\
+                                        &= n^5 - n + 5\qty\big(n^4 + 2n^3 + 2n^2 + n)
+  \end{flalign*}
+  und per Induktionsvoraussetzung ist bereits $5 | n^5 - n$ und da
+  $\qty\big(n^4 + 2n^3 + 2n^2 + n) \in \mathbb{N}$, auch
+  $5 | 5\qty\big(n^4 + 2n^3 + 2n^2 + n)$.
+  Somit folgt $P\qty\big(n) \Rightarrow P\qty\big(n + 1)$ und aus dem Satz
+  über die vollständige Induktion folgt die Behauptung.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 4.4} Wo liegt der Fehler?
+
+\noindent
+\underline{Behauptung:} Alle endlichen Teilmengen von $\mathbb{N}$ haben
+dieselbe Kardinalität.
+
+\noindent
+Beweis: Wir zeigen mit vollständiger Induktion, dass die Aussage
+\[
+  A_n \colon \text{Alle endlichen Teilmengen von } \mathbb{N}
+  \text{ mit Kardinalität } \leq n \text{ haben dieselbe Kardinalität}
+\]
+für alle $n \in \mathbb{N}$ wahr ist.
+
+\noindent
+\emph{Induktionsanfang:} Es gilt $A_0$, denn $\emptyset$ ist die einzige
+Teilmenge mit $\leq 0$ Elementen in $\mathbb{N}$.
+
+\noindent
+\emph{Induktionsschritt:} Zu zeigen ist:
+$\forall n \in \mathbb{N} \colon A_n \Rightarrow A_{n + 1}$.
+
+\noindent
+Beweis: Es sei ein $n \in \mathbb{N}$ beliebig gewählt, für das $A_n$ gilt.
+(\emph{Induktionsvoraussetzung} (IV)).
+Seien $M \subset \mathbb{N}$ und $M' \subset \mathbb{N}$ beliebig mit
+Kardinalität $\leq n + 1$.
+Sei $x \in M$ und $y \in M'$.
+Dann haben $M \setminus \qty\big{x}$ und $M' \setminus \qty\big{y}$ eine
+Kardinalität $\leq n$.
+Nach (IV) haben sie dieselbe Kardinalität, d.h. es gibt eine Bijektion
+$f \colon M \setminus \qty\big{x} \to M' \setminus \qty\big{y}$.
+Dann lässt sich $f$ zu einer Bijektion zwischen $M$ und $M'$ erweitern,
+indem $f\qty\big(x) \coloneqq y$ gesetzt wird.
+Folglich haben $M$ und $M'$ dieselbe Kardinalität.
+
+\subparagraph{Lsg.} Der Fehler liegt im Induktionsschritt.
+Es wird zuerst angenommen, dass $M$ und $M'$ jeweils mindestens ein Element, nämlich
+$x$ oder $y$ umfassen.
+Jedoch können $M = \emptyset \lor M' = \emptyset$.
+
+Für $1 \leq \abs{M} \leq n + 1$ und $1 \leq \abs{M'} \leq n +1$ müsste man den
+Induktionsanfang noch um $A_1$ ergänzen, was fehl schlägt.
+\end{document}
