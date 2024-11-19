@@ -1,0 +1,444 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline, shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 5\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+
+\paragraph{Ü 5.1}
+\begin{enumerate}[(a)]
+\item Welche Mächtigkeit hat die Menge
+  $A = \qty\big{t \in \mathbb{N} \:{\big |}\: t \text{ teilt } 360}$?
+
+  \subparagraph{Lsg.} Es ist $360 = 2^3 \cdot 3^2 \cdot 5$.
+  Somit besteht die Primfaktorzerlegung von 360 aus 6 Elementen.
+
+  Nun ist jeder Teiler von 360 ein Produkt aus diesem Primfaktoren.
+  Dabei können die Primfaktoren bis zur Höhe ihres Exponenten oder gar nicht
+  - also Exponent + 1 mal - in jedem Teiler vorkommen.
+
+  Somit gibt es
+  $\abs{A} = \qty\big(3 + 1) \cdot \qty\big(2 + 1) \cdot \qty\big(1 + 1) = 16$
+  Teiler.
+
+\item Es sei $n \in \mathbb{N}$ in Primfaktorzerlegung
+  $n = p_1^{a_1} \cdot \ldots \cdot p_k^{a_k}$ mit $k \in \mathbb{N}$,
+  $p_1, \ldots, p_k$ Primzahlen und
+  $a_1, \ldots, a_k \in \mathbb{N} \setminus \qty\big{0}$ gegeben.
+  Wie viele Teiler hat $n$?
+
+  \subparagraph{Lsg.} $n$ hat
+  $\qty\big(a_1 + 1) \cdot \ldots \cdot \qty\big(a_k + 1)$
+  Teiler.
+
+\item Verwenden Sie die Primfaktorzerlegung, um alle durch 6 teilbaren Zahlen
+  $n \in \mathbb{N}$ zu bestimmen, die genau 6 Teiler besitzen.
+
+  \subparagraph{Lsg.} Es ist $6 = 2 \cdot 3$.
+  Nun suchen wir Zahlen, die 2 und 3 als Primfaktor haben und genau 6 Teiler besitzen.
+  Also Zahlen $n = 2^{n_1} \cdot 3^{n_2} \cdot ... \cdot p_k^{n_k}$ mit $p_k$ als
+  Primzahlen und $n_1, n_2 \geq 1$ sowie
+  \[
+    \prod_{m = 1}^k \qty\big(n_m + 1) = 6
+  \]
+  Offensichtlich erfüllen lediglich die Zahlen $2 \cdot 3^2$ und $2^2 \cdot 3$
+  diese Bedingung.
+\end{enumerate}
+
+\paragraph{Ü 5.2}
+\begin{enumerate}[(a)]
+\item Bestimmen sie den $\ggT\qty\big(72, 330)$, indem Sie die
+  Primfaktorzerlegung der beiden Zahlen verwenden.
+
+  \subparagraph{Lsg.} Es sind $72 = 2^3 \cdot 3^2$ und
+  $330 = 2 \cdot 3 \cdot 5 \cdot 11$.
+  Nun ist $\ggT\qty\big(72, 330)$ das Produkt der Primfaktoren, die in beiden
+  Zerlegungen enthalten sind, also $\ggT\qty\big(72, 330) = 2 \cdot 3 = 6$
+
+\newpage
+\item Berechnen Sie mit dem euklidischen Algorithmus den $\ggT\qty\big(m, n)$
+  für die folgenden Zahlenpaare:
+
+  \begin{enumerate*}[(i)]
+  \item $n = 560, m = 127$
+  \item $n = 72, m = 330$
+  \item $n = 89, m = 55$
+  \end{enumerate*}
+
+  Berechnen Sie den $\ggT\qty\big(m, n)$ erneut, nun mit dem erweiterten
+  euklidischen Algorithmus und stellen Sie den $\ggT\qty\big(m, n)$ jeweils
+  in der Form $\ggT\qty\big(m, n) = a \cdot n + b \cdot m$ mit
+  $a, b \in \mathbb{Z}$ dar.
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(i)]
+  \item Es soll $\ggT_0\qty\big(127, 560)$ mit dem euklidischen Algorithmus
+    bestimmt werden:
+    \begin{itemize}
+    \item Ist $127|560$? - Nein, also bestimme
+      $\ggT_1\qty\big(n_0 \mod m_0, m_0) = \ggT_1\qty\big(52, 127)$
+    \item Ist $52|127$? - Nein, also bestimme
+      $\ggT_2\qty\big(n_1 \mod m_1, m_1) = \ggT_2\qty\big(23, 52)$
+    \item Ist $23|52$? - Nein, also bestimme
+      $\ggT_3\qty\big(n_2 \mod m_2, m_2) = \ggT_3\qty\big(6, 23)$
+    \item Ist $6|23$? - Nein, also bestimme
+      $\ggT_4\qty\big(n_3 \mod m_3, m_3) = \ggT_4\qty\big(5, 6)$
+    \item Ist $5|6$? - Nein, also bestimme
+      $\ggT_5\qty\big(n_4 \mod m_4, m_4) = \ggT_5\qty\big(1, 5)$
+    \item Ist $1|5$? - Ja, also ist $\ggT_0\qty\big(560, 127) = 1$.
+    \end{itemize}
+
+    Nun der erweiterte Euklidische Algorithmus:
+    \begin{itemize}
+    \item Sei $m_5 = 1, n_5 = 5$.
+      Dann ist $1|5$, also gib $\qty\big(1, 0)$ zurück
+    \item Sei $m_4 = 5, n_4 = 6, a'_4 = 1, b'_4 = 0$.
+
+      Dann gib $\qty(b'_4 - a'_4 \cdot \floor{\frac{n_4}{m_4}})$ =
+      $\qty(0 - 1 \cdot \floor{\frac{6}{5}, 1})$ =
+      $\qty\big(-1, 1)$ zurück
+    \item Sei $m_3 = 6, n_3 = 23, a'_3 = -1, b'_3 = 1$.
+
+      Dann gib $\qty(b'_3 - a'_3 \cdot \floor{\frac{n_3}{m_3}})$ =
+      $\qty(1 + 1 \cdot \floor{\frac{23}{6}, -1})$ =
+      $\qty\big(4, -1)$ zurück
+    \item Sei $m_2 = 23, n_2 = 52, a'_2 = 4, b'_2 = -1$.
+
+      Dann gib $\qty(b'_2 - a'_2 \cdot \floor{\frac{n_2}{m_2}})$ =
+      $\qty(-1 - 4 \cdot \floor{\frac{52}{23}, 4})$ =
+      $\qty\big(-9, 4)$ zurück
+    \item Sei $m_1 = 52, n_1 = 127, a'_1 = -9, b'_1 = 4$.
+
+      Dann gib $\qty(b'_1 - a'_1 \cdot \floor{\frac{n_1}{m_1}})$ =
+      $\qty(4 + 9 \cdot \floor{\frac{127}{52}, -9})$ =
+      $\qty\big(22, -9)$ zurück
+    \item Sei $m_0 = 127, n_0 = 560, a'_0 = 22, b'_0 = -9$.
+
+      Dann gib $\qty(b'_0 - a'_0 \cdot \floor{\frac{n_0}{m_0}})$ =
+      $\qty(-9 - 22 \cdot \floor{\frac{560}{127}, 22})$ =
+      $\qty\big(-97, 22)$ zurück
+    \end{itemize}
+    Und tatsächlich ist $\ggT(127, 560) = 1 = -97 \cdot 127 + 22 \cdot 560$.
+
+  \newpage
+  \item Es soll $\ggT_0\qty\big(330, 72)$ mit dem euklidischen Algorithmus
+    bestimmt werden:
+    \begin{itemize}
+    \item Ist $m_0 = 330 \leq n_0 = 72$? - Nein, also setze $m_0 = 72, n_0 = 330$
+    \item Ist $72|330$? - Nein, also bestimme
+      $\ggT_1\qty\big(n_0 \mod m_0, m_0) = \ggT_1\qty\big(42, 72)$
+    \item Ist $42|72$? - Nein, also bestimme
+      $\ggT_2\qty\big(n_1 \mod m_1, m_1) = \ggT_2\qty\big(30, 42)$
+    \item Ist $30|42$? - Nein, also bestimme
+      $\ggT_3\qty\big(n_2 \mod m_2, m_2) = \ggT_3\qty\big(12, 30)$
+    \item Ist $12|30$? - Nein, also bestimme
+      $\ggT_4\qty\big(n_3 \mod m_3, m_3) = \ggT_4\qty\big(6, 12)$
+    \item Ist $6|12$? - Ja, also ist $\ggT_0\qty\big(72, 330) = 6$.
+    \end{itemize}
+
+    Nun der erweiterte Euklidische Algorithmus:
+    \begin{itemize}
+    \item Sei $m_4 = 6, n_4 = 12$.
+      Dann ist $6|12$, also gib $\qty\big(1, 0)$ zurück
+    \item Sei $m_3 = 12, n_3 = 30, a'_3 = 1, b'_3 = 0$.
+
+      Dann gib $\qty(b'_3 - a'_3 \cdot \floor{\frac{n_3}{m_3}})$ =
+      $\qty(0 - 1 \cdot \floor{\frac{30}{12}, 1})$ =
+      $\qty\big(-2, 1)$ zurück
+    \item Sei $m_2 = 30, n_2 = 42, a'_2 = -2, b'_2 = 1$.
+
+      Dann gib $\qty(b'_2 - a'_2 \cdot \floor{\frac{n_2}{m_2}})$ =
+      $\qty(1 + 2 \cdot \floor{\frac{42}{30}, -2})$ =
+      $\qty\big(3, -2)$ zurück
+    \item Sei $m_1 = 42, n_1 = 72, a'_1 = 3, b'_1 = -2$.
+
+      Dann gib $\qty(b'_1 - a'_1 \cdot \floor{\frac{n_1}{m_1}})$ =
+      $\qty(-2 - 3 \cdot \floor{\frac{72}{42}, 3})$ =
+      $\qty\big(-5, 3)$ zurück
+    \item Sei $m_0 = 72, n_0 = 330, a'_0 = -5, b'_0 = 3$.
+
+      Dann gib $\qty(b'_0 - a'_0 \cdot \floor{\frac{n_0}{m_0}})$ =
+      $\qty(3 + 5 \cdot \floor{\frac{330}{72}, -5})$ =
+      $\qty\big(23, -5)$ zurück
+    \end{itemize}
+    Und tatsächlich ist $\ggT(330, 72) = 6 = 23 \cdot 72 - 5 \cdot 330$.
+
+  \newpage
+  \item Es soll $\ggT_0\qty\big(55, 89)$ mit dem euklidischen Algorithmus
+    bestimmt werden:
+    \begin{itemize}
+    \item Ist $55|89$? - Nein, also bestimme
+      $\ggT_1\qty\big(n_0 \mod m_0, m_0) = \ggT_1\qty\big(34, 55)$
+    \item Ist $34|55$? - Nein, also bestimme
+      $\ggT_2\qty\big(n_1 \mod m_1, m_1) = \ggT_2\qty\big(21, 34)$
+    \item Ist $21|34$? - Nein, also bestimme
+      $\ggT_3\qty\big(n_2 \mod m_2, m_2) = \ggT_3\qty\big(13, 21)$
+    \item Ist $13|21$? - Nein, also bestimme
+      $\ggT_4\qty\big(n_3 \mod m_3, m_3) = \ggT_4\qty\big(8, 13)$
+    \item Ist $8|13$? - Nein, also bestimme
+      $\ggT_5\qty\big(n_4 \mod m_4, m_4) = \ggT_5\qty\big(5, 8)$
+    \item Ist $5|8$? - Nein, also bestimme
+      $\ggT_6\qty\big(n_5 \mod m_5, m_5) = \ggT_6\qty\big(3, 5)$
+    \item Ist $3|5$? - Nein, also bestimme
+      $\ggT_7\qty\big(n_6 \mod m_6, m_6) = \ggT_5\qty\big(2, 3)$
+    \item Ist $2|3$? - Nein, also bestimme
+      $\ggT_8\qty\big(n_7 \mod m_7, m_7) = \ggT_5\qty\big(1, 2)$
+    \item Ist $1|2$? - Ja, also ist $\ggT_0\qty\big(55, 89) = 1$.
+    \end{itemize}
+
+    Nun der erweiterte Euklidische Algorithmus:
+    \begin{itemize}
+    \item Sei $m_8 = 1, n_8 = 2$.
+      Dann ist $1|2$, also gib $\qty\big(1, 0)$ zurück
+    \item Sei $m_7 = 2, n_7 = 3, a'_7 = 1, b'_7 = 0$.
+
+      Dann gib $\qty(b'_7 - a'_7 \cdot \floor{\frac{n_7}{m_7}})$ =
+      $\qty(0 - 1 \cdot \floor{\frac{3}{2}, 1})$ =
+      $\qty\big(-1, 1)$ zurück
+    \item Sei $m_6 = 3, n_6 = 5, a'_6 = -1, b'_6 = 1$.
+
+      Dann gib $\qty(b'_6 - a'_6 \cdot \floor{\frac{n_6}{m_6}})$ =
+      $\qty(1 + 1 \cdot \floor{\frac{5}{3}, -1})$ =
+      $\qty\big(2, -1)$ zurück
+    \item Sei $m_5 = 5, n_5 = 8, a'_5 = 2, b'_5 = -1$.
+
+      Dann gib $\qty(b'_5 - a'_5 \cdot \floor{\frac{n_5}{m_5}})$ =
+      $\qty(-1 - 2 \cdot \floor{\frac{8}{5}, 2})$ =
+      $\qty\big(-3, 2)$ zurück
+    \item Sei $m_4 = 8, n_4 = 13, a'_4 = -3, b'_4 = 2$.
+
+      Dann gib $\qty(b'_4 - a'_4 \cdot \floor{\frac{n_4}{m_4}})$ =
+      $\qty(2 + 3 \cdot \floor{\frac{13}{8}, -3})$ =
+      $\qty\big(5, -3)$ zurück
+    \item Sei $m_3 = 13, n_3 = 21, a'_3 = 5, b'_3 = -3$.
+
+      Dann gib $\qty(b'_3 - a'_3 \cdot \floor{\frac{n_3}{m_3}})$ =
+      $\qty(-3 - 5 \cdot \floor{\frac{21}{13}, 5})$ =
+      $\qty\big(-8, 5)$ zurück
+    \item Sei $m_2 = 21, n_2 = 34, a'_2 = -8, b'_2 = 5$.
+
+      Dann gib $\qty(b'_2 - a'_2 \cdot \floor{\frac{n_2}{m_2}})$ =
+      $\qty(5 + 8 \cdot \floor{\frac{34}{21}, -8})$ =
+      $\qty\big(13, -8)$ zurück
+    \item Sei $m_1 = 34, n_1 = 55, a'_1 = 13, b'_1 = -8$.
+
+      Dann gib $\qty(b'_1 - a'_1 \cdot \floor{\frac{n_1}{m_1}})$ =
+      $\qty(-8 - 13 \cdot \floor{\frac{55}{34}, 13})$ =
+      $\qty\big(-21, 13)$ zurück
+    \item Sei $m_0 = 55, n_0 = 89, a'_0 = -21, b'_0 = 13$.
+
+      Dann gib $\qty(b'_0 - a'_0 \cdot \floor{\frac{n_0}{m_0}})$ =
+      $\qty(13 + 21 \cdot \floor{\frac{89}{55}, -21})$ =
+      $\qty\big(34, -21)$ zurück
+    \end{itemize}
+    Und tatsächlich ist $\ggT(55, 89) = 1 = 34 \cdot 55 - 21 \cdot 89$.
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 5.3}
+\begin{enumerate}[(a)]
+\item Berechnen Sie $495 \mod 11$, $1111 \mod 4$ und
+  $\qty\big(289 \cdot 432) \mod 10$.
+  Gilt $-21 \equiv 29 \qty\big(\mod 25)$?
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $11 \cdot 45 = 495, \Rightarrow 495 \mod 11 = 0$
+  \item $4 \cdot 277 = 1108, \Rightarrow 1111 \mod 4 = 3$
+  \item $10 \cdot 28 = 280, \Rightarrow 289 \mod 10 = 9$,
+    $10 \cdot 43 = 430, \Rightarrow 432 \mod 10 = 2$,
+    $\Rightarrow \qty\big(289 \cdot 432) \mod 10 = 8$
+  \end{itemize}
+
+  Unter Berücksichtigung der Homomorphieregel kann auf beiden Seiten nun
+  $21 \mod 25$ addiert werden.
+  Und offensichtlich ist
+  \begin{align*}
+    \qty\big(21 \mod 25) + \qty\big(-21 \mod 25)
+    &= \qty\big(21 \mod 25) + \qty\big(29 \mod 25) \\
+    \qty\big(21 - 21) \mod 25
+    &= \qty\big(21 + 29) \mod 25 \\
+    0 &\equiv 50 \qty\big(\mod 25)
+  \end{align*}
+  wahr.
+
+\item Berechnen Sie $47^{201} \mod 11$ und die letzte Ziffer der Zahl $2^{1000}$
+  mit der Methode ``Quadrieren und Multiplizieren''.
+
+  \subparagraph{Lsg.} Es ist $47 \mod 11 = 3$ und
+  $\text{bin}\qty\big(201) = 11001001$, also
+  \[
+    201 = 2^7 + 2^6 + 2^3 + 2^0
+  \]
+  folglich
+  \[
+    3^{201} = 3^{2^7} \cdot 3^{2^6} \cdot 3^{2^3} \cdot 3^{2^0}
+    = \qty(\qty(3^2 \cdot 3)^{2 \cdot 2 \cdot 2} \cdot 3)^{2 \cdot 2 \cdot 2} \cdot 3
+  \]
+  Nun lassen sich die Zwischenergebnisse leicht modulo 11 rechnen:
+
+  \begin{tiny}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|}
+    \hline
+    1 & 1 & 0 & 0 & 1 & 0 & 0 & 1 \\
+    \hline
+    $3 \mod 11$ & $\colorbox{yellow}{$3$}^2 \cdot 3 \mod 11$
+      & $\colorbox{blue!20}{$5$}^2 \mod 11$
+      & $\colorbox{orange!20}{$3$}^2 \mod 11$
+      & $\colorbox{green!20}{$9$}^2 \cdot 3 \mod 11$
+      & $\colorbox{red!20}{$1$}^2 \mod 11$
+      & $\colorbox{teal!20}{$1$}^2 \mod 11$
+      & $\colorbox{lime!20}{$1$}^2 \cdot 3 \mod 11$ \\
+    $= \colorbox{yellow}{$3$}$ & $= \colorbox{blue!20}{$5$}$
+      & $= \colorbox{orange!20}{$3$}$ & $= \colorbox{green!20}{$9$}$
+      & $= \colorbox{red!20}{$1$}$ & $= \colorbox{teal!20}{$1$}^2$
+      & $= \colorbox{lime!20}{$1$}$ & $= 3$ \\
+    \hline
+  \end{tabular}
+  \end{tiny}
+\end{enumerate}
+
+\begin{landscape}
+  Es ist $\text{bin}\qty\big(1000) = 1111101000$, also
+  \[
+    1000 = 2^9 + 2^8 + 2^7 + 2^6 + 2^5 + 2^3
+  \]
+  Somit ist
+  \[
+    2^{1000} = 2^{2^9} \cdot  2^{2^8} \cdot  2^{2^7} \cdot  2^{2^6} \cdot 2^{2^5} \cdot 2^{2^3}
+    = \qty(\qty(\qty(((2^2 \cdot 2)^2 \cdot 2)^2 \cdot 2)^2 \cdot 2)^{2 \cdot 2} \cdot 2)^{2 \cdot 2 \cdot 2}
+  \]
+  und die Zwischenergebnisse sind:
+
+  \begin{tiny}
+  \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+    \hline
+    1 & 1 & 1 & 1 & 1 & 0 & 1 & 0 & 0 & 0\\
+    \hline
+    $2 \mod 10$ & $\colorbox{yellow}{$2$}^2 \cdot 2 \mod 10$
+      & $\colorbox{blue!20}{$8$}^2 \cdot 2 \mod 10$
+      & $\colorbox{orange!20}{$8$}^2 \cdot 2 \mod 10$
+      & $\colorbox{green!20}{$8$}^2 \cdot 2 \mod 10$
+      & $\colorbox{red!20}{$8$}^2 \mod 10$
+      & $\colorbox{teal!20}{$4$}^2 \cdot 2 \mod 10$
+      & $\colorbox{lime!20}{$2$}^2 \mod 10$
+      & $\colorbox{magenta!20}{$4$}^2 \mod 10$
+      & $\colorbox{cyan!20}{$6$}^2 \mod 10$ \\
+    $= \colorbox{yellow}{$2$}$ & $= \colorbox{blue!20}{$8$}$
+      & $= \colorbox{orange!20}{$8$}$ & $= \colorbox{green!20}{$8$}$
+      & $= \colorbox{red!20}{$8$}$ & $= \colorbox{teal!20}{$4$}^2$
+      & $= \colorbox{lime!20}{$2$}$ & $= \colorbox{magenta!20}{$4$}$
+      & $= \colorbox{cyan!20}{$6$}$ & $= 6$ \\
+    \hline
+  \end{tabular}
+  \end{tiny}
+
+\paragraph{Ü 5.4} Beweisen Sie, dass eine Zahl $n \in \mathbb{N}$ genau dann
+durch 3 teilbar ist, wenn ihre Quersumme durch 3 teilbar ist.
+Finden Sie auch ähnliche Teilbarkeitsregeln fúr 9 und 11?
+
+\subparagraph{Lsg.} Sei $n \in \mathbb{N}$ beliebig.
+Dann lässt sich $n$ in der Form
+\[
+  n = a_0 \cdot 10^0 + a_1 \cdot 10^1 + \ldots + a_k \cdot 10^k,
+  a_0, \ldots, a_k \in \qty\big{0, \ldots, 9}, k \in \mathbb{N}, k \leq n
+\]
+darstellen.
+Die Summe $\overline{n} = \sum_{i = 0}^{k} a_i$ bezeichnen wir als die Quersumme
+von $n$.
+\begin{itemize}
+\item[$\Rightarrow$] Sei nun $3|n$.
+  Durch die Homomorphieregel ist auch bekannt, dass $10^m \mod 3 = 1$ für alle
+  $m \in \mathbb{N}, m \geq 1$.
+  Dann ist
+  \begin{flalign*}
+    0 = n \mod 3 &= \qty\big(a_0 \cdot 10^0 + a_1 \cdot 10^1 + \ldots + a_k \cdot 10^k) \mod 3 \\
+                 &= \qty\big(a_0 \mod 3) + \qty(\qty\big(a_1 \cdot 10^1) \mod 3) + \ldots + \qty(\qty\big(a_k \cdot 10^k) \mod 3) \\
+                 &= \qty\big(a_0 \mod 3) + \qty(\qty\big(a_1 \mod 3) \cdot \qty\big(10^1 \mod 3)) + \ldots + \qty(\qty\big(a_k \mod 3) \cdot \qty\big(10^k \mod 3)) \\
+                 &= \qty\big(a_0 \mod 3) + \qty(\qty\big(a_1 \mod 3) \cdot 1) + \ldots + \qty(\qty\big(a_k \mod 3) \cdot 1) \\
+                 &= \qty\big(a_0 \mod 3) + \qty\big(a_1 \mod 3) + \ldots + \qty\big(a_k \mod 3) \\
+                 &= \qty\big(a_0 + a_1 + \ldots + a_k) \mod 3 = 0
+  \end{flalign*}
+  Es folgt $3|\overline{n}$
+\end{itemize}
+\end{landscape}
+\newpage
+\begin{itemize}
+\item[$\Leftarrow$] Sei nun $3|\overline{n}$.
+  Dann ist $\qty\big(a_0 + \ldots + a_k) \mod 3 = 0$ und es folgt
+  \begin{flalign*}
+    n \mod 3 &= \qty\big(a_0 + a_1 \cdot 10^1 + \ldots + a_k \cdot 10^k) \mod 3 \\
+    &= \qty\big(a_0 \mod 3) + \qty\big(\qty\big(a_1 \mod 3) \cdot \qty\big(10^1 \mod 3)) + \ldots + \qty\big(\qty\big(a_k \mod 3) \cdot \qty\big(10^k \mod 3)) \\
+    &= \qty\big(a_0 \mod 3) + \qty\big(\qty\big(a_1 \mod 3) \cdot 1) + \ldots + \qty\big(\qty\big(a_k \mod 3) \cdot 1) \\
+    &= \qty\big(a_0 \mod 3) + \qty\big(a_1 \mod 3) + \ldots + \qty\big(a_k \mod 3) \\
+    &= \qty\big(a_0 + a_1 + \ldots + a_k) \mod 3 = 0
+  \end{flalign*}
+  Es folgt $3|n$.
+\end{itemize}
+Für die Regel $9|n \iff 9|\overline{n}$ funktioniert der Beweis analog.
+
+Für die 11 nutzt der Beweis hingegen die alternierende Quersumme.
+Es ist $10 \mod 11 = -1$ und $100 \mod 11 = 1$.
+Aus der Anwendung der Homomorphieregel folgt
+\[
+  10^n \mod 11 = \begin{cases}
+    1 & n \text{ ist gerade} \\
+    -1 & n \text{ ist ungerade}
+  \end{cases}
+\]
+
+
+Sei $n \in \mathbb{N}$ wieder beliebig.
+Dann ist die Summe $\tilde{n} = a_0 - a_1 + a_2 - a_3 + \ldots \pm a_k$ die
+alternierende Quersumme von $n$.
+Sei nun $11|n$.
+
+\begin{flalign*}
+  0 = n \mod 11 &= \qty\big(a_0 \cdot 10^0 + a_1 \cdot 10^1 + a_2 \cdot 10^2 + a_3 \cdot 10^3 + \ldots + a_k \cdot 10^k) \mod 11 \\
+   &= a_0 \mod 11 + \qty\big(a_1 \cdot 10^1) \mod 11 + \qty\big(a_2 \cdot 10^2) \mod 11 + \qty\big(a_3 \cdot 10^3) \mod 11 + \ldots \\
+   &= a_0 \mod 11 + \qty(a_1 \mod 11 \cdot \qty\big(-1)) + a_2 \mod 11 + \qty(a_3 \mod 11 \cdot \qty\big(-1)) + \ldots \\
+   &= \qty\big(a_0 + a_2 + \ldots) \mod 11 - \qty\big(a_1  + a_3 + \ldots) \mod 11 \\
+   &= \qty\Big(\qty\big(a_0 + a_2 + \ldots) - \qty\big(a_1  + a_3 + \ldots)) \mod 11 = 0
+\end{flalign*}
+Folglich ist eine Zahl durch 11 teilbar, wenn die Summe der Ziffer mit ungeradem
+Index minus die Summe der Ziffer mit geradem Index durch 11 teilbar ist.
+\end{document}
