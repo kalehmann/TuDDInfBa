@@ -1,0 +1,668 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 5\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü5.3 lineare Unabhängigkeit - Basis - Erzeugendensystem}
+
+\begin{enumerate}[(a)]
+\item Zeigen Sie, dass für
+  \[
+    v_1 \coloneqq \qty\big(1, 4, 3)^T, \quad
+    v_2 \coloneqq \qty\big(1, 3, 4)^T, \quad
+    v_3 \coloneqq \qty\big(2, 9, 5)^T, \quad
+    v_4 \coloneqq \qty\big(2, 6, 7)^T, \quad
+    v_5 \coloneqq \qty\big(0, 2, 2)^T
+  \]
+  die Menge $E \coloneqq \qty\big{v_1, v_2, \ldots, v_5} \subseteq \mathbb{R}^3$
+  ein Erzeugendensystem von $\mathbb{R}^3$ ist.
+  Geben Sie eine Basis $B$ von $\mathbb{R}^3$ mit $B \subseteq E$ an.
+
+  \subparagraph{Lsg.} Es sind
+  \[
+    \frac{1}{3} \cdot \qty\big(v_1 + v_4 - 5 \cdot v_5) =
+    \frac{1}{3} \cdot \qty(
+    \begin{pmatrix}
+      1 \\
+      4 \\
+      3 \\
+    \end{pmatrix} +
+    \begin{pmatrix}
+      2 \\
+      6 \\
+      7 \\
+    \end{pmatrix} - 5 \cdot
+    \begin{pmatrix}
+      0 \\
+      2 \\
+      2 \\
+    \end{pmatrix})
+    = \begin{pmatrix}
+      1 \\
+      0 \\
+      0 \\
+    \end{pmatrix} = e_1
+  \]
+  \[
+    \frac{1}{4}\qty(2 \cdot \qty\big(v_1 - v_2) + v_5) = \frac{1}{4} \cdot \qty(2 \cdot \qty(
+    \begin{pmatrix}
+      1 \\
+      4 \\
+      3 \\
+    \end{pmatrix} -
+    \begin{pmatrix}
+      1 \\
+      3 \\
+      4 \\
+    \end{pmatrix}
+    )
+    +
+    \begin{pmatrix}
+      0 \\
+      2 \\
+      2 \\
+    \end{pmatrix}
+    ) = \begin{pmatrix}
+      0 \\
+      1 \\
+      0 \\
+    \end{pmatrix} = e_2
+  \]
+  \[
+    2 \cdot v_2 - v_4 = 2 \cdot
+    \begin{pmatrix}
+      1 \\
+      3 \\
+      4 \\
+    \end{pmatrix} -
+    \begin{pmatrix}
+      2 \\
+      6 \\
+      7 \\
+    \end{pmatrix}
+    = \begin{pmatrix}
+      0 \\
+      0 \\
+      1 \\
+    \end{pmatrix} = e_3
+  \]
+  Somit lässt sich die Standardbasis $\qty\big(e_1, e_2, e_3)$ von $\mathbb{R}^3$
+  als Linearkombination der Vektoren $v_1, v_2, v_3, v_4, v_5 \in \mathbb{R}^3$
+  darstellen.
+  Es folgt
+  $\text{Span}\qty\big(v_1, v_2, v_3, v_4, v_5) = \mathbb{R}^3$.
+
+  Für eine Basis $B$ von $\mathbb{R}^3$ mit $B \subseteq E$ müssen nun 3 linear
+  unabhängige Element aus $v_1, v_2, v_3, v_4, v_5$ ermittelt werden.
+
+  Dabei gilt $v_1, v_2, v_3$ sind linear unabhängig falls
+  \[
+    \lambda_1 \cdot v_1 + \lambda_2 \cdot v_2 + \lambda_3 \cdot v_3 = 0 \iff \lambda_1 = \lambda_2 = \lambda_3 = 0
+  \]
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1 & 1 & 2 & 0 \\
+      4 & 3 & 9 & 0 \\
+      3 & 4 & 5 & 0
+    \end{array})
+    \overset{Z_3 + Z_2 - 7 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 1 & 2 & 0 \\
+      4 & 3 & 9 & 0 \\
+      \cellcolor{yellow} 0 & \cellcolor{yellow} 0 & \cellcolor{yellow} 0 & \cellcolor{yellow} 0
+    \end{array})
+  \end{flalign*}
+
+  \colorbox{yellow}{$\Rightarrow$} Es gibt Lösungen mit
+  $\lambda_1 \ne 0 \lor \lambda_2 \ne 0 \lor \lambda_3 \ne 0$ - zum Beispiel
+  $3 \cdot v_1 - v_2 - v_3 = 0$ - und die Vektoren sind linear abhängig.
+
+  \newpage
+  Angenommen es wären nun  $v_1, v_2, v_4$ linear unabhängig, dann gelte
+  \[
+    \lambda_1 \cdot v_1 + \lambda_2 \cdot v_2 + \lambda_3 \cdot v_4 = 0 \iff \lambda_1 = \lambda_2 = \lambda_3 = 0
+  \]
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1 & 1 & 2 & 0 \\
+      4 & 3 & 6 & 0 \\
+      3 & 4 & 7 & 0
+    \end{array})
+    \overset{-1 \cdot \qty\big(Z_3 + Z_2 - 7 \cdot Z_1)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 1 & 2 & 0 \\
+      4 & 3 & 6 & 0 \\
+      0 & 0 & 1 & 0
+    \end{array}) \\
+    \overset{-1 \cdot \qty\big(Z_2 - 4 \cdot Z_1 + 2 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 1 & 2 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0
+    \end{array}) \\
+    \overset{Z_1 - Z_2 - 2 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0
+    \end{array})
+  \end{flalign*}
+
+  $\Rightarrow \lambda_1 = \lambda_2 = \lambda_3 = 0$ und somit sind
+  $v_1, v_2. v_4$ linear unabhängig.
+
+  $\Rightarrow B = \qty\big(v_1, v_2, v_4)$ ist eine Basis von $\mathbb{R}^3$.
+
+\item Zeigen Sie, dass für
+  \[
+    u_1 \coloneqq \qty\big(1, -2, 3, -4)^T, \quad
+    u_2 \coloneqq \qty\big(2, -3, 6, -11)^T, \quad
+    u_3 \coloneqq \qty\big(-1, 3, -2, 6)^T
+  \]
+  die Menge $F \coloneqq \qty\big{u_1, u_2, u_3} \subseteq \mathbb{R}^4$ linear
+  unabhängig ist.
+  Geben Sie eine Basis $B$ von $\mathbb{R}^4$ mit $F \subseteq B$ an.
+
+  \subparagraph{Lsg.} Es ist zu prüfen, ob
+  \[
+    \lambda_1 \cdot u_1 + \lambda_2 \cdot u_2 + \lambda_3 \cdot u_4 = 0 \Rightarrow \lambda_1 = \lambda_2 = \lambda_3 = 0
+  \]
+  Nun ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1  & 2   & -1 & 0 \\
+      -2 & -3  & 3  & 0 \\
+      3  & 6   & -2 & 0 \\
+      -4 & -11 & 6  & 0
+    \end{array})
+    \overset{Z_2 = Z_2 + 2Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1  & 2   & -1 & 0 \\
+      0  & 1   & 1  & 0 \\
+      3  & 6   & -2 & 0 \\
+      -4 & -11 & 6  & 0
+    \end{array})
+    \overset{Z_3 = -\frac{1}{5}\qty\big(Z_3 - 3Z_1)}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1  & 2   & -1 & 0 \\
+      0  & 1   & 1  & 0 \\
+      0  & 0   & 1  & 0 \\
+      -4 & -11 & 6  & 0
+    \end{array})  \\
+    \overset{Z_4 = Z_4 + 4Z_1 + 3Z_2 - 5Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 2 & -1 & 0 \\
+      0 & 1 & 1  & 0 \\
+      0 & 0 & 1  & 0 \\
+      0 & 0 & 0  & 0
+    \end{array})
+    \overset{Z_2 = Z_2 - Z_3} \leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 2 & -1 & 0 \\
+      0 & 1 & 0  & 0 \\
+      0 & 0 & 1  & 0 \\
+      0 & 0 & 0  & 0
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 2 Z_2 + Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 0
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow \lambda_1 = \lambda_2 = \lambda_3 = 0$ und die Vektoren
+  $u_1, u_2, u_3$ sind linear unabhängig.
+
+  \newpage
+  Um nun $F$ zu einer Basis von $\mathbb{R}^4$ zu erweitern, muss noch ein
+  weiteres Element, welches von $u_1, u_2$ und $u_3$ linear unabhängig ist
+  hinzugefügt werden.
+
+  Dazu kann von der Einheitsmatrix $I_4$ ausgegangen werden und vorherigen
+  Umformungen rückwärts angewendet werden
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 0
+    \end{array})
+    \overset{Z_1 = Z_1 + 2Z_2 - Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & 2 & -1 & 0 & 0 \\
+      0 & 1 & 0  & 0 & 0 \\
+      0 & 0 & 1  & 0 & 0 \\
+      0 & 0 & 0  & 1 & 0
+    \end{array})
+    \overset{Z_2 = Z_2 + Z_3}\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & 2 & -1 & 0 & 0 \\
+      0 & 1 & 1  & 0 & 0 \\
+      0 & 0 & 1  & 0 & 0 \\
+      0 & 0 & 0  & 1 & 0
+    \end{array}) \\
+    \overset{Z_4 = Z_4 - 4Z_1 - 3Z_2 + 5Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1  & 2   & -1 & 0 & 0 \\
+      0  & 1   & 1  & 0 & 0 \\
+      0  & 0   & 1  & 0 & 0 \\
+      -4 & -11 & 6  & 1 & 0
+    \end{array})
+    \overset{Z_3 = -5Z_3 + 3Z_1)}\leadsto
+    \qty(\begin{array}{cccc|c}
+      1  & 2   & -1 & 0 & 0 \\
+      0  & 1   & 1  & 0 & 0 \\
+      3  & 6   & -2 & 0 & 0 \\
+      -4 & -11 & 6  & 1 & 0
+    \end{array}) \\
+     \overset{Z_2 = Z_2 - 2Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1  & 2   & -1 & 0 & 0 \\
+      -2 & -3   & 3 & 0 & 0 \\
+      3  & 6   & -2 & 0 & 0 \\
+      -4 & -11 & 6  & 1 & 0
+    \end{array})
+  \end{flalign*}
+  Aus diesem Gleichungssystem lassen sich nun die Vektoren
+  $u_1, u_2, u_3$ sowie $\qty\big(0, 0, 0, 1)^T$ entnehmen und es ist bekannt,
+  dass sich das Gleichungssystem durch äquivalente Umformungen in $I_4$
+  überführen lässt.
+  Somit folgt aus $\lambda_1 \cdot u_1 + \lambda_2 \cdot u_2 + \lambda_3 \cdot u_3 + \lambda_4 \cdot \qty\big(0, 0, 0, 1)^T$,
+  dass $\lambda_1 = \lambda_2 = \lambda_3 = \lambda_4 = 0$.
+
+  $\Rightarrow u_1, u_2, u_3, \qty\big(0, 0, 0, 1)^T$
+
+  $\Rightarrow B = \qty\big{u_1, u_2, u_3, \qty\big(0, 0, 0, 1)^T}$ ist eine Basis von
+  $\mathbb{R}^4$.
+\end{enumerate}
+
+\paragraph{Ü 5.4 Linear unabhängige Erweiterung linear unabhängiger Vektoren}
+
+Es sei $V$ ein $K$-Vektorraum und $\qty\big(b_1, \ldots, b_n)$ ein Tupel von
+Vektoren aus $V$.
+Beweisen Sie: Ist $\qty\big(b_1, \ldots, b_n)$ linear unabhängig und
+$x \in V \setminus \text{Span}\qty\big{b_1, \ldots, b_n}$, dann ist
+$\qty\big(b_1, \ldots, b_n, x)$ linear unabhängig.
+
+\subparagraph{Lsg.} Es ist
+\[
+  \text{Span}\qty\big(b_1, \ldots, b_n) = \qty{
+    \lambda_1 \cdot b_1 + \ldots + \lambda_n \cdot b_n
+    \:{\big |}\:
+    \lambda_1, \ldots, \lambda_n \in \mathbb{K}
+  }
+\]
+Sei nun $x \in V \setminus \text{Span}\qty\big{b_1, \ldots, b_n}$.
+Dann ist nach Definition der Differenz zweier Mengen $x$ nicht in
+$\text{Span}\qty\big{b_1, \ldots, b_n}$ enthalten.
+
+Also gibt es keine $\lambda_1, \ldots, \lambda_n \in K$ mit
+$\lambda_1 \cdot b_1 + \ldots + \lambda_n \cdot b_n = x$.
+Oder anders formuliert
+\[
+  \lambda_1 \cdot b_1 + \ldots + \lambda_n \cdot b_n  + \mu \cdot x = 0
+  \iff
+  \lambda_1 = \ldots = \lambda_n = \mu = 0
+\]
+$\Rightarrow b_1, \ldots, b_n, x$ sind linear unabhängig.
+
+\textbf{Alternativ (nach der Übung):} Sei
+\[
+  \sum_{i = 1}^n \mu_i \cdot b_i + \lambda x = 0
+\]
+Angenommen $\lambda \ne 0$, dann ist
+\begin{flalign*}
+  0 &= \sum_{i = 1}^n \mu_i \cdot b_i + \lambda x && {\Big |} \cdot \frac{1}{\lambda} \\
+  0 &= \sum_{i = 1}^n \frac{\mu_i}{\lambda} \cdot b_i + x && {\Big |} -x \\
+  x &= \sum_{i = 1}^n \frac{\mu_i}{\lambda} \cdot b_i
+\end{flalign*}
+und somit wäre $x$ als Linearkombination der $b_1, \ldots, b_n$ darstellbar und
+in $\text{Span}\qty\big{b_1, \ldots, b_n}$ enthalten, ein Widerspruch.
+Somit folgt $\lambda = 0$ und ebenso $0 = \sum_{i = 1}^n \mu_i \cdot b_i$.
+
+Da $b_1, \ldots, b_n$ linear unabhängig, folgt $\mu_1, \ldots, \mu_n = 0$.
+\begin{flalign*}
+  &\Rightarrow \lambda_1 \cdot b_1 + \ldots + \lambda_n \cdot b_n  + \mu \cdot x = 0
+  \iff
+  \lambda_1 = \ldots = \lambda_n = \mu = 0 &
+\end{flalign*}
+
+\paragraph{Ü 5.5 Koordinatenvektoren}
+
+Gegeben sind die Vektoren aus $\mathbb{R}^3$
+\[
+  v_1 \coloneqq \qty\big(1, -1, 6)^T, \quad
+  v_2 \coloneqq \qty\big(1, 0, -2)^T, \quad
+  v_3 \coloneqq \qty\big(5, -2, 6)^T, \quad
+  w_1 \coloneqq \qty\big(4, -1, 0)^T, \quad
+  w_2 \coloneqq \qty\big(3, 0, 2)^T
+ \]
+sowie der Untervektorraum $U = \text{Span}\qty\big{v_1, v_2, v_3}$.
+\begin{enumerate}[(a)]
+\item Ist die Menge $\qty\big{v_1, v_2, v_3}$ linear unabhängig?
+  Bildet sie ein Erzeugendensystem des $\mathbb{R}^3$?
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1  & 1  & 5  & 0 \\
+      -1 & 0  & -2 & 0 \\
+      6  & -2 & 6  & 0 \\
+    \end{array})
+    \overset{Z_3 = Z_3 + 8 \cdot Z_2 + 2 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1  & 1 & 5  & 0 \\
+      -1 & 0 & -2 & 0 \\
+      0  & 0 & 0  & 0 \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow$ die Vektoren sind linear abhängig und bilden somit kein
+  Erzeugendensystem des $\mathbb{R}^3$.
+
+\item Bestimmen Sie alle Teilmengen der Menge $\qty\big{v_1, v_2, v_3}$, die eine
+  Basis von $U$ bilden.
+  Welche Dimension hat $U$?
+
+  \subparagraph{Lsg.} Es existieren offensichtlich keine
+  $\lambda_1, \lambda_2, \lambda_3 \in \mathbb{R}$ mit
+  \[
+    \lambda_1 \cdot \begin{pmatrix}
+      1  \\
+      -1 \\
+      6  \\
+    \end{pmatrix} = \begin{pmatrix}
+      1  \\
+      0  \\
+      -2 \\
+    \end{pmatrix},
+    \lambda_2 \cdot \begin{pmatrix}
+      1  \\
+      -1 \\
+      6  \\
+    \end{pmatrix} = \begin{pmatrix}
+      5  \\
+      -2 \\
+      6  \\
+    \end{pmatrix},
+    \lambda_3 \cdot \begin{pmatrix}
+      1  \\
+      0  \\
+      -2 \\
+    \end{pmatrix} = \begin{pmatrix}
+      5  \\
+      -2 \\
+      6  \\
+    \end{pmatrix}
+  \]
+  $\Rightarrow v_1, v_2$ sowie $v_1, v_3$ als auch $v_2, v_3$ sind linear
+  unabhängig.
+
+  $\Rightarrow$ Es sind
+  $\qty\big(v_1, v_2), \qty\big(v_1, v_3), \qty\big(v_2, v_3)$
+  Basen von $U$.
+
+  $\Rightarrow \text{dim}\qty\big(U) = 2$
+
+\item Liegen die Vektoren $w_1$ und $w_2$ in $U$?.
+  Berechnen Sie gegebenenfalls die zugehörigen Koordinatenvektoren
+  bzgl. der in (b) gefundenen Basen von $U$.
+
+  \subparagraph{Lsg.} Angenommen $w_1, w_2 \in U$, dann sind die beiden Vektoren
+  zu jeder beliebigen Basis aus $U$ linear abhängig.
+  Also
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1  & 1  & 4  & 0 \\
+      -1 & 0  & -1 & 0 \\
+      6  & -2 & 0  & 0 \\
+    \end{array})
+    \overset{Z_3 = Z_3 + 8 \cdot Z_2 + 2 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1  & 1  & 4  & 0 \\
+      -1 & 0  & -1 & 0 \\
+      \cellcolor{yellow} 0  & \cellcolor{yellow} 0  & \cellcolor{yellow} 0  & \cellcolor{yellow} 0 \\
+    \end{array})
+  \end{flalign*}
+
+  \colorbox{yellow}{$\Rightarrow$} $w_1$ ist von $v_1$ und $v_2$ linear
+  abhängig mit $w_1 = v_1 + 3 \cdot v_2$.
+
+  $\Rightarrow w_1$ liegt in $U$
+
+  \newpage
+  Nun ist für $w_2$
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1  & 1  & 3 & 0 \\
+      -1 & 0  & 0 & 0 \\
+      6  & -2 & 2 & 0 \\
+    \end{array})
+    \overset{Z_1 \leftrightarrow Z_2}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      -1 & 0  & 0 & 0 \\
+      1  & 1  & 3 & 0 \\
+      6  & -2 & 2 & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = -1 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0  & 0 & 0 \\
+      1 & 1  & 3 & 0 \\
+      6 & -2 & 2 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \frac{1}{8}\qty\big(Z_3 + 2 \cdot Z_2 - 8 \cdot Z_1)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 0 \\
+      1 & 1 & 3 & 0 \\
+      0 & 0 & 1 & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 - Z_1 - 3 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow w_2$ ist von der Basis $\qty\big(v_1, v_2)$ linear unabhängig.
+
+  $\Rightarrow w_2$ ist nicht in $U$ enthalten.
+\end{enumerate}
+
+\paragraph{Ü 5.6 Basis und Dimension von Spannräumen}
+\begin{enumerate}[(a)]
+\item Untersuchen Sie untenstehende Teilmengen $U_i$ der
+  $K_i$-Vektorräume $V_i$ in folgender Weise:
+  \begin{itemize}
+  \item Prüfen Sie, ob $U_i$ ein Untervektorraum von $V_i$ ist.
+  \item Geben Sie ggf. eine Basis $B_i$ von $U_i$ an und bestimmen Sie
+    $\text{dim}_{K_i}\qty\big(U_i)$.
+  \item Vervollständigen Sie ggf. $B_i$ zu einer Basis $C_i$ von $V_i$.
+  \end{itemize}
+
+  \begin{enumerate}[(i)]
+  \item $K_1 = \mathbb{R}$, $V_1 = \mathbb{R}^2$,
+    $U_1 = \qty{\qty\big{x_1, x_2}^T \in \mathbb{R}^2 \:\middle|\: x_2 = -3x_1}$
+
+    \subparagraph{Lsg.} Es ist $\qty\big(0, 0)^T$ das Nullelement in
+    $\mathbb{R}^2$.
+    Nun ist $\qty\big(0, 0)^T \in U_1$, da $0 = -3 \cdot 0$.
+
+    Seien nun $x, y \in U_1 \lambda \in K_1$ beliebig.
+    Dann ist
+    \[
+      x + y = \qty\big(x_1 + y_1, -3x_1 + \qty(-3y_1))^T
+      = \qty\big(x_1 + y_1, -3\qty(x_1 + y_1))^T \in U_1
+    \]
+    und auch
+    \[
+      \lambda \cdot x = \qty\big(\lambda x_1, \lambda \cdot \qty(-3x_1))^T
+      = \qty\big(\lambda x_1, -3 \qty(\lambda x_1))^T \in U_1
+    \]
+    $\Rightarrow U_1$ ist ein Untervektorraum von $V_1$.
+
+    Eine Basis von $U_1$ ist $B_1 \coloneqq \qty\big(\qty(1, -3)^T)$,
+    $\text{dim}_{K_1}\qty\big(U_1) = 1$ und
+    $B_1$ lässt sich zur Basis $C_1$ von $\mathbb{R}^2$ vervollständigen mit
+    zum Beispiel $C_1 = \qty\big(\qty(1, -3)^T, \qty\big(0, 1)^T)$.
+
+  \newpage
+  \item $K_2 = \mathbb{C}$, $V_2 = \mathbb{C}^3$,
+    $U_2 = \qty{\qty\big{x_1, x_2, x_3}^T \in \mathbb{C}^3 \:\middle|\: x_3 = i \cdot x_1}$
+
+    \subparagraph{Lsg.} Es ist $\qty\big(0, 0, 0)^T$ das Nullelement in
+    $\mathbb{C}^3$.
+    Nun ist $\qty\big(0, 0, 0)^T \in U_2$, da $0 = i \cdot 0$.
+
+    Seien nun $x, y \in U_2 \lambda \in K_2$ beliebig.
+    Dann ist
+    \[
+      x + y = \qty\big(x_1 + y_1, x_2 + y_2, \qty(i \cdot x_1) + \qty(i \cdot y_1))^T
+      = \qty\big(x_1 + y_1, x_2 + y_2, i \cdot \qty(x_1 + y_1))^T \in U_2
+    \]
+    und auch
+    \[
+      \lambda \cdot x = \qty\big(\lambda x_1, \lambda x_2, \lambda \cdot \qty(i \cdot x_1))^T
+      = \qty\big(\lambda x_1, \lambda x_2, i \cdot \qty(\lambda \cdot x_1))^T \in U_2
+    \]
+    $\Rightarrow U_2$ ist ein Untervektorraum von $V_2$.
+
+    Eine Basis von $U_2$ ist
+    $B_2 \coloneqq \qty(\qty\big(0, 1, 0)^T, \qty\big(1, 0, i)^T)$,
+    $\text{dim}_{K_2}\qty\big(U_2) = 2$ und
+    $B_2$ lässt sich zur Basis $C_2$ von $\mathbb{C}^3$ vervollständigen mit
+    zum Beispiel
+    $C_2 = \qty(\qty\big(1, 0, 0)^T, \qty\big(0, 1, 0)^T, \qty\big(1, 0, i)^T)$.
+
+  \item $K_3 = \mathbb{R}$, $V_3 = \mathbb{R}^4$,
+    $U_3 = \qty{\qty\big{x_1, x_2, x_3, x_4}^T \in \mathbb{R}^4 \:\middle|\: x_1 - x_2 - x_3 = 0 = x_2 + x_3 + x_4}$
+
+    \subparagraph{Lsg.} Es ist $\qty\big(0, 0, 0, 0)^T$ das Nullelement in
+    $\mathbb{R}^4$.
+    Nun ist $\qty\big(0, 0, 0, 0)^T \in U_3$, da $0 - 0 - 0 = 0 = 0 + 0 + 0$.
+
+    Seien nun $x, y \in U_3 \lambda \in K_3$ beliebig und $z = x + y$.
+    Dann ist
+    \[
+      z = x + y = \qty\big(x_1 + y_1, x_2 + y_2, x_3 + y_3, x_4 + y_4)^T
+    \]
+    und $z \in U_3$, da
+    \[
+      \qty\big(x_1 + y_1) - \qty\big(x_2 + y_2) - \qty\big(x_3 + y_3)
+      = x_1 + y_1 - x_2 - y_2 - x_3 - y_3
+      = \underset{= 0\text{, da } x \in U_3}{\underbrace{x_1 - x_2 - x_3}} + \underset{= 0\text{, da } y \in U_3}{\underbrace{y_1 - y_2 - y_3}}
+      = 0
+    \]
+    als auch
+    \[
+      \qty\big(x_2 + y_2) + \qty\big(x_3 + y_3) + \qty\big(x_4 + y_4)
+      = x_2 + y_2 + x_3 + y_3 + x_4 + y_4
+      = \underset{= 0\text{, da } x \in U_3}{\underbrace{x_2 + x_3 + x_4}} + \underset{= 0\text{, da } y \in U_3}{\underbrace{y_2 + y_3 + y_4}}
+      = 0
+    \]
+    Schließlich ist $\qty\big(\lambda \cdot x) \in U_3$, da
+    \[
+      \lambda \cdot x_1 - \lambda \cdot x_2 - \lambda \cdot x_3 =
+      \lambda \cdot \underset{= 0\text{, da } x \in U_3}{\underbrace{\qty(x_1 - x_2 - x_3)}}
+      = 0
+    \]
+    als auch
+    \[
+      \lambda \cdot x_2 + \lambda \cdot x_3 + \lambda \cdot x_4 =
+      \lambda \cdot \underset{= 0\text{, da } x \in U_3}{\underbrace{\qty(x_2 + x_3 + x_4)}}
+      = 0
+    \]
+    $\Rightarrow U_3$ ist ein Untervektorraum von $V_3$.
+
+    Eine Basis von $U_3$ ist
+    $B_3 \coloneqq \qty(\qty\big(1, 1, 0, -1)^T, \qty\big(1, 0, 1, -1)^T)$,
+    $\text{dim}_{K_3}\qty\big(U_3) = 2$ und
+    $B_3$ lässt sich zur Basis $C_3$ von $\mathbb{R}^4$ vervollständigen mit
+    zum Beispiel
+    $C_3 = \qty(\qty\big(0, 1, 1, -1)^T, \qty\big(1, 1, 0, -1)^T, \qty\big(1, 0, 1, -1)^T, \qty\big(1, 1, 1, 0)^T)$.
+
+  \item $K_4 = \mathbb{R}$, $V_4 = \mathbb{R}^3$,
+    $U_4 = \qty{\qty\big{x_1, x_2, x_3}^T \in \mathbb{R}^3 \:\middle|\: x_3 = x_1 + 1, x_2 = x_1^2}$
+
+    \subparagraph{Lsg.} Es ist $\qty\big(0, 0, 0)^T$ das Nullelement in
+    $\mathbb{R}^3$.
+    Nun ist $\qty\big(0, 0, 0)^T \notin U_4$, da $0 \ne 0 + 1$.
+
+    $\Rightarrow U_4$ ist kein Untervektorraum von $V_4$.
+  \end{enumerate}
+
+\item Gemäß Ü 4.5 (e) ist die Menge $P_{\leq n}$ der reellen Polynomfunktionen
+  vom Grad höchstens $n$ ein Untervektorraum von
+  $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+  Bestimmen Sie eine Basis von $P_{\leq n}$ sowie die
+  Dimension dieses Vektorraumes.
+  In $P_{\leq 2}$ ist $B \coloneqq \qty\big(1, 1 + x, 1 + x + x^2)$ eine
+  angeordnete Basis (das können Sie im Selbststudium nachweisen).
+  Geben Sie den Koordinatenvektor $p\qty\big(x)_B$ von
+  $p\qty\big(x) \coloneqq 3x^2 + 2x + 4$ bezüglich $B$ an.
+
+  \subparagraph{Lsg.} Seien $f_n \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+  mit $f_n = x^n$.
+  Nun hat jedes beliebige Polynom $g \in P_{\leq n}$ die Form
+  \[
+    g = \sum_{k = 0}^n a_k x^k, \text{ mit den Koeffezienten } a_0, \ldots, a_n
+  \]
+  und lässt sich als Linearkombination
+  \[
+    a_0 \cdot f_0 + \ldots + a_n \cdot f_n
+  \]
+  darstellen.
+
+  $\Rightarrow \qty\big(f_0, \ldots, f_n)$ ist ein Erzeugendensystem von
+  $P_{\leq n}$.
+
+  Da alle Polynome $f_0, \ldots, f_n$ einen paarweise verschiedenen Grad haben,
+  sind sie ebenfalls linear unabhängig.
+  Somit ist $\qty\big(f_0, \ldots, f_n)$ eine Basis von $P_{\leq n}$ und
+  $\text{dim}\qty(P_{\leq n}) = n + 1$.
+
+  Schließlich ist
+  \[
+    p\qty\big(x) = 2 \cdot 1 - \qty\big(1 + x) + 3 \cdot \qty\big(1 + x + x^2)
+  \]
+  und
+  \[
+    p\qty\big(x)_B = \qty\big(2, -1, 3)^T
+  \]
+\end{enumerate}
+\end{document}
