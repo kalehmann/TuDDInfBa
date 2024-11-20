@@ -1,0 +1,218 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 3\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 3.2} Es seien
+$\quad m_1 \quad m_2 \quad m_3 \quad m_4 \quad m_5 \quad m_6 \quad m_7 \quad$
+die Ziffer Ihrer Matrikelnummer.
+Wir betrachten, für die Parameter $a, x, y, z \in \mathbb{R}$ das lineare
+Gleichungssystem, welches durch die folgende erweiterte Koeffizientenmatrix
+gegeben ist:
+\[
+  \qty\big(A {\big|} b) =
+  \qty(\begin{array}{cccc|c}
+    5  & -4 & 2 & 3  & x \\
+    -1 & 1  & 1 & -1 & y \\
+    3  & -2 & 4 & a  & z \\
+  \end{array})
+\]
+
+\begin{enumerate}[(a)]
+\item Bestimmen Sie die Lösungsmenge des durch $a \coloneqq 1$, $x \coloneqq 0$,
+  $y \coloneqq 0$, $z \coloneqq 0$ definierten \emph{homogenen} linearen
+  Gleichungssystemes.
+
+\item Bestimmen Sie die Lösungsmenge des durch $a \coloneqq 1$,
+  $x \coloneqq m_4$, $y \coloneqq m_5$, $z \coloneqq -1$ definierten
+  \emph{inhomogenen} linearen Gleichungssystemes.
+
+\item Bestimmen Sie die Lösungsmenge des durch $a \coloneqq 1$,
+  $x \coloneqq m_4$, $y \coloneqq m_5$, $z \coloneqq m_6$ definierten
+  \emph{inhomogenen} linearen Gleichungssystemes.
+\end{enumerate}
+Machen Sie jeweils eine Probe, falls möglich!
+
+\subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+\begin{tabular}{|c|c|c|c|c|c|c|}
+  \hline
+  4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+  \hline
+  $m_1$ & $m_2$ & $m_3$ & $m_4$ & $m_5$ & $m_6$ & $m_7$ \\
+  \hline
+\end{tabular}
+\begin{enumerate}[(a)]
+\item Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      5  & -4 & 2 & 3  & 0 \\
+      -1 & 1  & 1 & -1 & 0 \\
+      3  & -2 & 4 & 1  & 0 \\
+    \end{array})
+    \overset{3 \cdot Z_2 + Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 0 \\
+      0 & 1  & 7 & -2 & 0 \\
+      3 & -2 & 4 & 1  & 0 \\
+    \end{array}) \\
+    \overset{5 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2  & 3  & 0 \\
+      0 & 1  & 7  & -2 & 0 \\
+      0 & 2  & 14 & -4 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 - 2 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 0 \\
+      0 & 1  & 7 & -2 & 0 \\
+      0 & 0  & 0 & 0  & 0 \\
+    \end{array}) \\
+    \overset{Z_1 + 4 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & 0 & 30 & -5 & 0 \\
+      0 & 1 & 7  & -2 & 0 \\
+      0 & 0 & 0  & 0  & 0 \\
+    \end{array}) \\
+    \overset{\frac{1}{5} \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & 0 & 6 & -1 & 0 \\
+      0 & 1 & 7 & -2 & 0 \\
+      0 & 0 & 0 & 0  & 0 \\
+    \end{array})
+  \end{flalign*}
+  Somit folgt
+  \[
+    \mathbb{L} = \qty{
+      \begin{pmatrix}
+        x_4 - 6x_3 \\
+        2x_4 - 7x_3 \\
+        x_3 \\
+        x_4
+      \end{pmatrix}
+      \:\middle|\:
+      x_3, x_4 \in \mathbb{R}
+    }
+  \]
+  \newpage
+  \textbf{Probe:}
+  Es sind
+  \begin{flalign*}
+    5 \cdot \qty\big(x_4 - 6x_3) - 4 \cdot \qty\big(2x_4 - 7x_3) + 2x_3 + 3x_4
+    &= 5x_4 - 30x_3 - 8x_4 + 28x_3 + 2x_3 + 3x_4 \\
+    &= \qty\big(-30 + 28 + 2) \cdot x_3 + \qty\big(5 - 8 + 3) \cdot x_4 \\
+    &= 0 \cdot x_3 + 0 \cdot x_4 \\
+    &= 0
+  \end{flalign*}
+  und
+  \begin{flalign*}
+    0 \cdot \qty\big(x_4 - 6x_3) + 1 \cdot \qty\big(2x_4 - 7x_3) + 7x_3 - 2x_4
+    &= 2x_4 - 7x_3 + 7x_3 - 2x_4 \\
+    &= \qty\big(-7 + 7) \cdot x_3 + \qty\big(2 - 2) \cdot x_4 \\
+    &= 0 \cdot x_3 + 0 \cdot x_4 \\
+    &= 0
+  \end{flalign*}
+  sowie
+  \begin{flalign*}
+    3 \cdot \qty\big(x_4 - 6x_3) - 2 \cdot \qty\big(2x_4 - 7x_3) + 4x_3 + x_4
+    &= 3x_4 - 18x_3 - 4x_4 + 14x_3 + 4x_3 + x_4 \\
+    &= \qty\big(-18 + 14 + 4) \cdot x_3 + \qty\big(3 - 4 + 1) \cdot x_4 \\
+    &= 0 \cdot x_3 + 0 \cdot x_4 \\
+    &= 0
+  \end{flalign*}
+
+\item Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      5  & -4 & 2 & 3  & 5  \\
+      -1 & 1  & 1 & -1 & 7  \\
+      3  & -2 & 4 & 1  & -1 \\
+    \end{array})
+    \overset{3 \cdot Z_2 + Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 5  \\
+      0 & 1  & 7 & -2 & 20 \\
+      3 & -2 & 4 & 1  & -1 \\
+    \end{array}) \\
+    \overset{5 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2  & 3  & 5   \\
+      0 & 1  & 7  & -2 & 20  \\
+      0 & 2  & 14 & -4 & -20 \\
+    \end{array}) \\
+    \overset{Z_3 - 2 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 5   \\
+      0 & 1  & 7 & -2 & 20  \\
+      0 & 0  & 0 & 0  & -60 \\
+    \end{array})
+  \end{flalign*}
+  Somit folgt $\mathbb{L} = \emptyset$
+
+\newpage
+\item Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      5  & -4 & 2 & 3  & 5 \\
+      -1 & 1  & 1 & -1 & 7 \\
+      3  & -2 & 4 & 1  & 5 \\
+    \end{array})
+    \overset{3 \cdot Z_2 + Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 5  \\
+      0 & 1  & 7 & -2 & 26 \\
+      3 & -2 & 4 & 1  & 5  \\
+    \end{array}) \\
+    \overset{5 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2  & 3  & 5  \\
+      0 & 1  & 7  & -2 & 20 \\
+      0 & 2  & 14 & -4 & 10 \\
+    \end{array}) \\
+    \overset{Z_3 - 2 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & -4 & 2 & 3  & 5   \\
+      0 & 1  & 7 & -2 & 20  \\
+      0 & 0  & 0 & 0  & -30 \\
+    \end{array}) \\
+  \end{flalign*}
+  Somit folgt ebenfalls $\mathbb{L} = \emptyset$
+
+\end{enumerate}
+\end{document}
