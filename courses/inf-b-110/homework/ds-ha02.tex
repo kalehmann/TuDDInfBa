@@ -1,0 +1,131 @@
+\documentclass{scrreprt}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 2\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N2}
+\begin{enumerate}[(a)]
+\item Auf der Menge der komplexen Zahlen $\mathbb{C}$ ist die Abbildung
+  \[
+    f \colon \mathbb{C} \to \mathbb{C} \text{ mit }
+    f\qty\big(Z) = -1 + i \cdot \qty\big(z - 1)
+  \]
+  gegeben.
+  Zeigen Sie, dass $f$ injektiv und surjektiv (d.h. bijektiv) ist.
+
+  \subparagraph{Lsg.} Seien $z_1, z_2 \in \mathbb{C}$ beliebig mit
+  $f\qty\big(z_1) = f\qty\big(z_2)$.
+  Dann ist
+  \begin{flalign*}
+    -1 + i \cdot \qty\big(z_1 - 1) &= -1 + i \cdot \qty\big(z_2 - 1) && {\Big |} +1 && \\
+    i \cdot \qty\big(z_1 - 1) &= i \cdot \qty\big(z_2 - 1) && {\Big |} \cdot \qty\big(-i) \\
+    z_1 - 1 &= z_2 - 1  && {\Big |} +1\\
+    z_1 &= z_2
+  \end{flalign*}
+  $\Rightarrow f$ ist injektiv.
+
+  Sei nun weiter $y \in \mathbb{C}$ beliebig.
+  Dann ist ebenfalls $1 - i \cdot \qty\big(y + 1) \in \mathbb{C}$.
+  Nun ist
+  \begin{flalign*}
+    f\qty\big(1 - i \cdot \qty\big(y + 1)) &= -1 + i \cdot \qty\big((1 - i \cdot \qty\big(y + 1)) - 1) & \\
+    &=  -1 + i \cdot \qty\big(- i \cdot \qty\big(y + 1)) \\
+    &=  -1 + i \cdot \qty\big(-i \cdot y  -i)) \\
+    &=  -1 + \qty\big(y + 1)) \\
+    &= y
+  \end{flalign*}
+  $\Rightarrow$ für $y$ existiert
+  $z = \qty\big(1 - i \cdot \qty\big(y + 1)) \in \mathbb{C}$
+  mit $f\qty\big(z) = y$.
+
+  $\Rightarrow$ da $y$ beliebig, ist $f$ surjektiv.
+
+  $\Rightarrow f$ ist bijektiv.
+
+\item Gegeben sind auf der Menge
+  $X = \qty\big{1, 2, 3, 4, 5, 6, 7, 8, 9, 10}$ die zwei Permutationen:
+  \[
+    \alpha = \begin{pmatrix}
+      1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9 & 10 \\
+      3 & 8 & 1 & 2 & 10 & 9 & 7 & 6 & 4 & 5
+    \end{pmatrix}, \qquad
+    \beta = \begin{pmatrix} 1 & 5 & 4 \end{pmatrix} \circ
+    \begin{pmatrix} 1 & 2 & 7 & 8 & 5 \end{pmatrix} \circ
+    \begin{pmatrix} 2 & 3 & 10 \end{pmatrix}
+  \]
+  \begin{itemize}
+  \item Geben sie $\alpha$ und $\beta$ in Zyklenschreibweise an.
+
+    \subparagraph{Lsg.} Es sind
+    \[
+      \alpha = \begin{pmatrix} 1 & 3 \end{pmatrix}
+      \begin{pmatrix} 2 & 8 & 6 & 9 & 4 \end{pmatrix}
+      \begin{pmatrix} 5 & 10 \end{pmatrix}
+      \begin{pmatrix} 7 \end{pmatrix}
+      = \begin{pmatrix} 1 & 3 \end{pmatrix}
+      \begin{pmatrix} 2 & 8 & 6 & 9 & 4 \end{pmatrix}
+      \begin{pmatrix} 5 & 10 \end{pmatrix}
+    \]
+    und
+    \[
+      \beta = \begin{pmatrix} 1 & 2 & 3 & 10 & 7 & 8 & 4 \end{pmatrix}
+      \begin{pmatrix} 5 \end{pmatrix}
+      \begin{pmatrix} 6 \end{pmatrix}
+      \begin{pmatrix} 9 \end{pmatrix}
+      = \begin{pmatrix} 1 & 2 & 3 & 10 & 7 & 8 & 4 \end{pmatrix}
+    \]
+
+  \newpage
+  \item Geben Sie für $\alpha$ und $\beta$ jeweils alle Fixpunkte an.
+
+    \subparagraph{Lsg.} Die Permutation $\alpha$ hat 7 als einzigen Fixpunkt und
+    die Permutation $\beta$ hat die Fixpunkte 5, 6 und 9.
+
+  \item Stellen Sie $\alpha$ als Komposition von Transpositionen dar.
+
+    \subparagraph{Lsg.} Es ist
+    \[
+      \alpha = \begin{pmatrix} 1 & 3 \end{pmatrix} \circ
+      \begin{pmatrix} 2 & 8 \end{pmatrix} \circ
+      \begin{pmatrix} 8 & 6 \end{pmatrix} \circ
+      \begin{pmatrix} 6 & 9 \end{pmatrix} \circ
+      \begin{pmatrix} 9 & 4 \end{pmatrix} \circ
+      \begin{pmatrix} 5 & 10 \end{pmatrix}
+    \]
+  \end{itemize}
+\end{enumerate}
+\end{document}
