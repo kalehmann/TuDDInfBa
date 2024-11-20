@@ -1,0 +1,211 @@
+\documentclass{scrreprt}
+
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 2\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 2.2} Es seien
+\[
+  x_1 \qquad x_2 \qquad x_3 \qquad x_4 \qquad x_5 \qquad x_6 \qquad x_7
+\]
+die Ziffern Ihrer Matrikelnummer.
+Weiter sei $x \coloneqq x_6 + x_7i \in \mathbb{C}$.
+Wir betrachten die Matrix
+$A \coloneqq \begin{pmatrix} 1 & k \\ 0 & i \end{pmatrix} \in \mathbb{C}^{2 \times 2}$.
+
+\begin{enumerate}[(a)]
+\item Berechnen Sie $A^2$, $A^3$ und $A^4$.
+
+  \subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+    \hline
+    $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ \\
+    \hline
+  \end{tabular}
+
+  Also ist $k = 5 + 8 \cdot i$ und
+  $A = \begin{pmatrix} 1 & 5 + 8 \cdot i \\ 0 & i \end{pmatrix}$.
+  Nun sind
+
+  \begin{flalign*}
+    A^2 &= \begin{pmatrix}
+      1 \cdot 1 + \qty\big(5 + 8 \cdot i) \cdot 0 & 1 \cdot \qty\big(5 + 8 \cdot i) + \qty\big(5 + 8 \cdot i) \cdot i \\
+      0 \cdot 1 + i \cdot 0                       & 0 \cdot \qty\big(5 + 8 \cdot i) + i \cdot i \\
+    \end{pmatrix} & \\
+        &= \begin{pmatrix}
+          1 & -3 + 13i \\
+          0 & -1 \\
+        \end{pmatrix} \\
+    A^3 = A^2 \cdot A &= \begin{pmatrix}
+      1 \cdot 1 + \qty\big(-3 + 13 \cdot i) \cdot 0 & 1 \cdot \qty\big(5 + 8 \cdot i) + \qty\big(-3 + 13 \cdot i) \cdot i \\
+      0 \cdot 1 + -1 \cdot 0                        & 0 \cdot \qty\big(5 + 8 \cdot i) + -1 \cdot i \\
+    \end{pmatrix} \\
+        &= \begin{pmatrix}
+          1 & -8 + 5i \\
+          0 & -i \\
+        \end{pmatrix} \\
+   A^4 = A^3 \cdot A &= \begin{pmatrix}
+      1 \cdot 1 + \qty\big(-8 + 5 \cdot i) \cdot 0 & 1 \cdot \qty\big(5 + 8 \cdot i) + \qty\big(-8 + 5 \cdot i) \cdot i \\
+      0 \cdot 1 + -i \cdot 0                       & 0 \cdot \qty\big(5 + 8 \cdot i) + -i \cdot i \\
+    \end{pmatrix} \\
+        &= \begin{pmatrix}
+          1 & 0 \\
+          0 & 1 \\
+        \end{pmatrix} = E_2
+  \end{flalign*}
+
+\item Geben Sie (mit Begründung) eine Vermutung an, wie $A^n$ (für eine beliebige
+  natürliche Zahl $n \in \mathbb{N}$) aussieht.
+
+  \subparagraph{Lsg.} Da $A^4$ der Einheitsmatrix entspricht, wird
+  $A^5 = A^4 \cdot A = E_2 \cdot A$ wieder der Matrix $A$ entsprechen,
+  $A^6 = A^2$ und so weiter.
+  Für ein beliebiges $n \in \mathbb{N}$ gilt somit
+  $A^n = A^{n \mod 4}$ und $A^n$ nimmt eine der oben aufgezeigten Matrizen an.
+
+\newpage
+\item Bestimmen Sie eine komplexe Zahl $z \coloneqq x + yi$, so dass
+  $A^3 + zA^2 + iA = 0_{2 \times 2}$ gilt.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    A^3 + zA^2 + iA &= \begin{pmatrix}
+      \qty(A^3)_{11} + z \cdot \qty(A^2)_{11} + i \cdot \qty\big(A)_{11} & \qty(A^3)_{12} + z \cdot \qty(A^2)_{12} + i \cdot \qty\big(A)_{12} \\
+      \qty(A^3)_{21} + z \cdot \qty(A^2)_{21} + i \cdot \qty\big(A)_{21} & \qty(A^3)_{22} + z \cdot \qty(A^2)_{22} + i \cdot \qty\big(A)_{22} \\
+    \end{pmatrix} & \\
+    &= \begin{pmatrix}
+      1 + z \cdot 1 + i \cdot 1 & \qty\big(-8 + 5 \cdot i) + z \cdot \qty\big(-3 + 13 \cdot i) + i \cdot \qty\big(5 + 8 \cdot i) \\
+      0 + z \cdot 0 + i \cdot 0 & -i + z \cdot -1 + i \cdot i \\
+   \end{pmatrix} \\
+    &= \begin{pmatrix}
+      1 + z + i & \qty\big(-16 + 10 \cdot i) + z \cdot \qty\big(-3 + 13 \cdot i)  \\
+      0  & -i - z - 1 \\
+   \end{pmatrix}
+  \end{flalign*}
+  Also muss $z$ so sein, dass
+  \begin{flalign*}
+    1 + i + z &= 0 & \\
+    \qty\big(-16 + 10 \cdot i) + z \cdot \qty\big(-3 + 13 \cdot i) &= 0 \\
+    -z - (1 + i) &= 0 \\
+  \end{flalign*}
+  Aus der ersten und dritten Gleichung ist $z = -1 -i$ direkt ersichtlich.
+  Zur Probe für die zweite Zeile:
+  \begin{flalign*}
+    \qty\big(-16 + 10 \cdot i) + z \cdot \qty\big(-3 + 13 \cdot i) &= 0 \\
+    \qty\big(-16 + 10 \cdot i) + \qty\big(-1 -i) \cdot \qty\big(-3 + 13 \cdot i) &= 0 \\
+    \qty\big(-16 + 10 \cdot i) + \qty\big((-1) \cdot (-3) -  (-1) \cdot 13) + \qty\big((-1) \cdot 13 + (-3) \cdot (-1)) \cdot i &= 0 \\
+    \qty\big(-16 + 10 \cdot i) + \qty\big(3 + 13) + \qty\big(-13 + 3) \cdot i &= 0 \\
+    \qty\big(-16 + 10 \cdot i) + \qty\big(16 - 10 \cdot i) &= 0 \\
+    0 &= 0
+  \end{flalign*}
+  $\Rightarrow z = -1 -i$
+
+\newpage
+\item Bestimmen Sie eine Matrix $B \in \mathbb{C}^{2 \times 2}$, so dass
+  $A \cdot B = E_2$ gilt.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    A \cdot B &= \begin{pmatrix}
+      1 & 5 + 8 \cdot i \\
+      0 & i \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      b_{11} & b_{12} \\
+      b_{21} & b_{22} \\
+    \end{pmatrix} &\\
+   &= \begin{pmatrix}
+      1 \cdot b_{11} + \qty\big(5 + 8 \cdot i) \cdot b_{21} & 1 \cdot b_{12} + \qty\big(5 + 8 \cdot i) \cdot b_{22} \\
+      0 \cdot b_{11} + i \cdot b_{21}                       & 0 \cdot b_{12} + i \cdot b_{22} \\
+    \end{pmatrix} &\\
+  \end{flalign*}
+  Aus $A \cdot B = \begin{pmatrix} 1 & 0 \\ 0 & 1 \end{pmatrix}$ folgt nun
+  \[
+    \begin{pmatrix}
+      1 & 0 & 5 + 8 \cdot i & 0 \\
+      0 & 1 & 0 & 5 + 8 \cdot i \\
+      0 & 0 & i & 0 \\
+      0 & 0 & 0 & i \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      b_{11} \\
+      b_{12} \\
+      b_{21} \\
+      b_{22}
+    \end{pmatrix} = \begin{pmatrix}
+      1 \\
+      0 \\
+      0 \\
+      1 \\
+    \end{pmatrix}
+  \]
+  Die Lösung des linearen Gleichungssystemes:
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      1 & 0 & 5 + 8 \cdot i & 0 & 1 \\
+      0 & 1 & 0 & 5 + 8 \cdot i & 0 \\
+      0 & 0 & i & 0 & 0 \\
+      0 & 0 & 0 & i & 1 \\
+    \end{array}) &\overset{\text{Zeile 4} \cdot (-i)}{\leadsto} \qty(\begin{array}{cccc|c}
+      1 & 0 & 5 + 8 \cdot i & 0 & 1 \\
+      0 & 1 & 0 & 5 + 8 \cdot i & 0 \\
+      0 & 0 & i & 0 & 0 \\
+      0 & 0 & 0 & 1 & -i \\
+    \end{array}) & \\
+    &\overset{\text{Zeile 3} \cdot (-i)}{\leadsto} \qty(\begin{array}{cccc|c}
+      1 & 0 & 5 + 8 \cdot i & 0 & 1 \\
+      0 & 1 & 0 & 5 + 8 \cdot i & 0 \\
+      0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & -i \\
+    \end{array}) \\
+    &\overset{\text{Zeile 2 - Zeile 4} \cdot (5 + 8 \cdot i)}{\leadsto} \qty(\begin{array}{cccc|c}
+      1 & 0 & 5 + 8 \cdot i & 0 & 1 \\
+      0 & 1 & 0 & 0 & -8 + 5i \\
+      0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & -i \\
+    \end{array}) \\
+    &\overset{\text{Zeile 1 - Zeile 3} \cdot (5 + 8 \cdot i)}{\leadsto} \qty(\begin{array}{cccc|c}
+      1 & 0 & 0 & 0 & 1 \\
+      0 & 1 & 0 & 0 & -8 + 5i \\
+      0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & -i \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow B = \begin{pmatrix} 1 & -8 + 5i \\ 0 & -i \end{pmatrix}$
+\end{enumerate}
+\end{document}
