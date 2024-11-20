@@ -1,0 +1,139 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 3\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\begin{landscape}
+\paragraph{N3}
+\begin{enumerate}[(a)]
+\item Zeigen Sie, dass für alle aussagenlogischen Ausdrücke $A$, $B$, $C$ die
+  Ausdrücke
+  \[
+    \qty\big(A \lor C) \land \qty\big(C \Rightarrow \qty\big(A \land \neg B))
+    \text{ und }
+    A \land \neg \qty\big(B \land C)
+  \]
+  äquivalent sind.
+  Beweisen Sie das auf zwei verschiedenen Wegen:
+  \begin{enumerate}[(1)]
+  \item Verwenden Sie eine Wertetabelle.
+    Geben Sie darin auch Teilausdrücke an, so dass die Ergebnisse gut
+    nachvollziehbar sind.
+
+    \subparagraph{Lsg.}\;\\
+    \begin{small}
+      \begin{tabular}{|c|c|c|c|c|c|c|c|c|c|}
+        \hline
+        $A$ & $B$ & $C$ & $A \lor C$ & $A \land \neg B$ & $C \Rightarrow \qty\big(A \land \neg B)$ & $\qty\big(A \lor C) \land \qty\big(C \Rightarrow \qty\big(A \land \neg B))$ & $B \land C$ & $\neg \qty\big(B \land C)$ & $A \land \neg \qty\big(B \land C)$ \\
+        \hline
+        0 & 0 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 & 0 & 1 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 \\
+        1 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 1 & 1 \\
+        1 & 0 & 1 & 1 & 1 & 1 & 1 & 0 & 1 & 1 \\
+        1 & 1 & 0 & 0 & 1 & 1 & 1 & 0 & 1 & 1 \\
+        1 & 1 & 1 & 1 & 0 & 0 & 0 & 1 & 0 & 0 \\
+        \hline
+      \end{tabular}
+    \end{small}
+
+  \item Formen Sie den einen Ausdruck anhand der in der Vorlesung angegebenen
+    Rechenregeln äquivalent um, bis Sie den anderen Ausdruck erhalten.
+    Geben Sie dabei genau an, welche Regel Sie in welchem Schritt anwenden.
+
+    \subparagraph{Lsg.} Es ist
+    \begin{small}
+    \begin{flalign*}
+      \qty\big(A \lor C) \land \qty\big(C \Rightarrow \qty\big(A \land \neg B))
+      \overset{\text{Def. Implikation}}&\iff
+      \qty\big(A \lor C) \land \qty\big(\neg C \lor \qty\big(A \land \neg B)) & \\
+      \overset{\text{Distributivität}}&\iff
+      \qty\big(A \lor C) \land \qty\big(\qty\big(\neg C \lor A) \land \qty\big(\neg C \lor \neg B)) \\
+      \overset{\text{De Morgan}}&\iff
+      \qty\big(A \lor C) \land \qty\big(\qty\big(\neg C \lor A) \land \neg \qty\big(C \land  B)) \\
+      \overset{\text{Assoziativität und Kommutativität}}&\iff
+      \qty\big(\qty\big(A \lor C) \land \qty\big(A \lor \neg C)) \land \neg \qty\big(C \land  B) \\
+      \overset{\text{Distributivität}}&\iff
+      \qty\big(A \lor \underset{\text{Immer Falsch!}}{\underbrace{\qty\big(C \land \neg C)}}) \land \neg \qty\big(C \land  B)
+      \iff
+      A \land \neg \qty\big(C \land  B)
+    \end{flalign*}
+    \end{small}
+
+  \end{enumerate}
+\end{enumerate}
+\end{landscape}
+\begin{enumerate}[(a)]
+\setcounter{enumi}{1}
+\item Durch untenstehende Wertetabelle ist eine boolsche Funktion
+  $f \colon \qty\big{0, 1}^3 \to \qty\big{0, 1}$ gegeben.
+
+  \begin{tabular}{|c|c|c|c|}
+    \hline
+    $x_1$ & $x_2$ & $x_3$ & $f\qty\big(x_1, x_2, x_3)$ \\
+    \hline
+    0 & 0 & 0 & 1 \\
+    0 & 0 & 1 & 0 \\
+    0 & 1 & 0 & 1 \\
+    0 & 1 & 1 & 0 \\
+    1 & 0 & 0 & 0 \\
+    1 & 0 & 1 & 1 \\
+    1 & 1 & 0 & 0 \\
+    1 & 1 & 1 & 0 \\
+    \hline
+  \end{tabular}
+
+  Geben Sie eine Darstellung der Funktion in disjunktiver Normalform (DNF) an.
+
+  \subparagraph{Lsg.} Aus der Wertetabelle lässt sich ablesen, dass
+  $f\qty\big(x_1, x_2, x_3) = 1$ für
+  \begin{itemize}
+  \item $\neg x_1 \land \neg x_2 \land \neg x_3$
+  \item $\neg x_1 \land x_2 \land \neg x_3$
+  \item $x_1 \land \neg x_2 \land x_3$
+  \end{itemize}
+
+  Dementsprechend ist die disjunktive Normalform
+  \[
+    \qty\big(\neg x_1 \land \neg x_2 \land \neg x_3) \lor
+    \qty\big(\neg x_1 \land x_2 \land \neg x_3) \lor
+    \qty\big(x_1 \land \neg x_2 \land x_3)
+  \]
+\end{enumerate}
+\end{document}
