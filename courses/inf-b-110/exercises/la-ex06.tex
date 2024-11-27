@@ -1,0 +1,956 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 6\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü6.3 Homogene und inhomogene Gleichungssysteme}
+\begin{enumerate}[(a)]
+\item Bestimmen Sie zur unten stehenden Matrix $A \in \mathbb{R}^{4 \times 5}$
+  die Lösungsmenge $L^*$ des zugehörigen homogenen Gleichungssystems.
+  \[
+    A \coloneqq \begin{pmatrix}
+      1 & 2 & 3  & 4 & 5  \\
+      0 & 0 & 1  & 1 & 4  \\
+      0 & 0 & -1 & 1 & -2 \\
+      0 & 0 & 0  & 2 & 2  \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3  & 4 & 5  & 0 \\
+      0 & 0 & 1  & 1 & 4  & 0 \\
+      0 & 0 & -1 & 1 & -2 & 0 \\
+      0 & 0 & 0  & 2 & 2  & 0 \\
+    \end{array})
+    \overset{Z_3 = Z_3 + Z_2}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 0 \\
+      0 & 0 & 1 & 1 & 4 & 0 \\
+      0 & 0 & 0 & 2 & 2 & 0 \\
+      0 & 0 & 0 & 2 & 2 & 0 \\
+    \end{array}) \\
+    \overset{Z_4 = Z_4 - Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 0 \\
+      0 & 0 & 1 & 1 & 4 & 0 \\
+      0 & 0 & 0 & 2 & 2 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \frac{1}{2}Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 0 \\
+      0 & 0 & 1 & 1 & 4 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = Z_3 - Z_4}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 0 \\
+      0 & 0 & 1 & 0 & 3 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 3 \cdot Z_2 - 4 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 0 & 0 & -8 & 0 \\
+      0 & 0 & 1 & 0 & 3  & 0 \\
+      0 & 0 & 0 & 1 & 1  & 0 \\
+      0 & 0 & 0 & 0 & 0  & 0 \\
+    \end{array})
+  \end{flalign*}
+  Nun ist $x_1 = 8x_5 - 2x_2$, $x_3 = -3x_5$ und  $x_4 = -x_5$
+  \begin{flalign*}
+    \text{Kern}\qty\big(A) = L^* &= \qty{
+      \begin{pmatrix}
+        8x_5 - 2x_2 \\
+        x_2 \\
+        -3x_5 \\
+        -x_5 \\
+        x_5 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_5 \in \mathbb{R}
+    } = \qty{
+      \begin{pmatrix}
+        - 2x_2 \\
+        x_2 \\
+        0 \\
+        0 \\
+        0 \\
+      \end{pmatrix} + \begin{pmatrix}
+        8x_5 \\
+        0 \\
+        -3x_5 \\
+        -x_5 \\
+        x_5 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_5 \in \mathbb{R}
+    } \\
+    &= \text{Span}\qty(\qty{
+      \begin{pmatrix} -2 \\ 1 \\ 0 \\ 0 \\ 0 \end{pmatrix},
+      \begin{pmatrix} 8 \\ 0 \\ -3 \\ -1 \\ 1 \end{pmatrix}
+    })
+  \end{flalign*}
+
+\newpage
+\item Bestimmen Sie des Lösungsmenge $L$ des Systems für
+  $b \coloneqq \qty\big(5, 1, 1, 1)^T$.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3  & 4 & 5  & 5 \\
+      0 & 0 & 1  & 1 & 4  & 1 \\
+      0 & 0 & -1 & 1 & -2 & 1 \\
+      0 & 0 & 0  & 2 & 2  & 1 \\
+    \end{array})
+    \overset{Z_3 = Z_3 + Z_2}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5 \\
+      0 & 0 & 1 & 1 & 4 & 1 \\
+      0 & 0 & 0 & \cellcolor{red!20} 2 & \cellcolor{red!20} 2 & \cellcolor{red!20} 2 \\
+      0 & 0 & 0 & \cellcolor{red!20} 2 & \cellcolor{red!20} 2 & \cellcolor{red!20} 1 \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow$ ein Widerspruch, $L = \emptyset$
+
+\item Bestimmen Sie die Lösungsmenge $L$ des Systems für
+  $c \coloneqq \qty\big(5, -1, 3, r)^T$ in Abhängigkeit von dem Parameter
+  $r \in \mathbb{R}$.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3  & 4 & 5  & 5  \\
+      0 & 0 & 1  & 1 & 4  & -1 \\
+      0 & 0 & -1 & 1 & -2 & 3  \\
+      0 & 0 & 0  & 2 & 2  & r  \\
+    \end{array})
+    \overset{Z_3 = Z_3 + Z_2}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5  \\
+      0 & 0 & 1 & 1 & 4 & -1 \\
+      0 & 0 & 0 & 2 & 2 & 2  \\
+      0 & 0 & 0 & 2 & 2 & r  \\
+    \end{array})
+  \end{flalign*}
+  Nun entsteht für $r \ne 2$ ein Widerspruch und das LGS hätte eine leere
+  Lösungsmenge.
+
+  Sei im Folgenden $r = 2$:
+  \begin{flalign*}
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5  \\
+      0 & 0 & 1 & 1 & 4 & -1 \\
+      0 & 0 & 0 & 2 & 2 & 2  \\
+      0 & 0 & 0 & 2 & 2 & 2  \\
+    \end{array})
+    \overset{Z_4 = Z_4 - Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5  \\
+      0 & 0 & 1 & 1 & 4 & -1 \\
+      0 & 0 & 0 & 2 & 2 & 2  \\
+      0 & 0 & 0 & 0 & 0 & 0  \\
+    \end{array}) \\
+    \overset{Z_3 = \frac{1}{2}Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5  \\
+      0 & 0 & 1 & 1 & 4 & -1 \\
+      0 & 0 & 0 & 1 & 1 & 1  \\
+      0 & 0 & 0 & 0 & 0 & 0  \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 - Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 3 & 4 & 5 & 5  \\
+      0 & 0 & 1 & 0 & 3 & -2 \\
+      0 & 0 & 0 & 1 & 1 & 1  \\
+      0 & 0 & 0 & 0 & 0 & 0  \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 3 \cdot Z_2 - 4 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{ccccc|c}
+      1 & 2 & 0 & 0 & -8 & 7 \\
+      0 & 0 & 1 & 0 & 3  & -2 \\
+      0 & 0 & 0 & 1 & 1  & 1  \\
+      0 & 0 & 0 & 0 & 0  & 0  \\
+    \end{array})
+  \end{flalign*}
+  Nun ist $x_1 = 7 - 2x_2 + 8x_5$, $x_3 = -2 - 3x_5$ und $x_4 = 1 - x_5$ und
+  damit
+  \begin{flalign*}
+    L &= \qty{\begin{pmatrix}
+      7 - 2 \lambda + 8 \mu \\
+      \lambda \\
+      -2 - 3 \mu \\
+      1 - \mu \\
+      \mu \\
+    \end{pmatrix} \:\middle|\: \lambda, \mu \in \mathbb{R}} \\
+    &= \qty{\begin{pmatrix}
+      7  \\
+      0  \\
+      -2 \\
+      1  \\
+      0  \\
+    \end{pmatrix} + \begin{pmatrix}
+      -2\lambda + 8\mu \\
+      \lambda \\
+      -3\mu \\
+      -\mu \\
+      \mu \\
+    \end{pmatrix} \:\middle|\: \lambda, \mu \in \mathbb{R}} \\
+    &= \qty{\begin{pmatrix}
+      7  \\
+      0  \\
+      -2 \\
+      1  \\
+      0  \\
+    \end{pmatrix} + \begin{pmatrix}
+      -2\lambda \\
+      \lambda \\
+      0 \\
+      0 \\
+      0 \\
+    \end{pmatrix}  + \begin{pmatrix}
+      8 \mu \\
+      0 \\
+      -3 \mu \\
+      -\mu \\
+      \mu \\
+    \end{pmatrix} \:\middle|\: \lambda, \mu \in \mathbb{R}} \\
+    &= \qty{\begin{pmatrix}
+      7  \\
+      0  \\
+      -2 \\
+      1  \\
+      0  \\
+    \end{pmatrix} + \lambda \cdot \begin{pmatrix}
+      -2 \\
+      1  \\
+      0  \\
+      0  \\
+      0  \\
+    \end{pmatrix} + \mu \cdot \begin{pmatrix}
+      8  \\
+      0  \\
+      -3 \\
+      -1 \\
+      1  \\
+    \end{pmatrix}
+    \:\middle|\:
+    \lambda, \mu \in \mathbb{R}}
+  \end{flalign*}
+
+\item Wie hängen die Lösungsmengen von homogenen und inhomogenen Gleichungssystem
+  zusammen?
+
+  \subparagraph{Lsg.} Es ist $L = L^* + \qty\big(7, 0, -2, 1, 0)^T$.
+  Das heißt, die beiden Lösungsmengen sind zueinander parallele Ebenen.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 6.4 Rang und Kern einer Matrix}
+\begin{enumerate}[(a)]
+\item Bestimmen Sie für die Matrizen $A, B \in \mathbb{R}^{4 \times 4}$ den Rang
+  und den Kern:
+  \[
+    A \coloneqq \begin{pmatrix}
+      5 & 2 & -7 & 1 \\
+      0 & 1 & -4 & 0 \\
+      0 & 0 & 1  & 1 \\
+      0 & 0 & 2  & 2 \\
+    \end{pmatrix}
+    \qquad
+    B \coloneqq \begin{pmatrix}
+      1 & 1 & 1 & 1 \\
+      1 & 1 & 1 & 1 \\
+      1 & 1 & 1 & 1 \\
+      1 & 1 & 1 & 1 \\
+    \end{pmatrix}
+  \]
+  Geben Sie jeweils eine Basis des Kerns an und stellen Sie sämtliche Elemente
+  des Kerns als Linearkombination der Basisvektoren dar.
+  Bestimmen Sie die Dimension des Spaltenraums $\text{Col}\qty\big(A)$.
+  Liegt der Vektor $a \coloneqq \qty\big(0, 2, -5, -10)^T$ im Spaltenraum
+  $\text{Col}\qty\big(A)$?
+  Liegt der Vektor $b \coloneqq \qty\big(2, -2, 2, -2)^T$ im Spaltenraum
+  $\text{Col}\qty\big(B)$?
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \begin{pmatrix}
+      5 & 2 & -7 & 1 \\
+      0 & 1 & -4 & 0 \\
+      0 & 0 & 1  & 1 \\
+      0 & 0 & 2  & 2 \\
+    \end{pmatrix}
+    \overset{Z_4 = Z_4 - 2 \cdot Z_3}&\leadsto
+    \begin{pmatrix}
+      5 & 2 & -7 & 1 \\
+      0 & 1 & -4 & 0 \\
+      0 & 0 & 1  & 1 \\
+      0 & 0 & 0  & 0 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = Z_2 + 4 \cdot Z_3}&\leadsto
+    \begin{pmatrix}
+      5 & 2 & -7 & 1 \\
+      0 & 1 & 0  & 4 \\
+      0 & 0 & 1  & 1 \\
+      0 & 0 & 0  & 0 \\
+    \end{pmatrix} \\
+    \overset{Z_1 = \frac{1}{5}\qty\big(Z_1 - 2 \cdot Z_2 + 7 \cdot Z_3)}&\leadsto
+    \begin{pmatrix}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 4 \\
+      0 & 0 & 1 & 1 \\
+      0 & 0 & 0 & 0 \\
+    \end{pmatrix}
+  \end{flalign*}
+  Somit ist $\text{Rang}\qty\big(A) = 3$.
+  Außerdem ist $x_1 = 0$, $x_2 = -4x_4$ und $x_3 = -x_4$.
+  Somit ist
+  \[
+    \text{Kern}\qty\big(A) = \qty{
+      \begin{pmatrix}
+        0 \\
+        -4x_4 \\
+        -x_4 \\
+        x_4 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_4 \in \mathbb{R}
+    } = \text{Span}\qty(\qty{
+      \begin{pmatrix}
+        0  \\
+        -4 \\
+        -1 \\
+        1  \\
+      \end{pmatrix}
+    })
+  \]
+
+  Es ist offensichtlich $\text{Rang}\qty\big(B) = 1$.
+  Außerdem ist $x_1 = -x_2 - x_3 - x_4$.
+  Es folgt
+  \begin{flalign*}
+    \text{Kern}\qty\big(B) &= \qty{
+      \begin{pmatrix}
+        -x_2 - x_3 - x_4 \\
+        x_2 \\
+        x_3 \\
+        x_4 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_3, x_4 \in \mathbb{R}
+    } \\
+    &= \qty{
+      \begin{pmatrix}
+        -x_2 \\
+        x_2  \\
+        0    \\
+        0    \\
+      \end{pmatrix} + \begin{pmatrix}
+        -x_3 \\
+        0    \\
+        x_3  \\
+        0    \\
+      \end{pmatrix} + \begin{pmatrix}
+        -x_4 \\
+        0    \\
+        0    \\
+        x_4  \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_3, x_4 \in \mathbb{R}
+    } \\
+    &= \text{Span}\qty(\qty{
+      \begin{pmatrix}
+        -1 \\
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        -1 \\
+        0 \\
+        1 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        -1 \\
+        0 \\
+        0 \\
+        1 \\
+      \end{pmatrix}
+    })
+  \end{flalign*}
+
+  Nun ist $\text{Col}\qty\big(A) = \qty{
+    \begin{pmatrix}
+      5 \\
+      0 \\
+      0 \\
+      0 \\
+    \end{pmatrix},
+    \begin{pmatrix}
+      2 \\
+      1 \\
+      0 \\
+      0 \\
+    \end{pmatrix},
+    \begin{pmatrix}
+      -7 \\
+      -4 \\
+      1  \\
+      2  \\
+    \end{pmatrix},
+    \begin{pmatrix}
+      1 \\
+      0 \\
+      1 \\
+      2 \\
+    \end{pmatrix}
+  }$ und offensichtlich
+  \[
+    \begin{pmatrix}
+      -7 \\
+      -4 \\
+      1  \\
+      2  \\
+    \end{pmatrix} + 4 \cdot \begin{pmatrix}
+      2 \\
+      1 \\
+      0 \\
+      0 \\
+    \end{pmatrix} = \begin{pmatrix}
+      1 \\
+      0 \\
+      1 \\
+      2 \\
+    \end{pmatrix}
+  \]
+  Somit sind die 4 Vektoren nicht linear unabhängig.
+  Allerdings sind $\qty\big(5, 0, 0, 0)^T, \qty\big(2, 1, 0, 0)^T$ und
+  $\qty\big(-7, -4, 1, 2)^T$ offensichtlich linear unabhängig.
+  (Betrachte dazu die letzten beiden Felder).
+
+  $\Rightarrow \dim\qty(\text{Col}\qty\big(A)) = 3$.
+
+  Nun ist für den Vektor $a$
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      5 & 2 & -7 & 0   & 0 \\
+      0 & 1 & -4 & 2   & 0 \\
+      0 & 0 & 1  & -5  & 0 \\
+      0 & 0 & 2  & -10 & 0 \\
+    \end{array})
+    \overset{Z_4 = Z_4 - 2 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & 2 & -7 & 0  & 0 \\
+      0 & 1 & -4 & 2  & 0 \\
+      0 & 0 & 1  & -5 & 0 \\
+      0 & 0 & 0  & 0  & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 + 4 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      5 & 2 & -7 & 0   & 0 \\
+      0 & 1 & 0  & -18 & 0 \\
+      0 & 0 & 1  & -5  & 0 \\
+      0 & 0 & 0  & 0   & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = \frac{1}{5}\qty\big(Z_1 - 2 \cdot Z_2 + 7 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & 0 & 0 & \frac{1}{5} & 0 \\
+      0 & 1 & 0 & -18         & 0 \\
+      0 & 0 & 1 & -5          & 0 \\
+      0 & 0 & 0 & 0           & 0 \\
+    \end{array}) \\
+  \end{flalign*}
+  Somit ist $a$ von 3 weiteren Spaltenvektoren aus $A$ linear abhängig mit zum
+  Beispiel
+  \[
+    \frac{1}{5} \cdot \begin{pmatrix}
+      5 \\
+      0 \\
+      0 \\
+      0 \\
+    \end{pmatrix} - 18 \cdot \begin{pmatrix}
+      2 \\
+      1 \\
+      0 \\
+      0 \\
+    \end{pmatrix} - 5 \cdot \begin{pmatrix}
+      -7 \\
+      -4 \\
+      1  \\
+      2  \\
+    \end{pmatrix} = \begin{pmatrix}
+      0   \\
+      2   \\
+      -5  \\
+      -10 \\
+    \end{pmatrix}
+  \]
+  $\Rightarrow a$ liegt im Spaltenraum $\text{Col}\qty\big(A)$.
+
+  Nun ist der Spaltenraum von $B$ offensichtlich
+  \[
+    \text{Col}\qty\big(B) = \text{Span}\qty(\qty{
+      \begin{pmatrix} 1 \\ 1 \\ 1 \\ 1 \end{pmatrix}
+    })
+  \]
+  und $b$ liegt nicht im Spaltenraum von $B$.
+
+\item Zählen Sie alle Vektoren aus $\text{GF}\qty\big(2)^7$ auf, die im Kern der
+  Matrix $C \in \text{GF}\qty\big(2)^{4 \times 7}$ liegen.
+  Welche Dimension hat der Spaltenraum von $C$?
+
+  \[
+    C \coloneqq \begin{pmatrix}
+      0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+      1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+      1 & 1 & 0 & 1 & 0 & 0 & 0 \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccccccc|c}
+      0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 \\
+      1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+    \end{array})
+    \overset{Z_1 \leftrightarrow Z_3}&\leadsto
+    \qty(\begin{array}{ccccccc|c}
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 \\
+      1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = Z_3 + Z_1 + Z_2}&\leadsto
+    \qty(\begin{array}{ccccccc|c}
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 \\
+    \end{array}) \\
+    \overset{Z_4 = Z_4 + Z_3}&\leadsto
+    \qty(\begin{array}{ccccccc|c}
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 + Z_3}&\leadsto
+    \qty(\begin{array}{ccccccc|c}
+      1 & 1 & 0 & 1 & 0 & 0 & 0 & 0 \\
+      0 & 1 & 1 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 0 & 0 & 0 & 1 & 0 \\
+    \end{array})
+  \end{flalign*}
+  Nun ist $x_7 = 0$, $x_1 = x_2 + x_4$, $x_3 = x_2 + x_6$ und
+  $x_5 = x_4 + x_6$.
+  Folglich ist
+  \begin{flalign*}
+    \text{Kern}\qty\big(C) &= \qty{
+      \begin{pmatrix}
+        x_2 + x_4 \\
+        x_2 \\
+        x_2 + x_6 \\
+        x_4 \\
+        x_4 + x_6 \\
+        x_6 \\
+        0 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_4, x_6 \in \text{GF}\qty\big(2)
+    } \\
+    &= \qty{
+      \begin{pmatrix}
+        x_2 \\
+        x_2 \\
+        x_2 \\
+        0   \\
+        0   \\
+        0   \\
+        0   \\
+      \end{pmatrix} + \begin{pmatrix}
+        x_4 \\
+        0   \\
+        0   \\
+        x_4 \\
+        x_4 \\
+        0   \\
+        0   \\
+      \end{pmatrix} + \begin{pmatrix}
+        0   \\
+        0   \\
+        x_6 \\
+        0   \\
+        x_6 \\
+        x_6 \\
+        0   \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_4, x_6 \in \text{GF}\qty\big(2)
+    } \\
+    &= \text{Span}\qty(\qty{
+      \begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        0 \\
+        0 \\
+        1 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+      \end{pmatrix}
+    })
+  \end{flalign*}
+  Mit $\text{Dim}\qty(\text{Kern}\qty\big(C)) = 2$.
+  Konkret aufgezählt sind die Elemente alle möglichen Summen der drei
+  Basisvektoren (denn in $\text{GF}\qty\big(2)$ können diese 0 oder 1 mal
+  auftreten):
+  \[
+    \qty{
+      \begin{pmatrix}
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        1 \\
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        0 \\
+        0 \\
+        1 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        1 \\
+        1 \\
+        0 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        1 \\
+        0 \\
+        1 \\
+        1 \\
+        0 \\
+        1 \\
+        0 \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        0 \\
+        1 \\
+        0 \\
+        1 \\
+        0 \\
+        1 \\
+        0 \\
+      \end{pmatrix}
+    }
+  \]
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 6.5 Lösbarkeit linearer Gleichungssysteme}
+Es seien $A = \begin{pmatrix}
+  1  & 0 & 0 \\
+  -2 & 0 & 1 \\
+  4  & a & b \\
+\end{pmatrix} \in \mathbb{R}^{3 \times 3}$
+und $u = \begin{pmatrix} 1 \\ 2 \\ 7 \end{pmatrix} \in \mathbb{R}^3$.
+Finden Sie alle Werte für $a, b \in \mathbb{R}$ für die das lineare
+Gleichungssystem $Ax = u$
+\begin{enumerate}[(a)]
+\item keine Lösung
+\item genau eine Lösung
+\item mehrere Lösungen
+\end{enumerate}
+hat.
+Geben Sie die Lösungsmengen von (b) und (c) an.
+
+\subparagraph{Lsg.} Eine lineares Gleichungssystem hat
+\begin{enumerate}[(a)]
+\item keine Lösung, falls zwei Gleichungen in Widerspruch zueinander stehen, dass
+  heißt einer Nullzeile in $A$ ein von Null verschiedener Wert in $b$ zugeordnet
+  ist, oder zwei gleiche Zeilen in $A$ unterschiedliche Werte in $b$ besitzen.
+
+  Anders ausgedrückt $\text{Rang}\qty\big(A) < \text{Rang}\qty\big{A|b}$.
+
+\item genau eine Lösung, falls
+  $\text{Rang}\qty\big(A) = \text{Rang}\qty\big{A|b}$ und gleich der Anzahl der
+  Variablen ist.
+
+\item mehrere Lösungen, falls $\text{Rang}\qty\big(A) = \text{Rang}\qty\big{A|b}$
+  und kleiner der Anzahl der Variablen ist.
+\end{enumerate}
+
+Nun ist
+\begin{enumerate}[(a)]
+\item $\text{Rang}\qty\big(A) < \text{Rang}\qty\big{A|b}$, wenn eine oder
+  mehrere Zeilen in $A$ linear abhängig sind, dafür allerdings in
+  $\text{Rang}\qty\big(A|b)$ auf einmal linear unabhängig wären.
+  Dabei sind die erste und die zweite Zeile bereits offensichtlich linear
+  unabhängig.
+
+  Allerdings wären
+  \begin{itemize}
+  \item die erste und die dritte Zeile linear abhängig, falls $a = b = 0$
+  \item die zweite und die dritte Zeile linear abhängig, falls $a = 0$ und
+    $b = -2$.
+  \item die dritte von den ersten beiden Zeilen linear abhängig, falls
+    $a = 0$ und $b$ eine Lösung für $-2 \cdot b + x = 4$ mit $x \in \mathbb{R}$
+    ist.
+    Nun gibt es für jedes $x \in \mathbb{R}$ ein entsprechendes $b$, damit ist
+    die dritte Zeile für $a = 0$ immer linear abhängig.
+  \end{itemize}
+  Nun ist
+  \[
+    \qty(\begin{array}{ccc|c}
+      1  & 0 & 0 & 1 \\
+      -2 & 0 & 1 & 2 \\
+      4  & 0 & b & 7 \\
+    \end{array})
+    \overset{Z_2 = Z_2 + 2 \cdot Z_1}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 4 \\
+      4 & 0 & b & 7 \\
+    \end{array})
+    \overset{Z_3 = Z_3 - 4 \cdot Z_1 - \frac{3}{4} \cdot Z_2}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0               & 1 \\
+      0 & 0 & 1               & 4 \\
+      0 & 0 & b - \frac{3}{4} & 0 \\
+    \end{array})
+  \]
+  und das die zweite und dritte Zeile ständen für $b \ne \frac{3}{4}$ im
+  Widerspruch.
+
+  $\Rightarrow$ das LGS hat für $a = 0$ und $b \ne \frac{3}{4}$ keine Lösung.
+
+\item Das LGS hat 3 unbekannte.
+  Somit muss für genau eine Lösung
+  $\text{Rang}\qty\big(A) = \text{Rang}\qty\big(A|b) = 3$ sein.
+  Nun wurde in (a) bereits gezeigt, dass $\text{Rang}\qty\big(A) = 3$, falls
+  $a \ne 0$.
+  Nun ist
+  \[
+    \qty(\begin{array}{ccc|c}
+      1  & 0 & 0 & 1 \\
+      -2 & 0 & 1 & 2 \\
+      4  & a & b & 7 \\
+    \end{array})
+    \overset{Z_2 = Z_2 + 2 \cdot Z_1}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 4 \\
+      4 & a & b & 7 \\
+    \end{array})
+    \overset{Z_3 = Z_3 - 4 \cdot Z_1 - \frac{3}{4} \cdot Z_2}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0               & 1 \\
+      0 & 0 & 1               & 4 \\
+      0 & a & b - \frac{3}{4} & 0 \\
+    \end{array})
+  \]
+  und $x_1 = 1$, $x_3 = 4$ sowie
+  \begin{flalign*}
+    a \cdot x_2 &= x_3\qty\big(\frac{3}{4} - b) \\
+    \overset{x_3 = 4}&= 3 - 4 \cdot b && {\Big |} \cdot \frac{1}{a}, a \ne 0 \\
+    x_2 &= \frac{3 - 4b}{a}
+  \end{flalign*}
+  Dementsprechend ist
+  \[
+    L = \qty{\begin{pmatrix}
+      1 \\
+      \frac{3 - 4b}{a} \\
+      4 \\
+    \end{pmatrix} \:\middle|\: a \ne 0, b \in \mathbb{R}}
+  \]
+
+\item $\text{Rang}\qty\big(A) = \text{Rang}\qty\big{A|b} < 3$, falls
+  die dritte Zeile der erweiterten Koeffizientenmatrix linear abhängig ist.
+  In (a) wurde bereits ermittelt, dass dies für $a = 0$ und $b = \frac{3}{4}$
+  der Fall ist.
+
+  Nun ist
+  \[
+    \qty(\begin{array}{ccc|c}
+      1  & 0 & 0           & 1 \\
+      -2 & 0 & 1           & 2 \\
+      4  & 0 & \frac{3}{4} & 7 \\
+    \end{array})
+    \overset{Z_2 = Z_2 + 2 \cdot Z_1}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0           & 1 \\
+      0 & 0 & 1           & 4 \\
+      4 & 0 & \frac{3}{4} & 7 \\
+    \end{array})
+    \overset{Z_3 = Z_3 - 4 \cdot Z_1 - \frac{3}{4} \cdot Z_2}\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 4 \\
+      0 & 0 & 0 & 0 \\
+    \end{array})
+  \]
+  und
+  \[
+    L = \qty{\begin{pmatrix}
+      1 \\
+      \lambda \\
+      4 \\
+    \end{pmatrix} \:\middle|\: \lambda \in \mathbb{R}}
+  \]
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 6.6 Zeilenumformungen ändern nicht den Rang}
+Es seien $A$ und $B$ zwei $\qty\big(m \times n)$-Matrizen über einem Körper $K$
+und $u_1, \ldots, u_m \in K^n$ bzw. $z_1, \ldots, z_m \in K^m$ seine die Zeilen von
+$A$ bzw. $B$.
+Beweisen Sie: Entsteht $B$ aus $A$ durch eine elementare Zeilenumformung, dann
+ist
+$\text{Span}\qty\big{u_1, \ldots, u_m} = \text{Span}\qty\big{z_1, \ldots, z_m}$.
+
+\subparagraph{Lsg.} Elementare Zeilenumformungen sind
+\begin{enumerate}[(i)]
+\item Vertauschen zweier Zeilen
+\item Multiplizieren einer Zeile mit einem $k \ne 0 \in K$
+\item Addieren des $k$-fachen ($k \in K$) einer Zeile zu einer anderen Zeile.
+\end{enumerate}
+
+\noindent
+Sein nun $B$ durch elementare Zeilenumformungen aus $A$ entstanden, dann lässt
+sich jedes $z_i$, $1 \leq i \leq m$ als
+\[
+  z_i = \lambda \cdot u_j + \sum_{\underset{l \ne j}{l = 1}}^m k_l \cdot u_l,
+  \qquad
+  \lambda \ne 0, k_l \in K
+\]
+beschreiben.
+Somit ist $z_i$ eine Linearkombination der $u_1, \ldots, u_m$.
+
+$\Rightarrow$ alle Zeilenvektoren in $B$ sind von den Zeilenvektoren in $A$
+linear Abhängig und $\text{Rang}\qty\big(B) = \dim\qty(\text{Row}\qty\big(B))
+\leq \text{dim}\qty(\text{Row}\qty\big(A)) = \text{Rang}\qty\big(A)$.
+Außerdem ist jedes $z_i \in \text{Span}\qty\big(u_1, \ldots, u_m)$.
+\\
+
+\noindent
+Nun lässt sich jede einzelne elementare Zeilenumformung durch eine andere
+elementare Zeilenumformung umkehren:
+\begin{enumerate}[(i)]
+\item Zwei Zeilen lassen sich zurück vertauschen.
+\item Da $K$ ein Körper, existiert auf $\frac{1}{k} \in K \setminus \qty\big{0}$,
+  mit dem die Zeile wieder multipliziert werden kann.
+\item Da $K$ ein Körper, existiert $-k \in K$ und die Zeile kann mit dem
+  $-k$-fachen einer anderen Zeile addiert werden.
+\end{enumerate}
+Damit lässt entsteht auch wieder $A$ aus $B$ durch elementare Zeilenumformungen
+und analog zu oben
+
+$\Rightarrow$ alle Zeilenvektoren in $A$ sind von den Zeilenvektoren in $B$
+linear Abhängig und $\text{Rang}\qty\big(A) = \dim\qty(\text{Row}\qty\big(A))
+\leq \text{dim}\qty(\text{Row}\qty\big(B)) = \text{Rang}\qty\big(B)$.
+Außerdem ist jedes $u_i \in \text{Span}\qty\big(z_1, \ldots, z_m)$
+
+$\Rightarrow \text{Rang}\qty\big(A) = \text{Rang}\qty\big(B)$ und
+$\text{Span}\qty\big{u_1, \ldots, u_m} = \text{Span}\qty\big{z_1, \ldots, z_m}$.
+
+\end{document}
