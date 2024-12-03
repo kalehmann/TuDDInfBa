@@ -1,0 +1,712 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 7\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü7.3}
+\begin{enumerate}[(a)]
+\item \textbf{Lineare Abbildungen}
+
+  Welche der folgenden Abbildungen $f_i$ auf den gegebenen $K$-Vektorräumen sind
+  linear?
+
+  \begin{enumerate}[(i)]
+  \item $K$, $V$ beliebig, $f_1 \colon V \times V \to V$ mit
+    $f_1\qty\big(x_1, x_2) \coloneqq x_1$.
+
+  \item $K = \mathbb{C}$, $f_2 \colon \mathbb{C} \to \mathbb{C}^2$ mit
+    $f_2\qty\big(x) \coloneqq \qty\big(x - 2, x + 1)^T$
+
+  \item $K = \mathbb{R}$,
+    $f_3 \colon \text{Abb}\qty\big(\mathbb{R}, \mathbb{R}) \to \mathbb{R}$ mit
+    $f_3\qty\big(g) \coloneqq g\qty\big(1)$.
+
+  \item $K = \mathbb{R}$, $f_4 \colon \mathbb{R}^3 \to \mathbb{R}^3$ mit
+    $f_4 \qty\big(x_1, x_2, x_3) \coloneqq
+    \qty\big(2x_1 + 2x_2, 3x_2 - 2x_3, 2x_3 - x_1)^T$
+  \end{enumerate}
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(i)]
+  \item Sein $a, b \in V \times V$, $\lambda \in K$ beliebig mit
+    $a \coloneqq \qty\big(a_1, a_2)^T$ sowie $b \coloneqq \qty\big(b_1, b_2)^T$.
+    Dann ist
+    \begin{flalign*}
+      f_1 \qty\big(a + \lambda \cdot b)
+      &= f_1 \qty(\qty\big(a_1, a_2)^T + \lambda \cdot \qty\big(b_1, b_2)^T) \\
+      &= f_1 \qty(\qty\big(a_1, a_2)^T + \qty\big(\lambda b_1, \lambda b_2)^T) \\
+      &= f_1 \qty(\qty\big(a_1 + \lambda b_1, a_2 + \lambda b_2)^T) \\
+      &= a_1 + \lambda b_1 \\
+      &= f_1\qty\big(a) + \lambda f_1\qty\big(b)
+    \end{flalign*}
+    $\Rightarrow f_1$ ist linear.
+
+  \item Sei $x = 1$, $\lambda = 2$.
+    Dann ist
+    \begin{flalign*}
+      f_2\qty\big(\lambda \cdot x) = f_2\qty\big(2)
+      &= \qty\big(2 - 2, 2 + 1)^T = \qty\big(0, 3)^T \\
+      & \ne \qty\big(-2, 4)^T = \qty\big(2 \cdot (-2), 2 \cdot 2)^T \\
+      &= 2 \cdot \qty\big(1 - 2, 1 + 1)^T \\
+      &= 2 \cdot f_2\qty\big(1) = \lambda \cdot f_2\qty\big(x)
+    \end{flalign*}
+    $\Rightarrow f_2$ ist nicht linear
+
+  \item Sei $g \coloneqq \mathbb{R} \to \mathbb{R}$,
+    $h \colon \mathbb{R} \to \mathbb{R}$ und $\lambda \in \mathbb{R}$
+    beliebig.
+
+    Seien weiter $x_1 = g\qty\big(1)$ und $x_2 = h\qty\big(1)$.
+    Nun ist
+    \begin{flalign*}
+      f_3\qty\big(g + \lambda \cdot h)
+      &= \qty\big(g + \lambda \cdot h)\qty\big(1) \\
+      &= g\qty\big(1) + \qty\big(\lambda \cdot h)\qty\big(1) \\
+      &= g\qty\big(1) + \lambda h\qty\big(1) \\
+      &= x_1 + \lambda x_2 \\
+      &= f_3\qty\big(g) + \lambda f_3\qty\big(h)
+    \end{flalign*}
+    $\Rightarrow f_3$ ist linear.
+
+  \item Seien $a, b \in \mathbb{R}^3$, $\lambda \in \mathbb{R}$ beliebig mit
+    $a \coloneqq \qty\big(a_1, a_2, a_3)^T$ sowie
+    $b \coloneqq \qty\big(b_1, b_2, b_3)^T$.
+    Dann ist
+    \begin{flalign*}
+      f_4 \qty\big(a + \lambda \cdot b)
+      &= f_4 \qty(\qty\big(a_1, a_2, a_3)^T + \lambda \cdot \qty\big(b_1, b_2, b_3)^T) \\
+      &= f_4 \qty(\qty\big(a_1, a_2, a_3)^T + \qty\big(\lambda b_1, \lambda b_2, \lambda b_3)^T) \\
+      &= f_4 \qty(\qty\big(a_1 + \lambda b_2, a_2 + \lambda b_2, a_3 + \lambda b_3)^T) \\
+      &= \begin{pmatrix}
+        2 \cdot \qty\big(a_1 + \lambda b_1) + 2 \cdot \qty\big(a_2 + \lambda b_2) \\
+        3 \cdot \qty\big(a_2 + \lambda b_2) - 2 \cdot \qty\big(a_3 + \lambda b_3) \\
+        2 \cdot \qty\big(a_3 + \lambda b_3) - \qty\big(a_1 + \lambda b_1) \\
+      \end{pmatrix}\\
+      &= \begin{pmatrix}
+        2a_1 + 2 \lambda b_1 + 2a_2 + 2 \lambda b_2 \\
+        3 a_2 + 3 \lambda b_2 - 2 a_3 - 2 \lambda b_3 \\
+        2 a_3 + 2 \lambda b_3 - a_1 - \lambda b_1 \\
+      \end{pmatrix}\\
+      &= \begin{pmatrix}
+        2a_1 + 2a_2 + 2 \lambda b_1 + 2 \lambda b_2 \\
+        3 a_2 - 2 a_3 + 3 \lambda b_2 - 2 \lambda b_3 \\
+        2 a_3 - a_1 +  2 \lambda b_3 - \lambda b_1 \\
+      \end{pmatrix}\\
+      &= \begin{pmatrix}
+        2a_1 + 2a_2 \\
+        3 a_2 - 2 a_3 \\
+        2 a_3 - a_1  \\
+      \end{pmatrix} + \begin{pmatrix}
+        2 \lambda b_1 + 2 \lambda b_2 \\
+        3 \lambda b_2 - 2 \lambda b_3 \\
+        2 \lambda b_3 - \lambda b_1
+      \end{pmatrix} \\
+      &= \begin{pmatrix}
+        2a_1 + 2a_2 \\
+        3 a_2 - 2 a_3 \\
+        2 a_3 - a_1  \\
+      \end{pmatrix} + \lambda \cdot \begin{pmatrix}
+        2 b_1 + 2 b_2 \\
+        3 b_2 - 2 b_3 \\
+        2 b_3 - b_1
+      \end{pmatrix} \\
+      &= f_4\qty\big(a) + \lambda \cdot f_4\qty\big(b)
+    \end{flalign*}
+    $\Rightarrow f_4$ ist linear.
+
+    \textbf{Alternativ nach der Übung:} $f_4$ lässt sich auch durch die Matrix
+      $\begin{pmatrix}
+        2  & 2 & 0  \\
+        0  & 3 & -1 \\
+        -1 & 0 & 2  \\
+      \end{pmatrix}$ darstellen und ist damit automatisch linear.
+  \end{enumerate}
+
+\item \textbf{Spezielle lineare Abbildungen}
+
+  Es sei $V$ ein $K$-Vektorraum über einem Körper $K$.
+
+  \begin{enumerate}[(i)]
+  \item Beweisen Sie: Die identische Abbildung
+    $\text{id}_V \colon V \to V, v \mapsto v$ ist linear.
+
+    \subparagraph{Lsg.} Seien $a, b \in V$, $\lambda \in K$ beliebig.
+    Dann ist $\text{id}\qty\big(a + \lambda \cdot b) = a + \lambda \cdot b$.
+    Außerdem ist auch
+    $\text{id}\qty\big(a) + \lambda \cdot \text{id}\qty\big(b)
+    = a + \lambda \cdot b$.
+
+  \item Beweisen Sie: Die Nullabbildung
+    $c_0 \colon V \to V, v \mapsto 0_V$ ist linear.
+
+    \subparagraph{Lsg.} Seien $a, b \in V$, $\lambda \in K$ beliebig.
+    Dann ist $\text{id}\qty\big(a + \lambda \cdot b) = 0_V$.
+    Außerdem ist auch
+    $\text{id}\qty\big(a) + \lambda \cdot \text{id}\qty\big(b)
+    = 0_V + \lambda \cdot 0_V$ und mit den üblichen Rechenregel für $0_V$ ist
+    $0_V + \lambda \cdot 0_V = 0_V$.
+  \end{enumerate}
+\end{enumerate}
+
+\paragraph{7.4 Kern und Bild linearer Abbildungen}\phantom{\null}
+
+Wir untersuchen die durch $f(\begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}) =
+\begin{pmatrix}
+  1  & 2 & -1 \\
+  -3 & 0 & 1  \\
+\end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ x_3 \end{pmatrix}$ gegebene lineare
+Abbildung $f \colon \mathbb{R}^3 \to \mathbb{R}^2$.
+\begin{enumerate}[(a)]
+\item \label{7_4_a} Bestimmen Sie eine Basis des Bildes $\text{Im}\qty\big(f)$
+  und des Kerns $\text{Ker}\qty\big(f)$ von $f$.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      1  & 2 & -1 & 0 \\
+      -3 & 0 & 1  & 0 \\
+    \end{array})
+    \overset{Z_2 = \frac{1}{6}\qty\big(Z_2 + 3 \cdot Z_1)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 2 & -1           & 0 \\
+      0 & 1 & -\frac{1}{3} & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 2 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & -\frac{1}{3}  & 0 \\
+      0 & 1 & -\frac{1}{3} & 0 \\
+    \end{array})
+  \end{flalign*}
+  Somit ist $x_1 = \frac{1}{3}x_3$ sowie $x_2 = \frac{1}{3}x_3$.
+  Also ist
+  \[
+    \text{Kern}\qty\big(f) = \qty{
+      \begin{pmatrix}
+        \frac{1}{3}x_3 \\
+        \frac{1}{3}x_3 \\
+        x_3 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_3 \in \mathbb{R}
+    } = \text{Span}\qty{\begin{pmatrix}
+        1 \\
+        1 \\
+        3 \\
+      \end{pmatrix}}
+  \]
+  mit $\qty{\qty\big(1, 1, 3)^T}$ als Basis des Kerns von $f$.
+
+  Nun ist das Bild einer linearen Abbildung der Aufspann der Spalten der
+  Abbildungsmatrix.
+  Für eine Basis des Bildes müssen somit die linear unabhängigen
+  Spaltenvektoren der Abbildungsmatrix bestimmt werden.
+
+  Nun ist
+  \begin{flalign*}
+    \begin{pmatrix}
+      1  & -3 \\
+      2  & 0  \\
+      -1 & 1  \\
+    \end{pmatrix}
+    \overset{Z_3 = 2 \cdot Z_3 + Z_2}&\leadsto
+    \begin{pmatrix}
+      1 & -3 \\
+      2 & 0  \\
+      0 & 2  \\
+    \end{pmatrix} \\
+    \overset{Z_1 = 2 \cdot Z_1 - Z_2 + 3 \cdot Z_3}&\leadsto
+    \begin{pmatrix}
+      0 & 0 \\
+      2 & 0 \\
+      0 & 2 \\
+    \end{pmatrix}
+  \end{flalign*}
+  $\Rightarrow$ die zweite und dritte Spalte der Abbildungsmatrix
+  sind linear unabhängig und
+  $\qty(\begin{pmatrix}2 \\ 0 \end{pmatrix},
+  \begin{pmatrix} -1 \\ 1 \end{pmatrix})$ ist eine angeordnete Basis des Bildes
+  von $f$.
+
+  \textbf{Alternativ nach der Übung:} Man sieht auch schon direkt aus der
+  reduzierten Zeilenstufenform für die Berechnung des Kerns, dass die dritte
+  Spalte von den ersten beiden linear abhängig ist, mit
+  \[
+    -\frac{1}{3} \begin{pmatrix} 1 \\ -3 \end{pmatrix}
+    - \frac{1}{3} \begin{pmatrix} 2 \\ o \end{pmatrix}
+    = \begin{pmatrix} -1 \\ 1 \end{pmatrix}
+  \]
+
+\newpage
+\item Ist $f$ injektiv, surjektiv oder bijektiv?
+  Begründen Sie Ihre Antworten!
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $f\qty(\qty\big(1, 0, 0)^T) = \qty\big(1, -3)^T$
+  \item $f\qty(\qty\big(0, 1, 0)^T) = \qty\big(2, 0)^T$
+  \item $f\qty(\qty\big(0, 0, 1)^T) = \qty\big(-1, 1)^T$
+  \end{itemize}
+  Nun sind die 3 Vektoren nach \hyperref[7_4_a]{Teilaufgabe (a)} linear
+  abhängig.
+  Somit ist $f$ nicht injektiv.
+  Allerdings ist $\qty(\begin{pmatrix}2 \\ 0 \end{pmatrix},
+  \begin{pmatrix} -1 \\ 1 \end{pmatrix})$ eine angeordnete Basis von
+  $\mathbb{R}^2$ und $f$ somit surjektiv.
+\end{enumerate}
+
+\paragraph{Ü 7.5 Äquivalente Bedingungen für die Existenz inverser Matrizen}
+
+\label{7_5}
+Es sei $A \in K^{n \times n}$ eine beliebige Matrix über einem Körper $K$.
+Zeigen Sie, dass folgende Aussagen äquivalent sind:
+\begin{enumerate}[(1)]
+\item $A$ ist invertierbar
+\item $\text{Kern}\qty\big(A) = \qty{0_{K^n}}$
+\item $\text{rg}\qty\big(A) = n$
+\end{enumerate}
+
+\subparagraph{Lsg.}
+\begin{itemize}
+\item[$(1) \Rightarrow (3)$]  Sei $A$ invertierbar.
+  Dann existiert eine Matrix $A^{-1} \in K^{n \times n}$ mit
+  $A \cdot A^{-1} = E_n$.
+  Seien nun $Z_1, \ldots, Z_n$ die Zeilenvektoren von $A$ und
+  $S_1, \ldots, S_n$ die Spaltenvektoren von $A^{-1}$.
+
+  Angenommen es wären $Z_1, \ldots, Z_n$ linear abhängig, dann existiert
+  $Z_i$, $1 \leq i \leq n$ mit $Z_i = \sum_{j = 1, j \ne i}^n \lambda_j \cdot Z_j$.
+  Nun ist $Z_i \cdot S_i = E_{(i,i)} = 1$.
+  Da $Z_i$ linear abhängig ist
+  \[
+    1 = \qty(\sum_{j = 1, j \ne i}^n \lambda_j \cdot Z_j) \cdot S_i
+    = \sum_{j = 1, j \ne i}^n \lambda_j \cdot \qty\big(Z_j \cdot S_i)
+  \]
+  Dafür muss mindestens ein $Z_j \cdot S_i \ne 0$ sein.
+  Folglich hat $A \cdot S_i$ mindestens zwei Elemente ungleich Null, ein
+  Widerspruch zu $A \cdot A^{-1} = A \cdot \qty\big(S_1, \ldots, S_n) = E_n$,
+  da in jeder Spalte nur ein einziges Element ungleich Null ist.
+
+  $\Rightarrow Z_1, \ldots, Z_n$ sind linear unabhängig.
+
+  Somit ``\emph{$A$ ist invertierbar'' $\Rightarrow$} ``\emph{$\text{rg}\qty\big(A) = n$}''
+
+\item[$(3) \Rightarrow (2)$] Sei $A \in K^{n \times n}$ beliebig mit
+  $\text{rg}\qty\big(A) = n$.
+  Nach der Dimensionsformel ist
+  \[
+    \text{dim}\qty(\text{Kern}\qty\big(A)) = n - \text{rg}\qty\big(A) = 4 - 4 = 0
+  \]
+  Also ist $\text{Kern}\qty\big(A)$ ein Untervektorraum von $K^n$ mit der
+  Dimension $0$ und tatsächlich hat $K^n$ genau einen solchen Untervektorraum,
+  nämlich $\qty{0_{K^n}}$.
+
+\item[$(2) \Rightarrow (1)$] Sei $A \in K^{n \times n}$ beliebig mit
+  $\text{Kern}\qty\big(A) = \qty{0_{K^n}}$.
+
+  Aus der Dimensionsformel folgt $\text{rg}\qty\big(A) = n$ und somit sind
+  alle Spalten $S_1, \ldots, S_n$ von $A$ linear unabhängig.
+  Somit sind $\qty\big(S_1, \ldots S_n)$ eine angeordnete Basis des Vektorraum
+  $K^n$ und alle Elemente aus $K^n$ sind durch Linearkombinationen der
+  $S_1, \ldots, S_n$ darstellbar, insbesondere die Zeilen $Z_1, \ldots, Z_n$ von
+  $E_n$.
+
+  Es ist jedes $Z_i = \sum_{k = 1}^n \lambda_{k, i} \cdot S_k
+  = \sum_{k = 1}^n S_k \cdot \lambda_{k, i}$ und somit
+  \[
+    A \cdot \begin{pmatrix}
+      \lambda_{1, i} \\
+      \vdots \\
+      \lambda_{n, i}
+    \end{pmatrix} = Z_i
+  \]
+  und folglich
+  \[
+    A \cdot \begin{pmatrix}
+      \lambda_{1, 1} & \ldots & \lambda_{1, n}\\
+      \vdots & \ddots & \vdots \\
+      \lambda_{n, 1} & \ldots & \lambda_{n, n} \\
+    \end{pmatrix} = E_n
+  \]
+  $\Rightarrow A$ ist invertierbar.
+\end{itemize}
+
+\paragraph{Ü 7.6 Matrixinvertierung mit dem Gauß-Verfahren}
+
+\begin{enumerate}[(a)]
+\item Sind die folgenden Matrizen über $\mathbb{C}$ bzw. $\mathbb{R}$
+  invertierbar?
+  Geben Sie die inverse Matrix an, falls möglich.
+  \[
+    A_1 = \begin{pmatrix}
+      1     & i - 1 \\
+      i + 1 & 1     \\
+    \end{pmatrix}, \quad
+    A_2 = \begin{pmatrix}
+      1 & 3  & 4 \\
+      2 & -1 & 5 \\
+      1 & 4  & 3 \\
+    \end{pmatrix}, \quad
+    A_3 = \begin{pmatrix}
+      6 & 3 & 4 & 5 \\
+      1 & 2 & 2 & 1 \\
+      2 & 4 & 3 & 2 \\
+      3 & 3 & 4 & 2 \\
+    \end{pmatrix}, \quad
+    A_4 = \begin{pmatrix}
+      0 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 \\
+      0 & 1 & 0 & 0 \\
+      1 & 0 & 0 & 0 \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \qty(\begin{array}{cc|cc}
+      1     & i - 1 & 1 & 0 \\
+      i + 1 & 1     & 0 & 1 \\
+    \end{array})
+    \overset{Z_2 = Z_2 - \qty\big(i + 1) \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cc|cc}
+      1 & i - 1 & 1      & 0 \\
+      0 & 3     & -1 - i & 1 \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{3}Z_2}&\leadsto
+    \qty(\begin{array}{cc|cc}
+      1 & i - 1 & 1                          & 0           \\
+      0 & 1     & -\frac{1}{3} - \frac{i}{3} & \frac{1}{3} \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - \qty\big(i - 1) \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cc|cc}
+      1 & 0 & \frac{1}{3}               & \frac{1}{3} - \frac{i}{3} \\
+      0 & 1 & \frac{1}{3} - \frac{i}{3} & \frac{1}{3}               \\
+    \end{array})
+  \end{flalign*}
+  Somit ist
+  \[
+    A_1^{-1} = \begin{pmatrix}
+      \frac{1}{3}               & \frac{1}{3} - \frac{i}{3} \\
+      \frac{1}{3} - \frac{i}{3} & \frac{1}{3}               \\
+    \end{pmatrix}
+  \]
+
+  \newpage
+  Weiter ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|ccc}
+      1 & 3  & 4 & 1 & 0 & 0 \\
+      2 & -1 & 5 & 0 & 1 & 0 \\
+      1 & 4  & 3 & 0 & 0 & 1 \\
+    \end{array})
+    \overset{Z_2 = Z_2 - 2 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 3  & 4  & 1  & 0 & 0 \\
+      0 & -7 & -3 & -2 & 1 & 0 \\
+      1 & 4  & 3  & 0  & 0 & 1 \\
+    \end{array}) \\
+    \overset{Z_3 = Z_3 - Z_1}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 3  & 4  & 1  & 0 & 0 \\
+      0 & -7 & -3 & -2 & 1 & 0 \\
+      0 & 1  & -1 & -1 & 0 & 1 \\
+    \end{array}) \\
+    \overset{Z_3 = 7 \cdot Z_3 + Z_2}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 3  & 4   & 1  & 0 & 0 \\
+      0 & -7 & -3  & -2 & 1 & 0 \\
+      0 & 0  & -10 & -9 & 1 & 7 \\
+    \end{array}) \\
+    \overset{Z_2 = -\frac{1}{7}\qty\big(10 \cdot Z_2 - 3 Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 3  & 4   & 1  & 0  & 0 \\
+      0 & 10 & 0   & -1 & -1 & 3 \\
+      0 & 0  & -10 & -9 & 1  & 7 \\
+    \end{array}) \\
+    \overset{Z_1 = 10 \cdot Z_1 - 3 Z_2}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      10 & 0  & 40  & 13 & 3  & -9 \\
+      0  & 10 & 0   & -1 & -1 & 3  \\
+      0  & 0  & -10 & -9 & 1  & 7  \\
+    \end{array}) \\
+    \overset{Z_1 = \frac{1}{10}\qty\big(Z_1 + 4 Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 0  & 0   & -\frac{23}{10} & \frac{7}{10} & \frac{19}{10} \\
+      0 & 10 & 0   & -1             & -1           & 3             \\
+      0 & 0  & -10 & -9             & 1            & 7             \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{10}Z_2}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 0 & 0   & -\frac{23}{10} & \frac{7}{10}  & \frac{19}{10} \\
+      0 & 1 & 0   & -\frac{1}{10}  & -\frac{1}{10} & \frac{3}{10}  \\
+      0 & 0 & -10 & -9             & 1             & 7             \\
+    \end{array}) \\
+    \overset{Z_3 = -\frac{1}{10}Z_3}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 0 & 0 & -\frac{23}{10} & \frac{7}{10}  & \frac{19}{10} \\
+      0 & 1 & 0 & -\frac{1}{10}  & -\frac{1}{10} & \frac{3}{10}  \\
+      0 & 0 & 1 & \frac{9}{10}   & -\frac{1}{10} & -\frac{7}{10} \\
+    \end{array}) \\
+  \end{flalign*}
+  Somit ist
+  \[
+    A_2^{-1} = \begin{pmatrix}
+      -\frac{23}{10} & \frac{7}{10}  & \frac{19}{10} \\
+      -\frac{1}{10}  & -\frac{1}{10} & \frac{3}{10}  \\
+      \frac{9}{10}   & -\frac{1}{10} & -\frac{7}{10} \\
+    \end{pmatrix}
+  \]
+
+  \newpage
+  Für die Matrix $A_3$:
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1 & 0 & 0 & 0 \\
+      1 & 2 & 2 & 1 & 0 & 1 & 0 & 0 \\
+      2 & 4 & 3 & 2 & 0 & 0 & 1 & 0 \\
+      3 & 3 & 4 & 2 & 0 & 0 & 0 & 1 \\
+    \end{array})
+    \overset{Z_2 = 2 \cdot Z_2 - \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1 & 0 & 0  & 0 \\
+      0 & 0 & 1 & 0 & 0 & 2 & -1 & 0 \\
+      2 & 4 & 3 & 2 & 0 & 0 & 1  & 0 \\
+      3 & 3 & 4 & 2 & 0 & 0 & 0  & 1 \\
+    \end{array}) \\
+    \overset{Z_2 \leftrightarrow Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1 & 0 & 0  & 0 \\
+      2 & 4 & 3 & 2 & 0 & 0 & 1  & 0 \\
+      0 & 0 & 1 & 0 & 0 & 2 & -1 & 0 \\
+      3 & 3 & 4 & 2 & 0 & 0 & 0  & 1 \\
+    \end{array}) \\
+    \overset{Z_2 = 3 \cdot Z_2 - Z_1}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1  & 0 & 0  & 0 \\
+      0 & 9 & 5 & 1 & -1 & 0 & 3  & 0 \\
+      0 & 0 & 1 & 0 & 0  & 2 & -1 & 0 \\
+      3 & 3 & 4 & 2 & 0  & 0 & 0  & 1 \\
+    \end{array}) \\
+    \overset{Z_4 = 2 \cdot Z_4 - Z_1}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5  & 1  & 0 & 0  & 0 \\
+      0 & 9 & 5 & 1  & -1 & 0 & 3  & 0 \\
+      0 & 0 & 1 & 0  & 0  & 2 & -1 & 0 \\
+      0 & 3 & 4 & -1 & -1 & 0 & 0  & 2 \\
+    \end{array}) \\
+    \overset{Z_4 = 3 \cdot Z_4 - Z_2}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5  & 1  & 0 & 0  & 0 \\
+      0 & 9 & 5 & 1  & -1 & 0 & 3  & 0 \\
+      0 & 0 & 1 & 0  & 0  & 2 & -1 & 0 \\
+      0 & 0 & 7 & -4 & -2 & 0 & -3 & 6 \\
+    \end{array}) \\
+    \overset{Z_4 = Z_4 - 7 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5  & 1  & 0   & 0  & 0 \\
+      0 & 9 & 5 & 1  & -1 & 0   & 3  & 0 \\
+      0 & 0 & 1 & 0  & 0  & 2   & -1 & 0 \\
+      0 & 0 & 0 & -4 & -2 & -14 & 4  & 6 \\
+    \end{array}) \\
+    \overset{Z_4 = -\frac{1}{4}Z_4}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1           & 0           & 0  & 0            \\
+      0 & 9 & 5 & 1 & -1          & 0           & 3  & 0            \\
+      0 & 0 & 1 & 0 & 0           & 2           & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2} & \frac{7}{2} & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 - 5 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1           & 0           & 0  & 0            \\
+      0 & 9 & 0 & 1 & -1          & -10         & 8  & 0            \\
+      0 & 0 & 1 & 0 & 0           & 2           & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2} & \frac{7}{2} & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_2 = Z_2 - Z_4}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1            & 0             & 0  & 0            \\
+      0 & 9 & 0 & 0 & -\frac{3}{2} & -\frac{27}{2} & 9  & \frac{3}{2}  \\
+      0 & 0 & 1 & 0 & 0            & 2             & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}   & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{9} \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1            & 0            & 0  & 0            \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+  \end{flalign*}
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|cccc}
+      6 & 3 & 4 & 5 & 1            & 0            & 0  & 0            \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array})
+    \overset{Z_1 = Z_1 - 3 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 0 & 4 & 5 & \frac{3}{2}  & \frac{9}{2}  & -3 & -\frac{1}{2} \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 4 \cdot Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 0 & 0 & 5 & \frac{3}{2}  & -\frac{7}{2}  & 1  & -\frac{1}{2} \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 5 \cdot Z_4}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      6 & 0 & 0 & 0 & -1           & -21          & 6  & 7            \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array}) \\
+    \overset{Z_1 = \frac{1}{6} \cdot Z_1}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      1 & 0 & 0 & 0 & -\frac{1}{6} & -\frac{7}{2} & 1  & \frac{7}{6}  \\
+      0 & 1 & 0 & 0 & -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0 & 0 & 1 & 0 & 0            & 2            & -1 & 0            \\
+      0 & 0 & 0 & 1 & \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{array})
+  \end{flalign*}
+  Somit ist
+  \[
+    A_3^{-1} = \begin{pmatrix}
+      -\frac{1}{6} & -\frac{7}{2} & 1  & \frac{7}{6}  \\
+      -\frac{1}{6} & -\frac{3}{2} & 1  & \frac{1}{6}  \\
+      0            & 2            & -1 & 0            \\
+      \frac{1}{2}  & \frac{7}{2}  & -1 & -\frac{3}{2} \\
+    \end{pmatrix}
+  \]
+
+  Und für die Matrix $A_4$:
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|cccc}
+      0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+      1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+    \end{array})
+    \overset{Z_1 \leftrightarrow Z_4}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+    \end{array}) \\
+    \overset{Z_2 \leftrightarrow Z_3}&\leadsto
+    \qty(\begin{array}{cccc|cccc}
+      1 & 0 & 0 & 0 & 0 & 0 & 0 & 1 \\
+      0 & 1 & 0 & 0 & 0 & 0 & 1 & 0 \\
+      0 & 0 & 1 & 0 & 0 & 1 & 0 & 0 \\
+      0 & 0 & 0 & 1 & 1 & 0 & 0 & 0 \\
+    \end{array})
+  \end{flalign*}
+  Somit ist $A_4^{-1} = A_4$.
+
+\newpage
+\item Für welche Werte $a, b \in \mathbb{R}$ ist die Matrix $C = \begin{pmatrix}
+  a & b  & 1 \\
+  0 & a  & 1 \\
+  1 & -1 & 0 \\
+\end{pmatrix} \in \mathbb{R}^{3 \times 3}$ invertierbar?
+Geben Sie die inverse Matrix an.
+
+\subparagraph{Lsg.} Nach \hyperref[7_5]{Ü 7.5} ist eine Matrix genau dann
+invertierbar, falls sie vollen Rang hat.
+Somit ist $C$ invertierbar, falls die 3 Zeilen linear unabhängig sind.
+
+Nun ist
+\begin{flalign*}
+  \qty(\begin{array}{ccc|ccc}
+    a & b  & 1 & 1 & 0 & 0 \\
+    0 & a  & 1 & 0 & 1 & 0 \\
+    1 & -1 & 0 & 0 & 0 & 1 \\
+  \end{array})
+  \overset{Z_1 \leftrightarrow Z_3}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    1 & -1 & 0 & 0 & 0 & 1 \\
+    0 & a  & 1 & 0 & 1 & 0 \\
+    a & b  & 1 & 1 & 0 & 0 \\
+  \end{array}) \\
+  \overset{Z_3 = Z_3 - a \cdot Z_1}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    1 & -1    & 0 & 0 & 0 & 1  \\
+    0 & a     & 1 & 0 & 1 & 0  \\
+    0 & b + a & 1 & 1 & 0 & -a \\
+  \end{array}) \\
+  \overset{Z_3 = Z_3 - Z_2}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    1 & -1 & 0 & 0 & 0  & 1  \\
+    0 & a  & 1 & 0 & 1  & 0  \\
+    0 & b  & 0 & 1 & -1 & -a \\
+  \end{array}) \\
+  \overset{Z_2 \leftrightarrow Z_3}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    1 & -1 & 0 & 0 & 0  & 1  \\
+    0 & b  & 0 & 1 & -1 & -a \\
+    0 & a  & 1 & 0 & 1  & 0  \\
+  \end{array}) \\
+  \overset{Z_3 = b \cdot Z_3 - a \cdot Z_2}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    1 & -1 & 0 & 0  & 0     & 1   \\
+    0 & b  & 0 & 1  & -1    & -a  \\
+    0 & 0  & b & -a & b + a & a^2 \\
+  \end{array}) \\
+  \overset{Z_1 = b \cdot Z_1 + Z_2}&\leadsto
+  \qty(\begin{array}{ccc|ccc}
+    b & 0 & 0 & 1  & -1    & b - a \\
+    0 & b & 0 & 1  & -1    & -a    \\
+    0 & 0 & b & -a & b + a & a^2   \\
+  \end{array})
+\end{flalign*}
+Somit hat die Matrix vollen Rang und ist invertierbar, solange $b \ne 0$ und
+die inverse Matrix ist
+\[
+  C^{-1} = \frac{1}{b} \cdot \begin{pmatrix}
+    1  & -1    & b - a \\
+    1  & -1    & -a    \\
+    -a & b + a & a^2   \\
+  \end{pmatrix}
+\]
+\end{enumerate}
+\end{document}
