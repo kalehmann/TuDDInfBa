@@ -1,0 +1,391 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline, shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 7\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+
+\paragraph{Ü 7.1}
+\begin{enumerate}[(a)]
+\item Ist 21 ein Erzeuger der Gruppe $\qty\big(\mathbb{Z}_{450}; +)$?
+
+  \subparagraph{Lsg.} Es ist $\ggT\qty\big(21, 450) = 3$.
+  Somit wiederholt sich jede Aneinanderkettung der 21 in
+  $\qty\big(\mathbb{Z}_{450}; +)$ nach $\frac{450}{3} = 150$ Verknüpfungen.
+
+  Daher ist $\abs{<21>} = \frac{450}{3} = 150 < \abs{\mathbb{Z}_{450}}$.
+  Somit kann 21 kein Erzeuger von $\qty\big(\mathbb{Z}_{450}; +)$ sein.
+
+\item Wie viele erzeugende Elemente gibt es in den folgenden Gruppen?
+  \begin{enumerate}[(1)]
+  \item $\qty\big(\mathbb{Z}_{13}; +)$
+  \item $\qty\big(\mathbb{Z}_{24}; +)$
+  \item $\qty\big(\mathbb{Z}_{450}; +)$
+  \end{enumerate}
+
+  \subparagraph{Lsg.} Die Lösung wird mit der \emph{eulerschen-$\phi$-Funktion}
+  ermittelt.
+  \begin{enumerate}[(1)]
+  \item 13 ist eine Primzahl, also ist $\phi\qty\big(13) = 13 - 1 = 12$.
+  \item 24 ist keine Primzahl und hat die Primfaktorzerlegung $2^3 \cdot 3$.
+    Somit ist $\phi\qty\big(24)
+    = \qty\big(2 - 1) \cdot 2^{3 - 1} \cdot \qty\big(3 - 1) = 8$.
+  \item 450 ist ebenfalls keine Primzahl und hat die Primfaktorzerlegung
+    $2 \cdot 3^2 \cdot 5^2$.
+    Somit ist
+    \[
+      \phi\qty\big(450) =
+      \qty\big(2 - 1) \cdot \qty\big(3 - 1) \cdot 3^{2 - 1} \cdot \qty\big(5 - 1) \cdot 5^{2 - 1}
+      = 1 \cdot 2 \cdot 3 \cdot 4 \cdot 5
+      = 120
+    \]
+  \end{enumerate}
+\end{enumerate}
+
+\paragraph{Ü 7.2}
+\begin{enumerate}[(a)]
+\item Es wird die Einheitengruppe $\qty\big(\mathbb{Z}_{15}^*; \cdot)$
+  betrachtet.
+  \begin{enumerate}[(1)]
+  \item Stellen Sie die Verknüpfungstafel dieser Gruppe auf.
+  \item Finden Sie \colorbox{yellow}{$11^{-1}$} und \colorbox{blue!20}{$13^{-1}$}
+    in $\qty\big(\mathbb{Z}_{15}^*; \cdot)$.
+  \item Ist die Gruppe zyklisch?
+  \item Ist die Gruppe zu $\qty\big(\mathbb{Z}_8; +)$ isomorph?
+  \end{enumerate}
+
+  \subparagraph{Lsg.} Es ist
+  $\mathbb{Z}_{15}^* = \qty\big{1, 2, 4, 7, 8, 11, 13, 14}$.
+
+  \begin{tabular}{|c|cccccccc|}
+    \hline
+    $\cdot$ & 1  & 2  & 4  & 7                    & 8  & 11                  & 13                   & 14 \\
+    \hline
+    1       & 1  & 2  & 4  & 7                    & 8  & 11                  & 13                   & 14 \\
+    2       & 2  & 4  & 8  & 14                   & 1  & 7                   & 11                   & 13 \\
+    4       & 4  & 8  & 1  & 13                   & 2  & 14                  & 7                    & 11 \\
+    7       & 7  & 14 & 13 & 4                    & 11 & 2                   & \cellcolor{blue!20}1 & 8  \\
+    8       & 8  & 1  & 2  & 11                   & 4  & 13                  & 14                   & 7  \\
+    11      & 11 & 7  & 14 & 2                    & 13 & \cellcolor{yellow}1 & 8                    & 4  \\
+    13      & 13 & 11 & 7  & \cellcolor{blue!20}1 & 14 & 8                   & 4                    & 2  \\
+    14      & 14 & 13 & 11 & 8                    & 7  & 4                   & 2                    & 1  \\
+    \hline
+  \end{tabular}
+
+  \begin{enumerate}[(1)]
+  \setcounter{enumii}{2}
+  \item \label{7_2_a_3} Nun ist die Gruppe aber nicht zyklisch, da die Ordnungen
+    der einzelnen Elemente allesamt $\leq \abs{\mathbb{Z}_{15}^*}$ sind:
+    \begin{itemize}
+    \item Ordnung von 1 ist 1
+    \item Ordnung von 2 ist 4
+    \item Ordnung von 4 ist 2
+    \item Ordnung von 8 ist 4
+    \item Ordnung von 11 ist 2
+    \item Ordnung von 13 ist 4
+    \item Ordnung von 14 ist 2
+    \end{itemize}
+
+    \textbf{Alternativ nach der Übung:} Man sieht in der Diagonale der
+    Verknüpfungstafel nur die Elemente 4 und 1.
+    Nun ist $4^2 = 1$ und somit $n^4 = 1$ für alle $n \in \mathbb{Z}_{15}^*$.
+    Daher kann es keinen Erzeuger geben.
+
+  \item Angenommen $\qty\big(\mathbb{Z}_{15}^*; \cdot)$ wäre zu
+    $\qty\big(\mathbb{Z}_8; +)$ isomorph, dann gäbe es eine Bijektion
+    $f \colon \mathbb{Z}_{15}^* \to \mathbb{Z}_8$, so dass für alle
+    $g_1, g_2 \in \mathbb{Z}_{15}^*$ gilt, dass
+    $f\qty\big(g_1 \cdot g_2) = f\qty\big(g_1) + f\qty\big(g_2)$.
+
+    Da $f$ ein Bijektion ist, gibt es $g \in \mathbb{Z}_{15}^*$ mit
+    $f\qty\big(g) = 1$ und nach der Definition des Isomorphismus
+    \begin{itemize}
+    \item $f\qty\big(g \cdot g) = f\qty\big(g) + f\qty\big(g) = 2$
+    \item $f\qty\big(g \cdot g \cdot g) = f\qty\big(g) + f\qty\big(g) + f\qty\big(g)= 3$
+    \item $\vdots$
+    \item $f\qty\big(g^7) = 7$
+    \end{itemize}
+    Durch die Injektivität von $f$ wäre $g$ nun ein Erzeuger von
+    $\mathbb{Z}_{15}^*$, ein Widerspruch zu \hyperref[7_2_a_3]{Teilaufgabe (3)}.
+
+  \end{enumerate}
+\item Es wird nun die Einheitengruppe $\qty\big(\mathbb{Z}_{13}^*; \cdot)$
+  betrachtet.
+  \begin{enumerate}[(1)]
+  \item Ist die Gruppe zyklisch?
+  \item Wie viele Primitivwurzeln gibt es in
+    $\qty\big(\mathbb{Z}_{13}^*; \cdot)$?
+  \item Bestimmen Sie eine Primitivwurzel in $\mathbb{Z}_{13}^*$ und verwenden
+    Sie diese, um die Elemente $m_1 = 9^{10} \cdot 11^{5}$ und $m_2 = 8^{-1}$ in
+    $\mathbb{Z}_{13}^*$ zu berechnen.
+  \item Zeigen Sie, dass $\qty\big(\mathbb{Z}_{13}^*; \cdot)$ zu
+    $\qty\big(\mathbb{Z}_{12}; +)$ isomorph ist, indem Sie einen Isomorphismus
+    angeben und nachweisen, dass er die geforderten Eigenschaften erfüllt.
+  \end{enumerate}
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(1)]
+  \item Ja, nach Gauß (Satz 41) im Skript ist die Gruppe zyklisch, da 13 eine
+    Primzahl ist.
+  \item Die vier Primitivwurzeln von der Gruppe sind 2, 6, 7, 11
+    (Seite 59 im Skript).
+
+  \newpage
+  \item In $\mathbb{Z}_{13}^*$ ist $9 = 2^8$, $11 = 2^7$ und $8 = 2^3$.
+    Nun ist
+    \[
+      m_1 = 9^{10} \cdot 11^5 =\qty(2^8)^{10} \cdot \qty(2^7)^5
+      = 2^{80} \cdot 2^{35} = 2^{115}
+    \]
+    Da die 2 als Primitivwurzel von $\mathbb{Z}_{13}^5$ aller 12
+    Verknüpfungen wieder 2 ergibt, ist dieser Ausdruck äquivalent zu
+    $2^{115 \mod 12} = 2^{7} = 11$.
+
+    Außerdem ist $m_2 = \qty\big(2^3)^{-1} \equiv 2^9 = 5$ und tatsächlich ist
+    $8 \cdot 5 = 40 \equiv 1 \mod 13$.
+
+    \textbf{Alternativ wird die Primitivwurzel in der Übung bestimmt durch:}
+    $\abs{\mathbb{Z}_{13}^*} = 12$ und die Teiler von 12 sind:
+
+    \begin{tikzpicture}
+      \node (12) at (0,0) {12};
+      \node (4) at (-1,-1) {4};
+      \node (2_1) at (-1.5,-2) {2};
+      \node (2_2) at (-0.5,-2) {2};
+      \node (6) at (1,-1) {6};
+      \node (2_3) at (0.5,-2) {2};
+      \node (3) at (1.5,-2) {3};
+
+      \draw (12) -- (4);
+      \draw (12) -- (6);
+      \draw (4) -- (2_1);
+      \draw (4) -- (2_2);
+      \draw (6) -- (2_3);
+      \draw (6) -- (3);
+    \end{tikzpicture}
+
+    Somit genügt es zu prüfen ob $n^4 \ne 1$ und $n^6 \ne 1$, da alle anderen
+    Teiler von 12 auch 4 und 6 teilen.
+
+    \textbf{Alternativ in der Übung auch mit dem kleinen Fermat:}
+
+    Es ist nicht $2|13$ und damit nach dem Lemma von Euler-Fermat
+    $2^{13 - 1} \mod 13 = 1$.
+    Nun ist $2^{115} = 9 \cdot 2^{12} \cdot 2^7 = 9 \cdot 1 \cdot 2^7 = 2^7$.
+
+  \item Es ist $\qty\big(\mathbb{Z}_{12}; +)$ zyklisch mit zum Beispiel dem
+    Erzeuger 1.
+    Sei nun $f \colon \mathbb{Z}_{13}^* \to \mathbb{Z}_{12}$ mit
+    $f\qty\big(2) = 1$ und $f\qty(2^n) = 1 \cdot n$.
+
+    Seien $g_1, g_2 \in \mathbb{Z}_{13}^*$ beliebig.
+    Dann ist $g_1 = 2^j, g_2 = 2^k$ mit $1 \leq j,k \leq 12$.
+    Nun ist
+    \[
+      f\qty\big(g_1 \cdot g_2) = f\qty(2^j \cdot 2^k) = f\qty(2^{j + k})
+      = \qty\big(j + k) \cdot 1 = j + k = f\qty\big(g_1) + f\qty\big(g_2)
+    \]
+  \end{enumerate}
+
+  \textbf{Alternativ nach der Übung:}
+  Sei $f \colon \mathbb{Z}_{12} \to \mathbb{Z}_{13}^*$ mit $f\qty\big(x) = 2^x$.
+  Dann ist $f$ bijektiv, da 2 eine Primitivwurzel in $\mathbb{Z}_{13}^*$ und
+  $f\qty\big(x + y) = 2^{x + y} = 2^x \cdot 2^y = f\qty\big(x) \cdot f\qty\big(y)$.
+
+  Dabei ist $2^{x + y} = \begin{cases}
+    2^{x + y} & \text{Wenn } x+ y < 12 \\
+    2^{x + y - 12} & \text{Ansonsten}
+  \end{cases}$
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 7.3} Wir betrachten die Symmetriegruppe $\qty\big(S_3; \circ)$ des
+regulären Dreiecks, dessen Eckpunkte mit den Zahlen 1, 2 und 3 gegen den
+Uhrzeigersinn bezeichnet sind.
+\begin{enumerate}[(a)]
+\item Ist $\qty\big(S_3; \circ)$ zyklisch?
+
+  \subparagraph{Lsg.} Das gleichseitige Dreieck ist sowohl punkt- als auch
+  Achsensymmetrisch.
+  Für die einzelnen Achsen sind die Abbildungen:
+
+  \begin{tikzpicture}[scale=1.8]
+    \node[label = above:{1}] (A) at (0, 0) {};
+    \node[label = below left:{2}] (B) at (-0.5, -0.866) {};
+    \node[label = below right:{3}] (C) at (0.5, -0.866) {};
+    \draw (A.center) -- (B.center) -- (C.center) -- (A.center);
+    \node[label = {[blue] above right:{$\begin{pmatrix} 1 & 3 \end{pmatrix}$}}] (D) at (1, 0) {};
+    \node[label = {[blue] above left:{$\begin{pmatrix} 1 & 2 \end{pmatrix}$}}] (E) at (-1, 0) {};
+    \node[label = {[blue] below:{$\begin{pmatrix} 2 & 3 \end{pmatrix}$}}] (F) at (0, -1.722) {};
+    \draw[dashed, blue] (A) -- (F);
+    \draw[dashed, blue] (B) -- (D);
+    \draw[dashed, blue] (C) -- (E);
+  \end{tikzpicture}
+
+  Die beiden Punktsymmetrischen Abbildungen sind
+  $\begin{pmatrix} 1 & 2 & 3 \end{pmatrix}$ für die Rotation gegen den
+  Uhrzeigersinn und
+  $\begin{pmatrix} 1 & 3 & 2 \end{pmatrix}$ für die Rotation im Uhrzeigersinn.
+
+  Schließlich verbleibt noch die Abbildung $\text{id}$, welche das Dreieck auf
+  sich selbst abbildet.
+
+  Offensichtlich befindet sich das Dreieck nach zweifacher Spiegelung an einer
+  Achse, dreifacher Hintereinanderausführung einer Drehung oder Anwendung der
+  Identität wieder am Anfang.
+  Somit ist die Gruppe nicht zyklisch.
+
+  \textbf{Alternativ nach der Übung:} Jede zyklische Gruppe ist auch eine Abelsche
+  Gruppe.
+  Da $\qty\big(1\:2)\qty\big(2\:3)=\qty\big(1\:2\:3)$, aber
+  $\qty\big(3\:2)\qty\big(1\:2)=\qty\big(3\:2\:1)$, ist $S_3$ nicht abelsch und
+  kann somit auch nicht zyklisch sein.
+
+  Ansonsten ist die Ordnung eines Zyklus immer seine Länge.
+  Da kein Zyklus die Länge 6 hat, ist die Gruppe nicht zyklisch.
+
+\item Die Menge $D$ aller Drehungen aus $S_3$ bildet mit der
+  Hintereinanderausführung ebenfalls eine Gruppe.
+  Zeigen Sie, dass $\qty\big(D; \circ)$ isomorph zu
+  $\qty\big(\mathbb{Z}_3; +)$ ist.
+
+  \subparagraph{Lsg.} Das Dreieck lässt sich um 0°, 120° im Uhrzeigersinn
+  und 240° im Uhrzeigersinn drehen.
+  Drehungen um 0°, 240°, 120° gegen den Uhrzeigersinn sind dabei identisch
+  zu den Drehungen im Uhrzeigersinn.
+
+  Nun ist die Gruppe zyklisch, da aus zweifacher Anwendung der Drehung um 120°
+  die Drehung um 240° und aus dreifacher Anwendung die Drehung um 0° entsteht.
+
+  Somit ist $\qty\big(D; \circ)$ isomorph zu $\qty\big(\mathbb{Z}_3; +)$ mit dem
+  Isomorphismus $f \colon D \to \mathbb{Z}_3$ und $f\qty\big(120°) = 1$.
+
+  \textbf{Alternativ nach der Übung:}
+  $f \colon \mathbb{Z}_3 \to D, k \mapsto \qty\big(1\:2\:3)^k$
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 7.4} Alice und Bob wollen mit dem Diffie-Hellmann-Merkle-Verfahren
+einen geheimen Schlüssel erzeugen.
+Sie wollen das Verfahren anhand kleiner Zahlen austesten.
+Beide einigen sich auf die Primzahl $p = 37$ und die Primitivwurzel 2 aus
+$\mathbb{Z}_p^*$.
+
+Alice schickt an Bob die Zahl $a' = 3$.
+Bob verwendet selbst die Zahl $b = 27$.
+\begin{enumerate}[(a)]
+\item Wie lautet der geheime gemeinsame Schlüssel?
+
+  \subparagraph{Lsg.} Zunächst ermittelt Bob die Zahl $b' \coloneqq 2^b \mod p
+  = 2^{27} \mod 37$.
+  Dabei kann $2^{27} \mod 37$ mit der Methode ``Quadrieren und Multiplizieren''
+  ermittelt werden:
+
+  $\text{bin}\qty\big(27) = 11011$, also ist $2^{27} = 2^4 + 2^3 + 2^1 + 2^0$ und
+  folglich
+  \[
+    2^{27} = 2^{2^4} \cdot 2^{2^3} \cdot 2^{2^1} \cdot 2^{2^0}
+    = \qty(\qty(2^2 \cdot 2)^{2\cdot2} \cdot 2)^2 \cdot 2
+  \]
+  Nun lassen sich die Zwischenergebnisse leicht modulo 37 rechnen:
+
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    1 & 1 & 0 & 1 & 1 \\
+    \hline
+    $2 \mod 37$ & $\colorbox{yellow}{$2$}^2 \cdot 2 \mod 37$
+      & $\colorbox{blue!20}{$8$}^2 \mod 37$
+      & $\colorbox{orange!20}{$27$}^2 \cdot 2 \mod 37$
+      & $\colorbox{green!20}{$15$}^2 \cdot 2 \mod 37$ \\
+    $= \colorbox{yellow}{$2$}$ & $= \colorbox{blue!20}{$8$}$
+      & $= \colorbox{orange!20}{$27$}$ & $= \colorbox{green!20}{$15$}$
+      & $= \colorbox{red!20}{$6$}$  \\
+    \hline
+  \end{tabular}
+
+  Somit ist $b' = \colorbox{red!20}{$6$}$ und Bob teilt Alice $b'$ mit.
+  Nun berechnen Alice und Bob mit den jeweils ihnen bekannten Zahlen das
+  Geheimnis $c \qty\big(b')^a \mod p = \qty\big(a')^b \mod p = 3^{27} \mod 37$.
+
+  Analog zu oben lässt sich $3^{27} \mod 37$ wieder über die Methode ``Quadrieren
+  und Multiplizieren'' berechnen mit
+  \[
+    3^{27} = 3^{2^4} \cdot 3^{2^3} \cdot 3^{2^1} \cdot 3^{2^0}
+    = \qty(\qty(3^2 \cdot 3)^{2\cdot2} \cdot 3)^2 \cdot 3
+  \]
+
+  \begin{tabular}{|c|c|c|c|c|}
+    \hline
+    1 & 1 & 0 & 1 & 1 \\
+    \hline
+    $3 \mod 37$ & $\colorbox{yellow}{$3$}^2 \cdot 3 \mod 37$
+      & $\colorbox{blue!20}{$27$}^2 \mod 37$
+      & $\colorbox{orange!20}{$26$}^2 \cdot 3 \mod 37$
+      & $\colorbox{green!20}{$30$}^2 \cdot 3 \mod 37$ \\
+    $= \colorbox{yellow}{$3$}$ & $= \colorbox{blue!20}{$27$}$
+      & $= \colorbox{orange!20}{$26$}$ & $= \colorbox{green!20}{$30$}$
+      & $= \colorbox{red!20}{$36$}$  \\
+    \hline
+  \end{tabular}
+
+  Somit ist $c = \colorbox{red!20}{$36$}$.
+
+\item Eva hat den Schlüsselaustausch über den gemeinsamen Kommunikationskanal
+  belauscht und $a'$ erfahren.
+  Wie berechnet sie den geheimen Schlüssel von Alice?
+
+  \paragraph{Lsg.} Eva hat unter anderem die Zahlen $a'$, $p$ und die
+  Primitivwurzel 2 aus $\mathbb{Z}_p^*$ erfahren.
+  Nun gibt es für Eva kein einfaches Verfahren um $a$ zu ermitteln,
+  Sie muss für $n = 0, \ldots, 37$ solange $2^n \mod 37$ ermitteln, bis
+  sie die 3 erhält.
+  Dann ist $a = n$.
+
+  Mittels eines Computers kann $a$ zum Beispiel in Python durch
+\begin{lstlisting}
+>>> min(filter(lambda n: 2**n % 37 == 3, range(37)))
+26
+\end{lstlisting}
+  bestimmt werden.
+  Dabei steigt der Aufwand für große $p$ ins Unendliche.
+\end{enumerate}
+\end{document}
