@@ -1,0 +1,224 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 4\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N4}
+\begin{enumerate}[(a)]
+\item Gegeben ist der Ausdruck
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3) \land
+    x_2 \land
+    \qty\big(x_1 \lor \neg x_2 \lor \neg x_3) \land
+    \qty\big(\neg x_2 \lor x_3) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \neg x_3)
+  \]
+  in den drei Variablen $x_1$, $x_2$ und $x_3$.
+  Verwenden Sie den Algorithmus aus der Vorlesung, um zu entscheiden, ob $A$
+  erfüllbar ist.
+  Falls ja, so geben Sie eine erfüllende Belegung an, falls nein, begründen Sie,
+  warum $A$ nicht erfüllbar ist.
+  Prüfen Sie zuerst, ob die Voraussetzung für die Anwendung des Algorithmus
+  gegeben ist.
+
+  \subparagraph{Lsg.} Der Ausdruck $A$ liegt in konjunktiver Normalform vor und
+  hat in jeder Klausel maximal ein positives Literal.
+  Daher ist $A$ eine Horn-Formel und die Erfüllbarkeit von $A$ lässt sich mittels
+  \emph{positiver 1-Resolution} bestimmen.
+
+  Suchen wir nun die erste \emph{positive 1-Klausel} in $A$ und markieren diese
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \neg x_2 \lor \neg x_3) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1 \lor \neg x_2 \lor \neg x_3) \land
+    \qty\big(\neg x_2 \lor x_3) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \neg x_3)
+  \]
+  Im nächsten Schritt streichen wir jedes Auftreten von $\neg x_2$ aus den
+  weiteren Klauseln.
+  Also wird aus
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \colorbox{purple!20}{$\neg x_2$} \lor \neg x_3) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1 \lor \colorbox{purple!20}{$\neg x_2$} \lor \neg x_3) \land
+    \qty\big(\colorbox{purple!20}{$\neg x_2$} \lor x_3) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \neg x_3)
+  \]
+  nun
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \neg x_3) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1 \lor \neg x_3) \land
+    \qty\big(x_3) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \neg x_3)
+  \]
+  Nun suchen wir die nächste \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \neg x_3) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1 \lor \neg x_3) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \neg x_3)
+  \]
+  Im nächsten Schritt streichen wir jedes Auftreten von $\neg x_3$ aus den
+  weiteren Klauseln.
+  Also wird aus
+  \[
+    A \coloneqq \qty\big(\neg x_1 \lor \colorbox{yellow}{$\neg x_3$}) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1 \lor \colorbox{yellow}{$\neg x_3$}) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor x_2 \lor \colorbox{yellow}{$\neg x_3$})
+  \]
+  nun
+  \[
+    A \coloneqq \qty\big(\neg x_1) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(x_1) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor x_2)
+  \]
+  Nun suchen wir erneut eine \emph{positive 1-Klausel} und markieren auch diese
+  \[
+    A \coloneqq \qty\big(\neg x_1) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(\colorbox{teal!30}{$x_1$}) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(\neg x_1 \lor x_2)
+  \]
+  Im nächsten Schritt streichen wir jedes Auftreten von $\neg x_1$ aus den
+  weiteren Klauseln.
+  Also wird aus
+  \[
+    A \coloneqq \qty\big(\colorbox{teal!30}{$\neg x_1$}) \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(\colorbox{teal!30}{$x_1$}) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(\colorbox{teal!30}{$\neg x_1$} \lor x_2)
+  \]
+  nun
+  \[
+    A \coloneqq \qty\big() \land
+    \qty\big(\colorbox{purple!20}{$x_2$}) \land
+    \qty\big(\colorbox{teal!30}{$x_1$}) \land
+    \qty\big(\colorbox{yellow}{$x_3$}) \land
+    \qty\big(x_2)
+  \]
+  Jetzt haben wir eine leere Klausel und sehen somit, dass der Ausdruck
+  unerfüllbar ist.
+
+\newpage
+\item Beweisen Sie mit der Methode der vollständigen Induktion (streng nach dem
+  in der Vorlesung angegebenem Vorgehen):
+  \[
+    \text{Für alle } n \in \mathbb{N}, n \geq 1,
+    \text{ gilt: }\;
+    \sum_{k = 1}^n \qty\big(3k - 2) = \frac{1}{2}n\qty\big{3n - 1}.
+  \]
+  \begin{small}
+    (Wer möchte, kann sich zusätzlich auch einen Beweis ohne vollständige
+    Induktion überlegen.)
+  \end{small}
+
+  \subparagraph{Lsg.} Sei die Aussage
+  \[
+    A\qty\big(n) \colon \sum_{k = 1}^n \qty\big(3k - 2) = \frac{1}{2}n\qty\big(3n - 1)
+  \]
+  und die Behauptung $A\qty\big(n)$ sei wahr für alle
+  $n \in \mathbb{N}, n \geq 1$.
+
+  \textbf{Induktionsanfang:} Für $n = 1$ ist
+  \[
+    \sum_{k = 1}^1 \qty\big(3k - 2) = \qty\big(3 \cdot 1 - 2) = 1 = \frac{1}{2} \cdot \qty\big(3 - 1)
+  \]
+  Somit ist $A\qty\big(1)$ wahr.
+
+  \textbf{Induktionsschritt:} Angenommen es wäre $A\qty\big(n)$ für ein
+  beliebiges $n \in \mathbb{N}, n \geq 1$ wahr
+  (\emph{Induktionsvoraussetzung} (IV)).
+  Dann ist zu zeigen, dass $A\qty\big(n) \Rightarrow A\qty\big(n + 1)$.
+  Nun ist
+  \begin{flalign*}
+    A\qty\big(n + 1) \colon \sum_{k = 1}^{n + 1} \qty\big(3k - 2)
+    &= \sum_{k = 1}^n \qty\big(3k - 2) + \qty\big(3\qty\big(n + 1) - 2) & \\
+    \overset{\text{(IV)}}&= \frac{1}{2}n\qty\big(3n - 1) + \qty\big(3n + 3 - 2) \\
+    &= \frac{1}{2}n\qty\big(3n - 1) + \qty\big(3n + 1) \\
+    &= \frac{1}{2}n\qty\big(3n - 1) + \frac{1}{2}\qty\big(6n + 2) \\
+    &= \frac{1}{2}n\qty\big(3n - 1) + \frac{1}{2}\qty\big(3n - 1) + \frac{1}{2}\qty\big(3n + 3) \\
+    &= \frac{1}{2}n\qty\big(3n - 1) + \frac{1}{2}\qty\big(3n - 1) + \frac{3}{2}\qty\big(n + 1) \\
+    &= \frac{1}{2}\qty\big(n + 1)\qty\big(3n - 1) + \frac{3}{2}\qty\big(n + 1) \\
+    &= \frac{1}{2}\qty\big(n + 1)\qty\big(3n + 3 - 1) \\
+    &= \frac{1}{2}\qty\big(n + 1)\qty(3\qty\big(n + 1) - 1)
+  \end{flalign*}
+  Somit ist $A\qty\big(n) \Rightarrow A\qty\big(n + 1)$ und aus dem Satz über
+  die vollständige Induktion folgt die Behauptung.
+
+  \newpage
+  \begin{landscape}
+    \textbf{Beweis ohne Induktion:} Sei $n \in \mathbb{N}$ beliebig mit
+    $2 | n$.
+    \begin{flalign*}
+      \sum_{k = 1}^n \qty\big(3k - 2) &= \qty(\qty\big(3 \cdot 1 - 2) + \qty\big(3n - 2)) +
+                                        \qty(\qty\big(3 \cdot 2 - 2) + \qty\big(3\qty\big(n - 1) - 2))
+                                        + \ldots + \qty(\qty(3 \cdot \frac{n}{2} - 2) + \qty(3 \frac{n + 1}{2} - 2)) \\
+                                      &= \qty(\qty\big(3 \cdot 1 - 2) + \qty\big(3n - 2)) +
+                                        \qty(\qty\big(3 \cdot 2 - 2) + \qty\big(3\qty\big(n - 1) - 2))
+                                        + \ldots + \qty(\qty(3 \cdot \frac{n}{2} - 2) + \qty(3 \frac{n}{2} + \frac{6}{2} - 2)) \\
+                                      &= \qty\big(3n + 3 - 4) + \qty\big(3n + 3 - 4) + \ldots + \qty\big(3n + 3 - 4) \\
+                                      &= \qty\big(3n - 1) + \qty\big(3n - 1) + \ldots + \qty\big(3n - 1) \\
+                                      &= \frac{1}{2}n\qty\big(3n - 1)
+    \end{flalign*}
+    Sei nun erneut $n \in \mathbb{N}$ beliebig, allerdings mit nicht $2 | n$.
+    Dann ist
+    \begin{flalign*}
+      \sum_{k = 1}^n \qty\big(3k - 2) &= \qty(\qty\big(3 \cdot 1 - 2) + \qty\big(3n - 2)) +
+                                        \qty(\qty\big(3 \cdot 2 - 2) + \qty\big(3\qty\big(n - 1) - 2))
+                                        + \ldots + \qty(\qty(3 \cdot \frac{n - 1}{2} - 2) + \qty(3 \frac{n + 3}{2} - 2))
+                                        + \qty(3\frac{n + 1}{2} - 2) \\
+                                      &= \qty\big(3 \cdot 1 - 2) + \qty\big(3n - 2) +
+                                        \qty\big(3 \cdot 2 - 2) + \qty\big(3\qty\big(n - 1) - 2)
+                                        + \ldots + \qty(\qty(3 \cdot \frac{n}{2} - \frac{3}{2} - 2) + \qty(3 \frac{n}{2} + \frac{9}{2} - 2))
+                                        + \qty(3\frac{n}{2} + \frac{3}{2} - 2)\\
+                                      &= \qty\big(3n + 3 - 4) + \qty\big(3n + 3 - 4) + \ldots + \qty\big(3n + 3 - 4) + \frac{1}{2}\qty\big(3n + 3 - 4) \\
+                                      &= \qty\big(3n - 1) + \qty\big(3n - 1) + \ldots + \qty\big(3n - 1) + \frac{1}{2}\qty\big(3n - 1) \\
+                                      &= \frac{n - 1}{2}\qty\big(3n - 1) + \frac{1}{2}\qty\big(3n - 1) \\
+                                      &= \frac{1}{2}n\qty\big(3n - 1)
+    \end{flalign*}
+  \end{landscape}
+\end{enumerate}
+\end{document}
