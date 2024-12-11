@@ -1,0 +1,518 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline, shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{listings}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 8\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+
+\paragraph{Ü 8.1} Betrachtet wird die Einheitengruppe
+$\qty\big(\mathbb{Z}_{14}^*; \cdot)$
+\begin{enumerate}[(a)]
+\item Stellen Sie die Verknüpfungstafel für $\qty\big(\mathbb{Z}_{14}^*; \cdot)$
+  auf.
+
+  \subparagraph{Lsg.}\phantom{\null}
+
+  \begin{tabular}{|c|cccccc|}
+    \hline
+    $\cdot$ & 1  & 3  & 5  & 9  & 11 & 13 \\
+    \hline
+    1       & 1  & 3  & 5  & 9  & 11 & 13 \\
+    3       & 3  & 9  & 1  & 13 & 5  & 11 \\
+    5       & 5  & 1  & 11 & 3  & 13 & 9  \\
+    9       & 9  & 13 & 3  & 11 & 1  & 5  \\
+    11      & 11 & 5  & 13 & 1  & 9  & 3  \\
+    13      & 13 & 11 & 9  & 5  & 3  & 1  \\
+    \hline
+  \end{tabular}
+
+\item Für welche $k \in \mathbb{N}$ kann $\qty\big(\mathbb{Z}_{14}^*; \cdot)$
+  nach dem Satz von Lagrange Untergruppen der Ordnung $k$ besitzen?
+
+  \subparagraph{Lsg.} Es ist $\abs{\qty\big(\mathbb{Z}_{14}^*; \cdot)} = 6$ und
+  $6 = 2 \cdot 3$.
+  Somit sind die Teiler von 6 die Zahlen 1, 2, 3, 6 und
+  $\qty\big(\mathbb{Z}_{14}^*; \cdot)$ kann Untergruppen der Ordnung 1, 2, 3
+  und 6 enthalten.
+
+\item Bestimmen Sie die Untergruppe $\big\langle 3 \big\rangle$ von
+  $\qty\big(\mathbb{Z}_{14}^*; \cdot)$.
+  Was können Sie schlussfolgern?
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $3^1 = 3 \qty\big(\mod 14)$
+  \item $3^2 = 9 \qty\big(\mod 14)$
+  \item $3^3 = 13 \qty\big(\mod 14)$
+  \item $3^4 = 11 \qty\big(\mod 14)$
+  \item $3^5 = 5 \qty\big(\mod 14)$
+  \item $3^6 = 1 \qty\big(\mod 14)$
+  \end{itemize}
+
+  Somit ist die 3 eine Primitivwurzel / ein Erzeuger der Gruppe
+  $\qty\big(\mathbb{Z}_{14}^*; \cdot)$ und die Gruppe ist zyklisch.
+
+\item Finden Sie alle weiteren Untergruppen von
+  $\qty\big(\mathbb{Z}_{14}^*; \cdot)$.
+
+  \subparagraph{Lsg.} Es sind Untergruppen:
+  \begin{itemize}
+  \item $\qty\big{1}$
+  \item $\qty\big{1, 13}$
+  \item $\qty\big{1, 9, 11}$
+  \item $\qty\big(\mathbb{Z}_{14}^*; \cdot)$
+  \end{itemize}
+
+  \textbf{Alternativ nach der Übung:} Nach Teilaufgabe (b) ist bereits bekannt,
+  dass Untergruppen nur die Ordnungen 1, 2,3 und 6 haben können.
+  Dabei sind die Untergruppen mit der Ordnung 1 und 6 trivial zu finden.
+  Nun gilt für Untergruppen der Ordnung 2 und 3 nach dem Satz von Lagrange
+  wieder, dass die Ordnung jedes Elementes wieder ein Teiler der Kardinalität der
+  Gruppe ist.
+
+  Somit enthält eine Untergruppe der Kardinalität 2 nur die Elemente der
+  Ordnungen 1 und 2.
+  Außerdem enthält eine Untergruppe der Kardinalität 2 nur die Elemente der
+  Ordnungen 1 und 3.
+  Diese Elemente finden sich nun leicht in der Verknüpfungstafel.
+
+\item Bestimmen Sie die Ordnung jedes Elementes aus
+  $\qty\big(\mathbb{Z}_{14}^*; \cdot)$.
+
+  \subparagraph{Lsg.} Die Ordnung eines Elementes
+  $g \in \qty\big(\mathbb{Z}_{14}^*; \cdot)$ ist die kleinste natürliche Zahl
+  $a$ mit $g^a = 1 \qty\big(\mod 14)$.
+
+  Nun sind
+  \begin{itemize}
+  \item $1^1 = 1$
+  \item $3^6 = 1$
+  \item $5^6 = 1$
+  \item $9^3 = 1$
+  \item $11^3 = 1$
+  \item $13^2 = 1$
+  \end{itemize}
+
+\item Bestimmen Sie für jede Untergruppe von $\qty\big(\mathbb{Z}_{14}^*; \cdot)$
+  alle ihre Linksnebenklassen.
+
+  \subparagraph{Lsg.}\phantom{\null}
+  \begin{enumerate}[(1)]
+  \item Für $\qty\big{1}$:
+    \begin{itemize}
+    \item $1 \cdot \qty\big{1} = \qty\big{1}$
+    \item $3 \cdot \qty\big{1} = \qty\big{3}$
+    \item $5 \cdot \qty\big{1} = \qty\big{5}$
+    \item $9 \cdot \qty\big{1} = \qty\big{9}$
+    \item $11 \cdot \qty\big{1} = \qty\big{11}$
+    \item $13 \cdot \qty\big{1} = \qty\big{13}$
+    \end{itemize}
+
+    $\Rightarrow$ Menge der Linksnebenklassen von $\qty\big{1}$ ist
+    \[
+      \qty\Big{
+        \qty\big{1},
+        \qty\big{3},
+        \qty\big{5},
+        \qty\big{9},
+        \qty\big{11},
+        \qty\big{13}
+      }
+    \]
+  \newpage
+  \item Für $\qty\big{1, 13}$:
+    \begin{itemize}
+    \item $1 \cdot \qty\big{1, 13} = \qty\big{1, 13}$
+    \item $3 \cdot \qty\big{1, 13} = \qty\big{3, 11}$
+    \item $5 \cdot \qty\big{1, 13} = \qty\big{5, 9}$
+    \item $9 \cdot \qty\big{1, 13} = \qty\big{5, 9}$
+    \item $11 \cdot \qty\big{1, 13} = \qty\big{3, 11}$
+    \item $13 \cdot \qty\big{1, 13} = \qty\big{1, 13}$
+    \end{itemize}
+
+    $\Rightarrow$ Menge der Linksnebenklassen von $\qty\big{1, 13}$ ist
+    \[
+      \qty\Big{
+        \qty\big{1, 13},
+        \qty\big{3, 11},
+        \qty\big{5, 9}
+      }
+    \]
+
+  \item Für $\qty\big{1, 9, 11}$:
+    \begin{itemize}
+    \item $1 \cdot \qty\big{1, 9, 11} = \qty\big{1, 9, 11}$
+    \item $3 \cdot \qty\big{1, 9, 11} = \qty\big{3, 5, 13}$
+    \item $5 \cdot \qty\big{1, 9, 11} = \qty\big{3, 5, 13}$
+    \item $9 \cdot \qty\big{1, 9, 11} = \qty\big{1, 9, 11}$
+    \item $11 \cdot \qty\big{1, 9, 11} = \qty\big{1, 9, 11}$
+    \item $13 \cdot \qty\big{1, 9, 11} = \qty\big{3, 5, 13}$
+    \end{itemize}
+
+    $\Rightarrow$ Menge der Linksnebenklassen von $\qty\big{1, 9, 11}$ ist
+    \[
+      \qty\Big{
+        \qty\big{1, 9, 11},
+        \qty\big{3, 5, 13}
+      }
+    \]
+
+  \item Für $g \in \qty\big(\mathbb{Z}_{14}^*; \cdot)$ ist
+    $g \cdot \qty\big(\mathbb{Z}_{14}^*; \cdot) = \qty\big(\mathbb{Z}_{14}^*; \cdot)$
+
+    $\Rightarrow$ Menge der Linksnebenklassen von $\mathbb{Z}_{14}^*$ ist
+    \[
+      \qty\Big{\mathbb{Z}_{14}^*}
+    \]
+
+  \end{enumerate}
+
+  \textbf{Aus der Übung:} Es ist $\qty\big[G, H] = \frac{\abs{G}}{\abs{H}}$
+  der Index von $G$ und $H$ gleich der Menge von Linksnebenklassen von $H$
+  unter $G$.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 8.2} Bestimmen Sie für die Einheitengruppe
+$\qty\big(\mathbb{Z}_{24}^*; \cdot)$ eine Untergruppe $U$ mit
+$7 \in U$ und $\abs{U} = 4$.
+Wie viele Linksnebenklassen hat $U$?
+Ist $\qty\big(U; \cdot)$ zu $\qty\big(\mathbb{Z}_4; +)$ isomorph?
+
+\subparagraph{Lsg.} Es sind
+\begin{itemize}
+\item $1 \cdot 1 \equiv 1 \qty\big(\mod 24)$
+\item $7 \cdot 1 \equiv 7 \qty\big(\mod 24)$
+\item $7 \cdot 7 \equiv 1 \qty\big(\mod 24)$
+\end{itemize}
+Für eine Untergruppe mit vier Elementen werden nun noch zwei weitere Elemente
+benötigt.
+Nun lassen sich alle Elemente von $\qty\big(\mathbb{Z}_{24}^*; \cdot)$
+ermitteln durch
+\begin{lstlisting}
+>>> [i for i in range(24) for j in range(24) if i*j%24==1]
+[1, 5, 7, 11, 13, 17, 19, 23]
+\end{lstlisting}
+
+Daraus folgen als mögliche Untergruppen mit 4 Elementen inklusive 1 und 7:
+
+\begin{minipage}{.3\textwidth}
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1  & 5  & 7  & 11 \\
+    \hline
+    1       & 1  & 5  & 7  & 11 \\
+    5       & 5  & 1  & 11 & 7 \\
+    7       & 7  & 11 & 1  & 5 \\
+    11      & 11 & 7  & 5  & 1 \\
+    \hline
+  \end{tabular}
+\end{minipage}
+\begin{minipage}{.3\textwidth}
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1  & 7  & 13 & 19 \\
+    \hline
+    1       & 1  & 7  & 13 & 19 \\
+    7       & 7  & 1  & 19 & 13 \\
+    13      & 13 & 19 & 1  & 7 \\
+    19      & 19 & 13 & 7  & 1 \\
+    \hline
+  \end{tabular}
+\end{minipage}
+\begin{minipage}{.3\textwidth}
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1  & 7  & 17 & 23 \\
+    \hline
+    1       & 1  & 7  & 17 & 23 \\
+    7       & 7  & 1  & 23 & 17 \\
+    17      & 17 & 23 & 1  & 7 \\
+    23      & 23 & 17 & 7  & 1 \\
+    \hline
+  \end{tabular}
+\end{minipage}
+
+Nun besitzt die erste Gruppe die folgenden beiden Linksnebenklassen:
+\begin{enumerate}[(1)]
+\item $1 \cdot \qty\big{1, 5, 7, 11}
+  = 5 \cdot \qty\big{1, 5, 7, 11}
+  = 7 \cdot \qty\big{1, 5, 7, 11}
+  = 11 \cdot \qty\big{1, 5, 7, 11}
+  = \qty\big{1, 5, 7, 11}$
+
+\item $13 \cdot \qty\big{1, 5, 7, 11} =
+  17 \cdot \qty\big{1, 5, 7, 11} =
+  19 \cdot \qty\big{1, 5, 7, 11} =
+  23 \cdot \qty\big{1, 5, 7, 11} =
+  \qty\big{13, 17, 19, 23}$
+\end{enumerate}
+
+Weiter ist $1$ eine Primitivwurzel von $\qty\big(\mathbb{Z}_4; +)$.
+Angenommen $U$ wäre nun zu $\qty\big(\mathbb{Z}_4; +)$ isomorph, dann gäbe es
+einen Isomorphismus $f \colon \qty\big(\mathbb{Z}_4; +) \to \qty\big(U; \cdot)$.
+Sei nun $f\qty\big(1) = u$ mit $u \in U$.
+Dann wären
+
+\newlist{inline}{enumerate*}{1}
+\setlist[inline]{itemjoin = \hspace{1cm}, label=$\bullet$}
+
+\begin{inline}
+\item $f\qty\big(1) = u$
+\item $f\qty\big(1 + 1) = u^2$
+\item $f\qty\big(1 + 1 + 1) = u^3$
+\item $f\qty\big(1 + 1 + 1 + 1) = u^4$
+\end{inline}
+
+Somit wäre $u$ ebenfalls eine Primitivwurzel in $U$, aus den obigen
+Verknüpfungstafeln ist allerdings ersichtlich, dass $U$ keinen Erzeuger hat.
+Ein Widerspruch und die Gruppen sind nicht isomorph.
+
+\paragraph{Ü 8.3} Es wird die Teilmenge $U = \qty\big{1, i, -1, -i}$ der
+komplexen Zahlen $\mathbb{C}$ betrachtet.
+\begin{enumerate}[(a)]
+\item Zeigen Sie, dass $U$ bzgl. der üblichen Multiplikation in den komplexen
+  Zahlen eine Untergruppe von $\qty\big(\mathbb{C} \setminus \qty\big{0}; \cdot)$
+  bildet.
+
+  \subparagraph{Lsg.} Es ist $1$ das neutrale Element der Multiplikation in
+  $\qty\big(\mathbb{C} \setminus \qty\big{0}; \cdot)$ und in $U$ enthalten.
+
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1    & $i$  & $-1$ & $-i$ \\
+    \hline
+    1       & 1    & $i$  & $-1$ & $-i$ \\
+    $i$     & $i$  & $-1$ & $-i$ & $-1$ \\
+    $-1$    & $-1$ & $-i$ & 1    & $i$  \\
+    $-i$    & $-i$ & 1    & $i$  & $-1$ \\
+    \hline
+  \end{tabular}
+
+  Somit ist $U$ bezüglich der Multiplikation und $^{-1}$ abgeschlossen.
+
+  $\Rightarrow U$ ist eine Untergruppe von
+  $\qty\big(\mathbb{C} \setminus \qty\big{0}; \cdot)$.
+
+\item Geben Sie für das Element $1 + i$ die Linksnebenklasse von $U$ in
+  $\qty\big(\mathbb{C} \setminus \qty\big{0}; \cdot)$ an und skizzieren Sie diese
+  Menge in der Gausschen Zahlenebene.
+
+  \subparagraph{Lsg.} Es ist $1 + i \in \mathbb{C}$ und
+  \begin{flalign*}
+    \qty\big{1 + i, -1 + i, -1 - i, 1 - i}
+    &= \qty\big(1 + i) \cdot \qty\big{1, i, -1, -i} \\
+    &= \qty\big(1 - i) \cdot \qty\big{1, i, -1, -i} \\
+    &= \qty\big(-1 - i) \cdot \qty\big{1, i, -1, -i} \\
+    &= \qty\big(-1 + i) \cdot \qty\big{1, i, -1, -i}
+  \end{flalign*}
+
+  \begin{tikzpicture}[scale=1]
+    \begin{axis}[
+      axis equal image,
+      axis x line=center,
+      axis y line=center,
+      grid=both,
+      xmin=-1.2,
+      xmax=1.2,
+      xtick distance=1,
+      ymin=-1.2,
+      ymax=1.2,
+      ytick={-1, 1},
+      yticklabels={$-i$,$i$},
+      ytick distance=1,
+    ]
+      \node[circle,fill=black,inner sep=0pt,minimum size=3pt,label=below:{$1 + i$}] at (1, 1) {};
+      \node[circle,fill=black,inner sep=0pt,minimum size=3pt,label=below:{$-1 + i$}] at (-1, 1) {};
+      \node[circle,fill=black,inner sep=0pt,minimum size=3pt,label=below:{$-1 - i$}] at (-1, -1) {};
+      \node[circle,fill=black,inner sep=0pt,minimum size=3pt,label=below:{$1 - i$}] at (1, -1) {};
+    \end{axis}
+  \end{tikzpicture}
+
+\item Welche Ordnungen haben die Elemente von $U$.
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $1^1 = 1$
+  \item $i^4 = 1$
+  \item $\qty\big(-1)^2 = 1$
+  \item $\qty\big(-i)^4 = 1$
+  \end{itemize}
+
+\item Ist $\qty\big(U; \cdot)$ zu $\qty\big(\mathbb{Z}_4; +)$ isomorph?
+
+  \subparagraph{Lsg.} Sei $f \colon U \to \mathbb{Z}_4$
+  mit $f\qty\big(1) = i$ linear.
+  Da $i$ mit der Ordnung 4 ein Erzeuger von $U$ ist, ist $f$ eine Bijektion
+  und ein Gruppenisomorphismus.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 8.4} Verwenden Sie bei den folgenden Aufgaben, wenn möglich, den
+Satz von Euler-Fermat:
+\begin{enumerate}[(a)]
+\item Berechnen Sie:
+  \[
+    42^{555} \mod 11, \qquad
+    2^{25} \mod 12, \qquad
+    13^{842} \mod 1225
+  \]
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(1)]
+  \item Es ist 11 eine Primzahl und 42 nicht durch 11 teilbar.
+    Also gilt nach dem kleinen Fermat, dass $42^{10} \mod 11 = 1$.
+    Folglich ist
+    \[
+      42^{555} = \qty(42^{10})^{55} \cdot 42^5 \equiv 42^5
+      \equiv 1 \qty\big(\mod 11)
+    \]
+
+  \item Da 12 weder eine Primzahl ist, noch 2 teilerfremd zu 12 ist, lässt sich
+    der Satz von Euler-Fermat hier nicht anwenden.
+    Allerdings ist $12 \cdot 21 = 252$ und somit
+    $2^8 = 256 \equiv 4 \qty\big(\mod 12)$.
+    Es folgt
+    \[
+      2^{25} = \qty\big(2^8)^3 \cdot 2
+      \equiv 4 \cdot 4 \cdot 4 \cdot 2
+      \equiv 4 \cdot 8
+      \equiv 8 \qty\big(\mod 12)
+    \]
+
+    \textbf{Alternativ nach der Übung:} Chinesischer Restsatz.
+    \begin{flalign*}
+      12 &= 4 \cdot 3 \\
+      2^{25} &\equiv 0 \mod 4 && \text{(Trivial)}\\
+      2^{25} &\equiv 2 \mod 3 && \text{(Erler-Fermat)}
+    \end{flalign*}
+    $\overset{\text{Chin. Restsatz}}\Rightarrow 2^{25} \equiv 8 \mod 12$
+
+    (Es gilt $2 = 0 \mod 4$ und $2 = 2 \mod 3$ und $2^{25} = 0 \mod 4$ und
+    $2^25 = 2 \mod 3$.
+    Nach dem Chinesischen Restsatz existiert ein $x \in \mathbb{Z}_{12}$ mit
+    $x = 2^{25} \mod 4$ und $x = 2^{25} \mod 3$.
+    Somit ist $x = 8$)
+
+  \item Es ist $1225 = 5^2 \cdot 7^2$.
+    Somit sind 1225 und 13 teilerfremd.
+    Weiter ist $\phi\qty\big(1225)
+    = \qty\big(5 - 1) \cdot 5^{2 - 1} \cdot \qty\big(7 - 1) \cdot 7^{2 - 1}
+    = 4 \cdot 5 \cdot 6 \cdot 7 = 840$.
+    Nun ist nach Euler-Fermat $13^{840} = 1$ und somit
+    \[
+      13^{842} = 13^{840} \cdot 13^2 \equiv 13^2 \equiv 169 \qty\big(\mod 1225)
+    \]
+  \end{enumerate}
+
+\newpage
+\item Finden Sie alle $x \in \mathbb{Z}_{40}$, welche die Gleichung
+  $123^{321} \cdot x \equiv 4 \qty\big(\mod 40)$ erfüllen.
+
+  \subparagraph{Lsg.} Es ist $40 = 2^3 \cdot 5$ und $123 = 3 \cdot 41$.
+  Somit sind $40$ und $41$ zueinander teilerfremd.
+  Weiter ist $\phi\qty\big(40)
+  = \qty\big(2 - 1) \cdot 2^{3 - 1} \cdot \qty\big(5 - 1) \cdot 5^{1 - 1}
+  = 2^2 \cdot 4  = 16$ und auch $320 = 16 \cdot 20$.
+  Schließlich ist
+  \[
+    123^{321} = \qty(123^{16})^{20} \cdot 123 \equiv 123 \equiv 3 \qty\big(\mod 40)
+  \]
+  Nun bleibt die Frage für welches $x \in \mathbb{Z}_{40}$ ist
+  $3 \cdot x \equiv 4 \qty\big(\mod 40)$?
+
+  Offensichtlich ist $3 \cdot \qty\big(x - 1) \equiv 1 \qty\big(\mod 40)$
+  und da 3 zu 40 teilerfremd ist $3^{16} \equiv 1 \qty\big(\mod 40)$.
+  Es folgt $3 \cdot 3^{15} \equiv 1 \qty\big(\mod 40)$.
+
+  $\Rightarrow 3^{15}$ ist Inverses zu 3 in $\mathbb{Z}_{40}$.
+
+  Nun ist $3^{15} = \qty\big(3^{4})^3 \cdot 3^3
+  \equiv 1 \cdot 1 \cdot 1 \cdot 3^3
+  \equiv 27 \qty\big(\mod 40)$ und somit $3 \cdot 27 \equiv 1 \qty\big(\mod 40)$
+  und endlich $3 \cdot 28 \equiv 4 \qty\big(\mod 40)$.
+
+  Da $\qty\big(\mathbb{Z}_{40}; \cdot)$ eine Gruppe und somit das Inverse von 3
+  eindeutig ist, folgt $x = 28$ als einzige Lösung.
+
+  \textbf{Alternativ nach der Übung:} $123 \equiv 3 \mod 40$ und
+  $\ggT\qty\big(3, 40) = 1$.
+  Somit lässt sich Euler-Fermat anwenden:
+  \[
+    123^{321} \equiv 3^{321} \equiv \qty(3^{16})^{20} \cdot 3 \equiv 3 \qty\big(\mod 40)
+  \]
+  Das heißt wir suchen ein $x \in \mathbb{Z}_{40}$ mit
+  $3 \cdot x \equiv 4 \qty\big(\mod 40)$.
+
+\item Zeigen Sie für alle $m \in \mathbb{N}$, dass $m^{13}$ und $m$ im
+  Dezimalsystem die gleiche Endziffer haben.
+
+  \subparagraph{Lsg.} Die Endziffer erhält man durch die Operation $\mod 10$.
+  Somit ist zu zeigen, dass $m^{13} \equiv m \qty\big(\mod 10)$.
+  Dabei besteht allerdings das Problem, dass $\ggT\qty\big(m, 10) = 1$ nicht
+  gewährleistet werden kann.
+
+  Zur Lösung benötigt man den Chinesischen Restsatz.
+  Es ist $10 = 2 \cdot 5$ und somit genügt es zu zeigen, dass für alle
+  $m \in \mathbb{N}$ gilt, dass
+  \begin{itemize}
+    \item $m^{13} \equiv m \mod 2$ und
+    \item $m^{13} \equiv m \mod 5$
+  \end{itemize}
+  Dann ist nach dem chinesischen Restsatz auch $m^{13} \equiv m \mod 10$
+  \begin{flalign*}
+    m^{13} &\equiv \begin{cases}
+      0 & m \text{ ist gerade} \\
+      1 & m \text{ ist ungerade}
+    \end{cases}
+    \equiv m \qty\big(\mod 2) \\
+    m^{13} &\equiv \begin{cases}
+      0 & 5|m \\
+      m & \ggT\qty\big(m, 5) = 1
+    \end{cases}
+    \equiv m \qty\big(\mod 5)
+  \end{flalign*}
+
+\end{enumerate}
+\end{document}
