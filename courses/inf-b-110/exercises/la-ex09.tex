@@ -1,0 +1,519 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 9\\INF-B-110, Lineare Algebra}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü9.3 Determinantenbestimmung mit Sarrus, Gauß, Laplace}
+
+Berechnen Sie die Determinante der Matrix
+\[
+  A = \begin{pmatrix}
+    1 & 2  & 2  \\
+    1 & -2 & 3  \\
+    3 & 1  & -4 \\
+  \end{pmatrix} \in \mathbb{R}^{3 \times 3}
+\]
+\begin{enumerate}[(a)]
+\item Durch Überführung in Zeilenstufenform.
+
+  \subparagraph{Lsg.} Es ist
+   \begin{flalign*}
+    \det\begin{pmatrix}
+      1 & 2  & 2  \\
+      1 & -2 & 3  \\
+      3 & 1  & -4 \\
+    \end{pmatrix}
+    \overset{Z_3 = Z_3 - 3 Z_1}&\leadsto
+    \det\begin{pmatrix}
+      1 & 2  & 2   \\
+      1 & -2 & 3   \\
+      0 & -5 & -10 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = Z_2 - Z_1}&\leadsto
+    \det\begin{pmatrix}
+      1 & 2  & 2   \\
+      0 & -4 & 1   \\
+      0 & -5 & -10 \\
+    \end{pmatrix} \\
+    \overset{Z_3 = -4 \cdot Z_3}&\leadsto
+    -\frac{1}{4} \cdot \det\begin{pmatrix}
+      1 & 2  & 2  \\
+      0 & -4 & 1  \\
+      0 & 20 & 40 \\
+    \end{pmatrix} \\
+    \overset{Z_3 = Z_3 + 5 \cdot Z_2}&\leadsto
+    -\frac{1}{4} \cdot \det\begin{pmatrix}
+      1 & 2  & 2  \\
+      0 & -4 & 1  \\
+      0 & 0  & 45 \\
+    \end{pmatrix} \\
+    &= -\frac{1}{4} \cdot 1 \cdot \qty\big(-4) \cdot 45 = 45
+  \end{flalign*}
+\item mit der Regel von Sarrus.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \det\begin{pmatrix}
+      \cellcolor{red!30}1    & \cellcolor{blue!20}2   & \cellcolor{yellow!30}2   \\
+      \cellcolor{orange!30}1 & \cellcolor{green!30}-2 & \cellcolor{teal!20}3     \\
+      \cellcolor{lime!40}3   & \cellcolor{cyan!20}1   & \cellcolor{magenta!20}-4 \\
+    \end{pmatrix}
+    = &\colorbox{red!30}{$1$} \cdot \colorbox{green!30}{$\qty\big(-2)$} \cdot \colorbox{magenta!20}{$\qty\big(-4)$} +
+       \colorbox{blue!20}{$2$} \cdot \colorbox{teal!20}{$3$} \cdot \colorbox{lime!40}{$3$} +
+       \colorbox{yellow!30}{$2$} \cdot \colorbox{orange!30}{$1$} \cdot \colorbox{cyan!20}{$1$} \\
+      &- \colorbox{lime!40}{$3$} \cdot \colorbox{green!30}{$\qty\big(-2)$} \cdot \colorbox{yellow!30}{$2$}
+       - \colorbox{cyan!20}{$1$} \cdot \colorbox{teal!20}{$3$} \cdot \colorbox{red!30}{$1$}
+       - \colorbox{magenta!20}{$\qty\big(-4)$} \cdot \colorbox{orange!30}{$1$} \cdot \colorbox{blue!20}{$2$} \\
+    = &45
+  \end{flalign*}
+
+\newpage
+\item mit Hilfe des Entwicklungssatzes.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \det\begin{pmatrix}
+      \cellcolor{red!30}1    & 2  & 2  \\
+      \cellcolor{blue!20}1   & -2 & 3  \\
+      \cellcolor{yellow!30}3 & 1  & -4 \\
+    \end{pmatrix}
+    &= \colorbox{red!30}{$1$} \cdot \det\begin{pmatrix}
+      -2 & 3  \\
+      1  & -4 \\
+    \end{pmatrix} - \colorbox{blue!20}{$1$} \cdot \det\begin{pmatrix}
+      2 & 2  \\
+      1 & -4 \\
+    \end{pmatrix} + \colorbox{yellow!30}{$3$} \cdot \det\begin{pmatrix}
+      2  & 2 \\
+      -2 & 3 \\
+    \end{pmatrix} \\
+    &= \qty\big(\qty\big(-2) \cdot \qty\big(-4) - 3 \cdot 1)
+       - \qty\big(2 \cdot \qty\big(-4) - 2 \cdot 1)
+       + \colorbox{yellow!30}{$3$} \cdot \qty\big(2 \cdot 3 - 2 \cdot \qty\big(-2)) \\
+    &= 5 + 10 + \colorbox{yellow!30}{$3$} \cdot 10 \\
+    &= 45
+  \end{flalign*}
+\end{enumerate}
+
+\paragraph{Ü 9.4 Determinante einer Vandermonde-Matrix}
+
+Seien $x_1, x_2, \ldots, x_n \in \mathbb{C}$.
+Zeigen Sie, dass für die \emph{Vandermonde-Matrix}
+\[
+  V\qty\big(x_1, x_2, x_3) \coloneqq \begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    1 & x_2 & x_2^2 \\
+    1 & x_3 & x_3^2 \\
+  \end{pmatrix} \in \mathbb{C}^{3 \times 3}
+\]
+die Gleichung $\det\qty(V\qty\big(x_1, x_2, x_3)) = \qty\big(x_3 - x_1) \cdot
+\qty\big(x_3 - x_2) \cdot \qty\big(x_2 - x_1)$ gilt.
+
+\subparagraph{Lsg.} Es ist
+\begin{flalign*}
+  \det \begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    1 & x_2 & x_2^2 \\
+    1 & x_3 & x_3^2 \\
+  \end{pmatrix}
+  \overset{Z_2 = Z_2 - Z_1}&=
+  \det \begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & x_2 - x_1 & x_2^2 - x_1^2 \\
+    1 & x_3 & x_3^2 \\
+  \end{pmatrix} \\
+  \overset{Z_3 = Z_3 - Z_1}&=
+  \det \begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & x_2 - x_1 & x_2^2 - x_1^2 \\
+    0 & x_3 - x_1 & x_3^2 - x_1^2 \\
+  \end{pmatrix} \\
+  &= \det \begin{pmatrix}
+    x_2 - x_1 & x_2^2 - x_1^2 \\
+    x_3 - x_1 & x_3^2 - x_1^2 \\
+  \end{pmatrix} \\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_1^2)
+    - \qty\big(x_2^2 - x_1^2) \cdot \qty\big(x_3 - x_1) \\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_1^2)
+    - \qty\big(x_2^2x_3 - x_2^2x_1 - x_1^2x_3 - x_1^3)\\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_1^2)
+    + \qty\big(x_2^2x_3 + x_2^2x_1 + x_1^2x_3 + x_1^3)\\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_1^2)
+    + \qty\big(x_2 - x_1) \cdot \qty\big(x_1x_2 - x_1x_3 - x_2x_3 + x_1^2)\\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_1^2 + x_1x_2 - x_1x_3 - x_2x_3 + x_1^2) \\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3^2 - x_2x_3 - x_1x_3 + x_1x_2) \\
+  &= \qty\big(x_2 - x_1) \cdot \qty\big(x_3 - x_1) \cdot \qty\big(x_3 - x_2)
+\end{flalign*}
+
+\textbf{Alternativ nach der Übung:}
+\begin{flalign*}
+  \det\begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    1 & x_2 & x_2^2 \\
+    1 & x_3 & x_3^2 \\
+  \end{pmatrix}
+  \overset{\substack{Z_2 = Z_2 - Z_1 \\ Z_3 = Z_3 - Z_1}}&=
+  \det\begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & x_2 - x_1 & x_2^2 - x_1^2 \\
+    0 & x_3 - x_1 & x_3^2 - x_1^2\\
+  \end{pmatrix} \\
+  \overset{\substack{Z_2 = \frac{Z_2}{x_2 - x_1} \\ Z_2 = \frac{Z_3}{x_3 - x_1}}}&=
+  \qty\big(x_2 - x_1)\qty\big(x_3 - x_1)\det\begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & 1   & x_2 + x_1 \\
+    0 & 1   & x_3 + x_1\\
+  \end{pmatrix} && \qty\Big(*) \\
+  \overset{Z_3 = Z_3 - Z_2}&=
+  \qty\big(x_2 - x_1)\qty\big(x_3 - x_1)\det\begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & 1   & x_2 + x_1 \\
+    0 & 0   & x_3 + x_1 - \qty\big(x_2 + x_1) \\
+  \end{pmatrix} \\
+  &=
+  \qty\big(x_2 - x_1)\qty\big(x_3 - x_1)\det\begin{pmatrix}
+    1 & x_1 & x_1^2 \\
+    0 & 1   & x_2 + x_1 \\
+    0 & 0   & x_3 - x_2 \\
+  \end{pmatrix} \\
+  &= \qty\big(x_2 - x_1)\qty\big(x_3 - x_1)\qty\big(x_3 - x_2)
+\end{flalign*}
+$\qty\Big(*) x_2 - x_1 \ne 0, x_3 - x_1 \ne 0$.
+Ansonsten ist $\det\qty\big(\ldots) = 0$ trivial.
+
+\newpage
+\paragraph{Ü 9.5 Determinanten und lineare Unabhängigkeit}
+\begin{enumerate}[(a)]
+\item Für welche $\lambda \in \mathbb{R}$ ist die Determinante der Matrix
+  $A \in \mathbb{R}^{4 \times 4}$ von Null verschieden?
+  \[
+    A = \begin{pmatrix}
+      0  & \lambda & -1 & 2       \\
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \det\begin{pmatrix}
+      0  & \lambda & -1 & 2       \\
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+    \end{pmatrix}
+    \overset{\substack{Z_1 \leftrightarrow Z_2 \\ Z_3 \leftrightarrow Z_4}}&=
+    \det\begin{pmatrix}
+      -1 & 2       & 0  & 1       \\
+      0  & \lambda & -1 & 2       \\
+      2  & -1      & 1  & -1      \\
+      1  & 3       & 2  & \lambda \\
+    \end{pmatrix} \\
+    \overset{\substack{Z_3 = Z_3 + 2Z_1 \\ Z_4 = Z_4 + Z_1}}&=
+    \det\begin{pmatrix}
+      -1 & 2       & 0  & 1           \\
+      0  & \lambda & -1 & 2           \\
+      0  & 3       & 1  & 1           \\
+      0  & 5       & 2  & \lambda + 1 \\
+    \end{pmatrix} \\
+    \overset{Z_4 = 3 \cdot Z_4 - 5 \cdot Z_3}&=
+    \frac{1}{3}\det\begin{pmatrix}
+      -1 & 2       & 0  & 1            \\
+      0  & \lambda & -1 & 2            \\
+      0  & 3       & 1  & 1            \\
+      0  & 0       & 1  & 3\lambda - 2 \\
+    \end{pmatrix} \\
+    &=
+    -\frac{1}{3}\det\begin{pmatrix}
+      \lambda & -1 & 2            \\
+      3       & 1  & 1            \\
+      0       & 1  & 3\lambda - 2 \\
+    \end{pmatrix} \\
+    \overset{\substack{Z_1 = Z_1 + Z_2 \\ Z_3 = Z_3 - Z_2}}&=
+    -\frac{1}{3}\det\begin{pmatrix}
+      \lambda + 3 & 0 & 3            \\
+      3           & 1 & 1            \\
+      -3          & 0 & 3\lambda - 3 \\
+    \end{pmatrix} \\
+    &= -\frac{1}{3}\det\begin{pmatrix}
+      \lambda + 3 & 3            \\
+      -3          & 3\lambda - 3 \\
+    \end{pmatrix} \\
+    &= -\frac{1}{3} \qty(\qty\big(\lambda + 3)\qty\big(3\lambda - 3) + 9) \\
+    &= -\qty(\qty\big(\lambda + 3)\qty\big(\lambda - 1) + 3) \\
+    &= -\lambda^2 - 2\lambda  = -\lambda\qty\big(\lambda + 2)
+  \end{flalign*}
+  Nun ist die Determinante gleich Null für $\lambda \in \qty\big{-2, 0}$
+
+\item Für welche reellen Zahlen $\lambda$ sind die Vektoren
+  \[
+    v_1 = \qty\big(0, -1, 1, 2)^T,
+    v_2 = \qty\big(\lambda, 2, 3, -1)^T,
+    v_3 = \qty\big(-1, 0, 2, 1)^T,
+    v_4 = \qty\big(2, 1, \lambda, -1)^T
+  \]
+  linear unabhängig?
+
+  \subparagraph{Lsg.} Das sind die Spaltenvektoren der Matrix aus der
+  Teilaufgabe (a).
+  Wenn die Vektoren linear Abhängig sind, dann lässt sich einer der Vektoren als
+  Linearkombination der 3 anderen Vektoren darstellen.
+  Somit lässt sich durch elementare Spaltenumformungen die Matrix $A$ in die
+  Matrix $B$ mit einer Nullspalte überführen.
+  Nun wurde in der Vorlesung bereits gezeigt, dass die Addition des vielfachen
+  einer Spalte zu einer anderen Spalte in der Matrix die Determinante nicht
+  ändert.
+  Folglich ist $\det A = \det B$ und durch Entwicklung nach der Nullspalte von
+  $B$ folgt $\det A = \det B = 0$.
+
+  Schließlich ist aus Teilaufgabe (a) bereits bekannt, dass $\det A = 0$ für
+  $\lambda \in \qty\big{-2, 0}$.
+  Als sind die Vektoren $v_1, v_2, v_3, v_4$ für $\lambda = -2$ und $\lambda = 0$
+  linear abhängig.
+
+\item Für welche reellen Zahlen sind die reellen Polynomfunktionen
+  \begin{flalign*}
+    p_1\qty\big(x) &\coloneqq -x^3 + x^2 +2x,
+    p_2\qty\big(x) \coloneqq 2x^3 + 3x^2 - x + \lambda, \\
+    p_3\qty\big(x) &\coloneqq 2x^2 + x - 1,
+    p_4\qty\big(x) \coloneqq x^3 + \lambda x^2 - x + 2
+   \end{flalign*}
+  linear unabhängig?
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \det\begin{pmatrix}
+      0  & \lambda & -1 & 2       \\
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+    \end{pmatrix}
+    \overset{Z_1 \leftrightarrow Z_2}&=
+    -\det\begin{pmatrix}
+      -1 & 2       & 0  & 1       \\
+      0  & \lambda & -1 & 2       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+    \end{pmatrix} \\
+    \overset{Z_2 \leftrightarrow Z_3}&=
+    \det\begin{pmatrix}
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      0  & \lambda & -1 & 2       \\
+      2  & -1      & 1  & -1      \\
+    \end{pmatrix} \\
+    \overset{Z_3 \leftrightarrow Z_4}&=
+    -\det\begin{pmatrix}
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+      0  & \lambda & -1 & 2       \\
+    \end{pmatrix}
+  \end{flalign*}
+  Sei nun
+  \[
+    B = \begin{pmatrix}
+      -1 & 2       & 0  & 1       \\
+      1  & 3       & 2  & \lambda \\
+      2  & -1      & 1  & -1      \\
+      0  & \lambda & -1 & 2       \\
+    \end{pmatrix}
+  \]
+  Dann entsprechen $p_1, p_2, p_3, p_4$ den Spalten von $B$.
+  In Teilaufgabe (b) wurde bereits ermittelt, dass die Spaltenvektoren von $A$
+  für $\lambda \in \qty\big{-2, 0}$ linear abhängig sind, also sind auch
+  $p_1, p_2, p_3, p_4$ für $\lambda \in \qty\big{-2, 0}$ linear abhängig.
+
+  \textbf{Alternativ nach der Übung:} Verwende $B = \qty\big(1, x^3, x^2, x)$
+  als Basis.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 9.6 Determinanten oberer Dreiecksmatrizen}
+\begin{enumerate}[(a)]
+\item Beweisen Sie: Ist $A = \qty\big(a_{ij}) \in K^{n \times n}$ eine obere
+  Dreiecksmatrix (d.h. $a_{ij} = 0$ gilt für alle $i > j$), dann gilt
+  $\det\qty\big(A) = \prod_{i = 1}^n a_{ii}$.
+
+  \subparagraph{Lsg.} Beweis durch vollständige Induktion.
+
+  \textbf{Behauptung}: Sei $P\qty\big(n)$ für alle
+  $n \in \mathbb{N} \setminus \qty\big{0}$ wahr mit
+  \[
+    P\qty\big(n) \colon \det\qty\big(A) = \prod_{i = 1}^n a_{ii}
+    \text{ für jede obere Dreiecksmatrix } A \in K^{n \times n}
+  \]
+
+  \textbf{Induktionsanfang}: Für $n = 1$ gilt $P\qty\big(n)$, da jede Matrix
+  $A = \qty(a_{11}) \in K^{1 \times 1}$ eine obere Dreiecksmatrix ist und die
+  Determinante $\det\qty\big(A) = a_{11} = \prod_{i = 1}^1 a_{ii}$.
+
+  \textbf{Induktionsschritt:} Sei $P\qty\big(n)$ für ein beliebiges
+  $n \in \mathbb{N}$ wahr (Induktionsvorraussetzung (IV)).
+  Dann gilt für eine beliebige obere Dreiecksmatrix
+  $A = \qty(a_{ij}) \in K^{n + 1 \times n + 1}$ nach dem Entwicklungssatz
+  \[
+    \det\qty\big(A)
+    = \sum_{j = 1}^m \qty\big(-1)^{1 + j} \cdot a_{1j} \cdot \det\qty\big(A_{1j})
+  \]
+
+  Nun wissen wir bereits, dass $a_{ij} = 0$ für $i > j$, und insbesondere
+  $a_{1j} = 0$ für alle $j > 1$.
+  Somit ist
+  \[
+    \det\qty\big(A) = a_{11} \cdot \det\qty(A_{11})
+  \]
+  und nach der Induktionsvorraussetzung ist
+  $\det\qty(A_{11}) = \prod_{i = 2}^1 a_{ii}$.
+  Es folgt $\det\qty(A) = \prod_{i = 1}^1 a_{ii}$ und aus dem Satz über die
+  vollständige Induktion die Behauptung $P\qty\big(n)$.
+
+\item Gibt es Matrixen $A, B, C, D \in \mathbb{R}^{2 \times 2}$ mit
+
+  \begin{enumerate*}[(a)]
+  \item $AA = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+  \end{pmatrix}$
+  \item $BB^T = \begin{pmatrix}
+    1 & 2 \\
+    2 & 1 \\
+  \end{pmatrix}$
+  \item $CC^T = \begin{pmatrix}
+    -1 & 0  \\
+    0  & -1 \\
+  \end{pmatrix}$
+  \item $DD^T = \begin{pmatrix}
+    1 & -1 \\
+    1 & 1  \\
+  \end{pmatrix}$
+  \end{enumerate*}
+
+  Geben Sie Beispiele an bzw. begründen Sie, warum derartige Matrizen nicht
+  existieren.
+  Nutzen Sie dazu u.a. die Determinantenfunktion und deren Eigenschaften.
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(a)]
+  \item Es ist
+    \[
+      \det\begin{pmatrix}
+        0 & 1 \\
+        1 & 0 \\
+      \end{pmatrix} = -1
+    \]
+    und nach dem Multiplikationssatz $-1 = \det\qty\big(A)^2$.
+    Nun existiert eine Matrix $A$, welche diese Gleichung erfüllt in
+    $\mathbb{R}^{2 \times 2}$ nicht.
+
+  \item Es ist
+    \[
+      \det\begin{pmatrix}
+        1 & 2 \\
+        2 & 1 \\
+      \end{pmatrix} = -3
+    \]
+    und $\det\qty\big(B^T) = \det\qty\big(B)$.
+    Somit auch $-3 = \det\qty\big(B)^2$ und auch eine Matrix $B$, welche diese
+    Gleichung erfüllt existiert in $\mathbb{R}^{2 \times 2}$ nicht.
+
+  \item Sei
+    \[
+      C = \begin{pmatrix}
+        c_{11} & c_{12} \\
+        c_{21} & c_{22} \\
+      \end{pmatrix},
+      C^T = \begin{pmatrix}
+        c_{11} & c_{21} \\
+        c_{12} & c_{22} \\
+      \end{pmatrix}
+    \]
+    Dann ist
+    \[
+      CC^T = \begin{pmatrix}
+        c_{11} & c_{12} \\
+        c_{21} & c_{22} \\
+      \end{pmatrix}\begin{pmatrix}
+        c_{11} & c_{21} \\
+        c_{12} & c_{22} \\
+      \end{pmatrix} = \begin{pmatrix}
+        c_{11}c_{11} + c_{12}c_{12} & c_{11}c_{21} + c_{12}c_{22} \\
+        c_{21}c_{11} + c_{22}c_{12} & c_{21}c_{21} + c_{22}c_{22} \\
+      \end{pmatrix} = \begin{pmatrix}
+        -1 & 0  \\
+        0  & -1 \\
+      \end{pmatrix}
+    \]
+    Und $c_{11}, c_{12}$ mit $c_{11}^2 + c_{12}^2 = -1$ existieren in
+    $\mathbb{R}$ nicht.
+
+  \item Sei
+    \[
+      D = \begin{pmatrix}
+        d_{11} & d_{12} \\
+        d_{21} & d_{22} \\
+      \end{pmatrix},
+      D^T = \begin{pmatrix}
+        d_{11} & d_{21} \\
+        d_{12} & d_{22} \\
+      \end{pmatrix}
+    \]
+    Dann ist
+    \[
+      DD^T = \begin{pmatrix}
+        d_{11} & d_{12} \\
+        d_{21} & d_{22} \\
+      \end{pmatrix}\begin{pmatrix}
+        d_{11} & d_{21} \\
+        d_{12} & d_{22} \\
+      \end{pmatrix} = \begin{pmatrix}
+        d_{11}d_{11} + d_{12}c_{12} & d_{11}d_{21} + d_{12}d_{22} \\
+        d_{21}d_{11} + d_{22}d_{12} & d_{21}d_{21} + d_{22}d_{22} \\
+      \end{pmatrix} = \begin{pmatrix}
+        1 & -1 \\
+        1 & 1  \\
+      \end{pmatrix}
+    \]
+    Nun soll $d_{21}d_{11} + d_{22}d_{12}$ gleichzeitig 1 und -1 entsprechen, ein
+    Widerspruch.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
