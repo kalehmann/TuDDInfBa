@@ -1,0 +1,768 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 10\\INF-B-110, Lineare Algebra}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü10.3 Berechnung von Eigenwerten und Eigenräumen}
+\begin{enumerate}[(a)]
+\item Es sei $M = \begin{pmatrix}
+    3 & 2 \\
+    2 & 3 \\
+  \end{pmatrix} \in \mathbb{R}^{2 \times 2}$.
+  Zeigen Sie, dass $v_1 = \begin{pmatrix} 1 \\ 1 \end{pmatrix}$ ein Eigenvektor
+  von $M$ ist und bestimmen Sie den zugehörigen Eigenwert $\lambda_1$.
+  Zeigen Sie, dass $\lambda_2 = 1$ ein Eigenwert von $M$ ist und bestimmen Sie
+  den zugehörigen Eigenraum $\text{Eig}\qty\big(M, \lambda_2)$.
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    \begin{pmatrix}
+      3 & 2 \\
+      2 & 3 \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      1 \\
+      1 \\
+    \end{pmatrix} = \begin{pmatrix}
+      5 \\
+      5 \\
+    \end{pmatrix} = 5 \cdot v_1
+  \]
+  Somit ist $v_1$ ein Eigenvektor mit dem Eigenwert $\lambda_1 = 5$.
+  Weiter ist
+  \begin{flalign*}
+    \det\qty\big(M - \lambda \cdot E_2)
+    &= \det\qty(\begin{pmatrix}
+      3 - \lambda & 2           \\
+      2           & 3 - \lambda \\
+    \end{pmatrix}) \\
+    &= \qty\big(3 - \lambda)^2 - 4 \\
+    &= \lambda^2 - 6\lambda  + 5 \\
+    &= \qty\big(\lambda - 5)\qty\big(\lambda - 1)
+  \end{flalign*}
+  Damit ist $\lambda_1 = 5$ und $\lambda_2 = 1$ die einzigen Eigenwerte von $M$.
+
+  \textbf{Alternativ nach der Übung:} Einfach $\text{Eig}\qty\big(M, 1)$
+  aufstellen und schauen, dass es nicht der Nullraum ist.
+
+  Nun ist $\text{Eig}\qty\big(M, \lambda_2)
+  = \text{Ker}\qty\big(M - \lambda_2 \cdot E_2)$ und
+  \begin{flalign*}
+    M - 1 \cdot E_2
+    &= \begin{pmatrix}
+      3 - 1 & 2     \\
+      2     & 3 - 1 \\
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+      2 & 2 \\
+      2 & 2 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = Z_2 - Z_1}&\leadsto \begin{pmatrix}
+      2 & 2 \\
+      0 & 0 \\
+    \end{pmatrix} \\
+    \overset{Z_1 = \frac{1}{2} \cdot Z_1}&\leadsto \begin{pmatrix}
+      1 & 1 \\
+      0 & 0 \\
+    \end{pmatrix}
+  \end{flalign*}
+  Somit ist $x_1 + x_2 = 0$ oder $x_2 = -x_1$ und
+  \[
+    \text{Eig}\qty\big(M, \lambda_2) =
+    \text{Ker}\qty\big(M - \lambda_2 \cdot E_2) =
+    \qty{
+      \begin{pmatrix}
+        x_1  \\
+        -x_1 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_1 \in \mathbb{R}
+    } =
+    \text{Span}\qty(\begin{pmatrix} 1 \\ -1 \end{pmatrix})
+  \]
+
+\newpage
+\item Bestimmen Sie für die gegebenen Matrizen $A, B \in \mathbb{R}^{3 \times 3}$
+  und $C \in \mathbb{R}^{4 \times 4}$ jeweils das charakteristische Polynom, die
+  Eigenwerte und eine Basis für jeden Eigenraum.
+  \[
+    A = \begin{pmatrix}
+      4  & 0 & 1 \\
+      -2 & 1 & 0 \\
+      -2 & 0 & 1 \\
+    \end{pmatrix}, \qquad
+    B = \begin{pmatrix}
+      2 & 3 & 3 \\
+      3 & 2 & 3 \\
+      3 & 3 & 2 \\
+    \end{pmatrix}, \qquad
+    C = \begin{pmatrix}
+      0  & 0 & 1 & 1 \\
+      -2 & 2 & 1 & 1 \\
+      -3 & 0 & 4 & 1 \\
+      -3 & 0 & 1 & 4 \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \det\qty\big(A - \lambda \cdot E_3)
+    &= \det\qty(\begin{pmatrix}
+      4 - \lambda & 0           & 1           \\
+      -2          & 1 - \lambda & 0           \\
+      -2          & 0           & 1 - \lambda \\
+    \end{pmatrix}) \\
+    \overset{\text{Entwicklung nach der 2. Spalte}}&=
+    \qty\big(1 - \lambda) \cdot \det\qty(\begin{pmatrix}
+      4 - \lambda & 1           \\
+      -2          & 1 - \lambda \\
+    \end{pmatrix}) \\
+    &= \qty\big(1 - \lambda)\qty\big(\qty\big(4 - \lambda)\qty\big(1 - \lambda) + 2) \\
+    &= \qty\big(1 - \lambda)\qty\big(\lambda^2 - 5\lambda + 6) \\
+    &= \qty\big(1 - \lambda)\qty\big(\lambda - 2)\qty\big(\lambda - 3)
+  \end{flalign*}
+  Somit sind $\lambda_1 = 1$, $\lambda_2 = 2$ und $\lambda_3 = 3$ die Eigenwerte
+  von $A$.
+  \begin{enumerate}[($\lambda_1$)]
+  \item
+    \begin{flalign*}
+      A - \lambda_1 \cdot E_3
+      &= \begin{pmatrix}
+        3  & 0 & 1 \\
+        -2 & 0 & 0 \\
+        -2 & 0 & 0 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 - Z_2}\leadsto \begin{pmatrix}
+        3  & 0 & 1 \\
+        -2 & 0 & 0 \\
+        0  & 0 & 0 \\
+      \end{pmatrix} \\
+      \overset{Z_2 = -\frac{1}{2} \cdot Z_2}&\leadsto \begin{pmatrix}
+        3 & 0 & 1 \\
+        1 & 0 & 0 \\
+        0 & 0 & 0 \\
+      \end{pmatrix}
+      \overset{Z_1 = Z_1 - 3 \cdot Z_2}\leadsto \begin{pmatrix}
+        0 & 0 & 1 \\
+        1 & 0 & 0 \\
+        0 & 0 & 0 \\
+      \end{pmatrix}
+    \end{flalign*}
+    Somit sind $x_1 = 0$ und $x_3 = 0$.
+    \[
+      \text{Eig}\qty\big(A, \lambda_1) =
+      \text{Ker}\qty\big(A - \lambda_1 \cdot E_3) =
+      \qty{
+        \begin{pmatrix}
+          0   \\
+          x_2 \\
+          0   \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_2 \in \mathbb{R}
+      } = \text{Span}\qty(\begin{pmatrix} 0 \\ 1 \\ 0 \end{pmatrix})
+    \]
+
+  \item
+    \[
+      A - \lambda_2 \cdot E_3
+      = \begin{pmatrix}
+        2  & 0  & 1  \\
+        -2 & -1 & 0  \\
+        -2 & 0  & -1 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 + Z_1}\leadsto \begin{pmatrix}
+        2  & 0  & 1 \\
+        -2 & -1 & 0 \\
+        0  & 0  & 0 \\
+      \end{pmatrix}
+      \overset{Z_2 = Z_2 + Z_1}\leadsto \begin{pmatrix}
+        2 & 0  & 1 \\
+        0 & -1 & 1 \\
+        0 & 0  & 0 \\
+      \end{pmatrix}
+    \]
+    Somit sind $-\frac{1}{2}x_1 = x_3$ und $x_2 = x_3$.
+    \[
+      \text{Eig}\qty\big(A, \lambda_2) =
+      \text{Ker}\qty\big(A - \lambda_2 \cdot E_3) =
+      \qty{
+        \begin{pmatrix}
+          -\frac{1}{2}x_3 \\
+          x_3             \\
+          x_3             \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_3 \in \mathbb{R}
+      } = \text{Span}\qty(\begin{pmatrix} -1 \\ 2 \\ 2 \end{pmatrix})
+    \]
+
+  \item
+    \[
+      A - \lambda_3 \cdot E_3
+      = \begin{pmatrix}
+        1  & 0  & 1  \\
+        -2 & -2 & 0  \\
+        -2 & 0  & -2 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 + 2 \cdot Z_1}\leadsto \begin{pmatrix}
+        1  & 0  & 1  \\
+        -2 & -2 & 0  \\
+        0  & 0  & 0 \\
+      \end{pmatrix}
+      \overset{Z_2 = -\frac{1}{2}\qty(Z_2 + 2 \cdot Z_1)}\leadsto \begin{pmatrix}
+        1 & 0  & 1  \\
+        0 & 1  & -1 \\
+        0 & 0  & 0  \\
+      \end{pmatrix}
+    \]
+    Somit sind $x_1 = -x_3$ und $x_2 = x_3$.
+    \[
+      \text{Eig}\qty\big(A, \lambda_3) =
+      \text{Ker}\qty\big(A - \lambda_3 \cdot E_3) =
+      \qty{
+        \begin{pmatrix}
+          -x_3 \\
+          x_3  \\
+          x_3  \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_3 \in \mathbb{R}
+      } = \text{Span}\qty(\begin{pmatrix} -1 \\ 1 \\ 1 \end{pmatrix})
+    \]
+  \end{enumerate}
+
+  \newpage
+  \begin{landscape}
+  Weiter ist
+  \begin{flalign*}
+    \det\qty\big(B - \lambda \cdot E_3)
+    &= \det\qty(\begin{pmatrix}
+      2 - \lambda & 3           & 3           \\
+      3           & 2 - \lambda & 3           \\
+      3           & 3           & 2 - \lambda \\
+    \end{pmatrix}) \\
+    \overset{\text{Entwicklung nach 1. Spalte}}&=
+      \qty\big(2 - \lambda)\det\qty(\begin{pmatrix}
+        2 - \lambda & 3           \\
+        3           & 2 - \lambda \\
+      \end{pmatrix}) - 3 \det\qty(\begin{pmatrix}
+        3 & 3           \\
+        3 & 2 - \lambda \\
+      \end{pmatrix}) + 3 \det\qty(\begin{pmatrix}
+        3           & 3 \\
+        2 - \lambda & 3 \\
+      \end{pmatrix}) \\
+    &= \qty\big(2 - \lambda)\qty(\qty\big(2 - \lambda)^2 - 9) - 3\qty\big(2\qty\big(2 - \lambda) - 9) + 3\qty\big(9 - 3\qty\big(2 - \lambda)) \\
+    &= \qty\big(2 - \lambda)\qty(\qty\big(2 - \lambda)^2 - 9) + \qty\big(9 + 9\lambda) + \qty\big(9 + 9\lambda) \\
+    &= \qty\big(2 - \lambda)\qty(\lambda^2 - 4\lambda - 5) + \qty\big(9 + 9\lambda) + \qty\big(9 + 9\lambda) \\
+    &= 2\lambda^2 - 8\lambda - 10 - \lambda^3 + 4\lambda^2 + 5\lambda + 9 + 9\lambda + 9 + 9\lambda \\
+    &= -\lambda^3 + 6\lambda^2 + 15 \lambda + 8
+  \end{flalign*}
+  Hier sieht man direkt $\lambda_1 = -1$.
+  Es verbleiben
+  \[
+    \qty\big(\lambda + 1)\qty\big(-\lambda^2 + 7\lambda + 8) =
+    \qty\big(\lambda + 1)\qty\big(-\lambda + 8)\qty\big(\lambda + 1)
+  \]
+  Somit sind $\lambda_1 = -1$ und $\lambda_2 = 8$ die Eigenwerte von $B$.
+
+  \textbf{Alternativ nach der Übung:}
+  \begin{flalign*}
+    \begin{pmatrix}
+      2 - \lambda & 3           & 3           \\
+      3           & 2 - \lambda & 3           \\
+      3           & 3           & 2 - \lambda \\
+    \end{pmatrix}
+    \overset{S_2 = S_2 - S_1}&\leadsto
+    \begin{pmatrix}
+      2 - \lambda & 1 + \lambda  & 3           \\
+      3           & -1 - \lambda & 3           \\
+      3           & 0            & 2 - \lambda \\
+    \end{pmatrix}
+    \overset{S_3 = S_3 - S_1}\leadsto
+    \begin{pmatrix}
+      2 - \lambda & 1 + \lambda  & 1 + \lambda  \\
+      3           & -1 - \lambda & 0            \\
+      3           & 0            & -1 - \lambda \\
+    \end{pmatrix} \\
+    \overset{Z_1 = Z_1 + Z_2 + Z_3}&\leadsto
+    \begin{pmatrix}
+      8 - \lambda & 0            & 0            \\
+      3           & -1 - \lambda & 0            \\
+      3           & 0            & -1 - \lambda \\
+    \end{pmatrix}
+  \end{flalign*}
+  Und dann ist die Determinante der oberen Dreiecksmatrix trivial.
+  \end{landscape}
+  \begin{enumerate}[($\lambda_1$)]
+  \item
+    \begin{flalign*}
+      B - \lambda_1 \cdot E_3
+      &= \begin{pmatrix}
+        3 & 3 & 3 \\
+        3 & 3 & 3 \\
+        3 & 3 & 3 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 - Z_1}\leadsto \begin{pmatrix}
+        3 & 3 & 3 \\
+        3 & 3 & 3 \\
+        0 & 0 & 0 \\
+      \end{pmatrix} \\
+      \overset{Z_2 = Z_2 - Z_1}&\leadsto \begin{pmatrix}
+        3 & 3 & 3 \\
+        0 & 0 & 0 \\
+        0 & 0 & 0 \\
+      \end{pmatrix}
+      \overset{Z_1 = \frac{1}{3} \cdot Z_1}\leadsto \begin{pmatrix}
+        1 & 1 & 1 \\
+        0 & 0 & 0 \\
+        0 & 0 & 0 \\
+      \end{pmatrix}
+    \end{flalign*}
+    Somit ist $x_1 = -x_2 - x_3$ und
+    \begin{flalign*}
+      \text{Eig}\qty\big(B, \lambda_1) &=
+      \text{Ker}\qty\big(B - \lambda_1 \cdot E_3) =
+      \qty{
+        \begin{pmatrix}
+          -x_2 \\
+          x_2  \\
+          0    \\
+        \end{pmatrix}, \begin{pmatrix}
+          -x_3 \\
+          0    \\
+          x_3  \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_2, x_3 \in \mathbb{R}
+      }\\
+      &= \text{Span}\qty(
+        \begin{pmatrix} -1 \\ 1 \\ 0 \end{pmatrix},
+        \begin{pmatrix} -1 \\ 0 \\ 1 \end{pmatrix}
+      )
+    \end{flalign*}
+
+  \item
+    \begin{flalign*}
+      B - \lambda_2 \cdot E_3
+      = \begin{pmatrix}
+        -6 & 3  & 3  \\
+        3  & -6 & 3  \\
+        3  & 3  & -6 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 - Z_2}&\leadsto \begin{pmatrix}
+        -6 & 3  & 3  \\
+        3  & -6 & 3  \\
+        0  & 9  & -9 \\
+      \end{pmatrix}
+      \overset{Z_2 = 2 \cdot Z_2 + \cdot Z_1}\leadsto \begin{pmatrix}
+        -6 & 3  & 3  \\
+        0  & -9 & 9 \\
+        0  & 9  & -9 \\
+      \end{pmatrix} \\
+      \overset{Z_3 = Z_3 + Z_2}&\leadsto \begin{pmatrix}
+        -6 & 3  & 3 \\
+        0  & -9 & 9 \\
+        0  & 0  & 0 \\
+      \end{pmatrix}
+      \overset{Z_2 = -\frac{1}{9} \cdot Z_2}\leadsto \begin{pmatrix}
+        -6 & 3 & 3  \\
+        0  & 1 & -1 \\
+        0  & 0 & 0  \\
+      \end{pmatrix} \\
+      \overset{Z_1 = -\frac{1}{6} \cdot Z_1}&\leadsto \begin{pmatrix}
+        1 & -\frac{1}{2} & -\frac{1}{2} \\
+        0 & 1            & -1           \\
+        0 & 0            & 0            \\
+      \end{pmatrix}
+      \overset{Z_1 = Z_1 + \frac{1}{2} \cdot Z_2}\leadsto \begin{pmatrix}
+        1 & 0 & -1 \\
+        0 & 1 & -1 \\
+        0 & 0 & 0  \\
+      \end{pmatrix}
+    \end{flalign*}
+    Somit sind $x_1 = x_3$ und $x_2 = x_3$
+    \[
+      \text{Eig}\qty\big(B, \lambda_2) =
+      \text{Ker}\qty\big(B - \lambda_2 \cdot E_3) =
+      \qty{
+        \begin{pmatrix}
+          x_3 \\
+          x_3 \\
+          x_3 \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_3 \in \mathbb{R}
+      } = \text{Span}\qty(\begin{pmatrix} 1 \\ 1 \\ 1 \end{pmatrix})
+    \]
+
+  \end{enumerate}
+  \newpage
+  \begin{landscape}
+  Schließlich ist noch
+  \begin{flalign*}
+    \det\qty\big(C - \lambda \cdot E_4)
+      &= \det\qty(\begin{pmatrix}
+        -\lambda & 0           & 1           & 1           \\
+        -2       & 2 - \lambda & 1           & 1           \\
+        -3       & 0           & 4 - \lambda & 1           \\
+        -3       & 0           & 1           & 4 - \lambda \\
+      \end{pmatrix}) \\
+    \overset{\text{Entwicklung nach 2. Spalte}}&=
+      \qty\big(2 - \lambda)\det\qty(\begin{pmatrix}
+        -\lambda & 1           & 1           \\
+        -3       & 4 - \lambda & 1           \\
+        -3       & 1           & 4 - \lambda \\
+      \end{pmatrix})  \\
+    \overset{\text{Entwicklung nach 1. Zeile}}&=
+      \qty\big(2 - \lambda)\qty(-\lambda \det\begin{pmatrix}
+        4 - \lambda & 1           \\
+        1           & 4 - \lambda \\
+      \end{pmatrix} - \det\begin{pmatrix}
+        -3 & 1           \\
+        -3 & 4 - \lambda \\
+      \end{pmatrix} + \det\begin{pmatrix}
+        -3       & 4 - \lambda \\
+        -3       & 1           \\
+      \end{pmatrix})  \\
+    &= \qty\big(2 - \lambda)\qty\Big(
+        -\lambda\qty(\qty\big(4 - \lambda)^2 - 1) -
+        \qty(-3\qty\big(4 - \lambda) + 3) +
+        \qty\big(-3 + 3\qty\big(4 - \lambda))
+      ) \\
+    &= \qty\big(2 - \lambda)\qty\Big(
+        -\lambda\qty(\lambda^2 - 8\lambda + 17) -
+        \qty\big(-0 + 3\lambda) +
+        \qty\big(9 - 3\lambda)
+      ) \\
+    &= \qty\big(2 - \lambda)\qty\Big(
+        -\lambda^3 + 8\lambda^2 - 17\lambda +
+        9 - 3\lambda + 9 - 3\lambda
+      ) \\
+    &= \qty\big(2 - \lambda)\qty\big(
+        -\lambda^3 + 8\lambda^2 - 23\lambda + 18
+      )
+  \end{flalign*}
+  Mit etwas Glück erkennt man in der zweiten Klammer das
+  $\lambda_1 = \lambda_2 = 2$.
+  Weiter geht es mit
+  \[
+    \qty\big(2 - \lambda)^2\qty\big(\lambda^2 - 6\lambda + 9) =
+    \qty\big(2 - \lambda)^2\qty\big(3 - \lambda)^2
+  \]
+  Somit sind $\lambda_1 = \lambda_2 = 2$ und $\lambda_3 = \lambda_4 = 3$ die
+  Eigenwerte von $C$
+  \end{landscape}
+  \begin{enumerate}
+  \item[($\lambda_{1|2}$)]
+    \begin{flalign*}
+      C - \lambda_{1|2} \cdot E_4
+      &= \begin{pmatrix}
+        -2 & 0 & 1 & 1 \\
+        -2 & 0 & 1 & 1 \\
+        -3 & 0 & 2 & 1 \\
+        -3 & 0 & 1 & 2 \\
+      \end{pmatrix}
+      \overset{Z_2 = Z_2 - Z_1}\leadsto \begin{pmatrix}
+        -2 & 0 & 1 & 1 \\
+        0  & 0 & 0 & 0 \\
+        -3 & 0 & 2 & 1 \\
+        -3 & 0 & 1 & 2 \\
+      \end{pmatrix} \\
+      \overset{Z_4 = Z_4 - Z_3}&\leadsto \begin{pmatrix}
+        -2 & 0 & 1  & 1 \\
+        0  & 0 & 0  & 0 \\
+        -3 & 0 & 2  & 1 \\
+        0  & 0 & -1 & 1 \\
+      \end{pmatrix}
+      \overset{Z_1 = -\frac{1}{2} \cdot \qty\big(Z_1 + Z_4)}\leadsto \begin{pmatrix}
+        1  & 0 & 0  & -1 \\
+        0  & 0 & 0  & 0  \\
+        -3 & 0 & 2  & 1  \\
+        0  & 0 & -1 & 1  \\
+      \end{pmatrix} \\
+      \overset{Z_3 = \frac{1}{2} \cdot \qty\big(Z_3 + 3 \cdot Z_1)}&\leadsto \begin{pmatrix}
+        1 & 0 & 0  & -1 \\
+        0 & 0 & 0  & 0  \\
+        0 & 0 & 1  & -1 \\
+        0 & 0 & -1 & 1  \\
+      \end{pmatrix}
+      \overset{Z_4 = Z_4 + Z_3)}\leadsto \begin{pmatrix}
+        1 & 0 & 0  & -1 \\
+        0 & 0 & 0  & 0  \\
+        0 & 0 & 1  & -1 \\
+        0 & 0 & 0  & 0  \\
+      \end{pmatrix}
+    \end{flalign*}
+    Somit ist $x_1 = x_4$ und $x_3 = x_4$
+    \begin{flalign*}
+      \text{Eig}\qty\big(C, \lambda_{1|2}) &=
+      \text{Ker}\qty\big(C - \lambda_{1|2} \cdot E_4) =
+      \qty{
+        \begin{pmatrix}
+          x_4 \\
+          0   \\
+          x_4 \\
+          x_4 \\
+        \end{pmatrix}, \begin{pmatrix}
+          0   \\
+          x_2 \\
+          0   \\
+          0   \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_2, x_4 \in \mathbb{R}
+      }\\
+      &= \text{Span}\qty(
+        \begin{pmatrix} 1 \\ 0 \\ 1 \\ 1 \end{pmatrix},
+        \begin{pmatrix} 0 \\ 1 \\ 0 \\ 0 \end{pmatrix}
+      )
+    \end{flalign*}
+
+  \item[($\lambda_{3|4}$)]
+    \begin{flalign*}
+      C - \lambda_{3|4} \cdot E_4
+      = \begin{pmatrix}
+        -3 & 0  & 1 & 1 \\
+        -2 & -1 & 1 & 1 \\
+        -3 & 0  & 1 & 1 \\
+        -3 & 0  & 1 & 1 \\
+      \end{pmatrix}
+      \overset{Z_4 = Z_4 - Z_3}&\leadsto \begin{pmatrix}
+        -3 & 0  & 1 & 1 \\
+        -2 & -1 & 1 & 1 \\
+        -3 & 0  & 1 & 1 \\
+        0  & 0  & 0 & 0 \\
+      \end{pmatrix}
+      \overset{Z_3 = Z_3 - Z_1}\leadsto \begin{pmatrix}
+        -3 & 0  & 1 & 1 \\
+        -2 & -1 & 1 & 1 \\
+        0  & 0  & 0 & 0 \\
+        0  & 0  & 0 & 0 \\
+      \end{pmatrix} \\
+      \overset{Z_2 = \frac{1}{3}\qty\big(-3 \cdot Z_2 + 2 \cdot Z_1)}&\leadsto \begin{pmatrix}
+        -3 & 0 & 1            & 1            \\
+        0  & 1 & -\frac{1}{3} & -\frac{1}{3} \\
+        0  & 0 & 0            & 0            \\
+        0  & 0 & 0            & 0            \\
+      \end{pmatrix} \\
+      \overset{Z_1 = -\frac{1}{3} \cdot Z_1 - Z_2}&\leadsto \begin{pmatrix}
+        1 & -1 & 0            & 0            \\
+        0 & 1  & -\frac{1}{3} & -\frac{1}{3} \\
+        0 & 0  & 0            & 0            \\
+        0 & 0  & 0            & 0            \\
+      \end{pmatrix}
+    \end{flalign*}
+    Somit sind $x_1 = x_2$ und $x_3 = 3x_2 - x_4$
+    \[
+      \text{Eig}\qty\big(C, \lambda_{3|4}) =
+      \text{Ker}\qty\big(C - \lambda_{3|4} \cdot E_4) =
+      \qty{
+        \begin{pmatrix}
+          x_2  \\
+          x_2  \\
+          3x_2 \\
+          0    \\
+        \end{pmatrix}, \begin{pmatrix}
+          0    \\
+          0    \\
+          -x_4 \\
+          x_4  \\
+        \end{pmatrix}
+        \:\middle|\:
+        x_3 \in \mathbb{R}
+      } = \text{Span}\qty(
+        \begin{pmatrix} 1 \\ 1 \\ 3  \\ 0 \end{pmatrix},
+        \begin{pmatrix} 0 \\ 0 \\ -1 \\ 1 \end{pmatrix}
+      )
+    \]
+
+  \end{enumerate}
+\end{enumerate}
+
+\newpage
+\paragraph{Ü10.4 Eigenschaften von Eigenwerten und Potenzen einer Matrix}
+\begin{enumerate}[(a)]
+\item Es seien $n \in \mathbb{N} \setminus \qty\big{0}, K$ ein Körper und
+  $A \in K^{n \times n}$.
+  Zeigen Sie (dafür bietet sich vollständige Induktion an), dass für jedes
+  $m \in \mathbb{N}$ und jeden Eigenwert $\lambda$ von $A$ gilt:
+  $\lambda^m$ ist ein Eigenwert von $A^m$.
+
+  \subparagraph{Lsg.} Seien $\lambda_1, \ldots, \lambda_t$ die Eigenwerte von
+  $A$.
+  Sei weiter die Behauptung
+  \[
+    P\qty\big(m) \colon \lambda_1^m, \ldots, \lambda_t^m
+    \text{ sind Eigenwerte von } A^m
+  \]
+
+  \textbf{Induktionsanfang:} Es ist $P\qty\big(1)$ trivial.
+
+  \textbf{Alternativ in der Übung:} $P\qty\big(0) \colon A^0 \cdot v
+  = E_n \cdot v = v = 1 \cdot v = \lambda^0 \cdot v$.
+
+  Sei nun die Behauptung $P\qty\big(m)$ für ein beliebiges $m \in \mathbb{N}$
+  wahr (\textbf{Induktionsvoraussetzung (IV)}).
+
+  \textbf{Induktionsschritt:} Sei $\lambda_s$, $1 \leq s \leq t$ ein beliebiger
+  Eigenwert von $A$ und außerdem $v \in \text{Eig}\qty\big(A, \lambda_s)$ ein
+  beliebiger Eigenvektor zu $\lambda_s$.
+
+  Nun ist für ein beliebiges $m > 0$
+  \[
+    P\qty\big(m + 1) \colon A^{m + 1} \cdot v = A \cdot A^m \cdot v
+    \overset{\text{(IV)}}= A \cdot \lambda_s^m \cdot v
+  \]
+  Da $\text{Eig}\qty\big(A, \lambda_s)$ ein Unterraum von $K^n$ ist, ist auch
+  $\mu \cdot v \in \text{Eig}\qty\big(A, \lambda_s)$ für jedes $\mu \in K$.
+  Insbesondere sind $\lambda_s, \lambda_s^m \in K$ und
+  $\lambda_s \cdot v, \lambda_s^m \cdot v \in \text{Eig}\qty\big(A, \lambda_s)$.
+
+  Folglich
+  \[
+    A \cdot \lambda_s^m \cdot v = \lambda \cdot \lambda_s^m \cdot v
+    = \lambda^{m + 1} \cdot v
+  \]
+  Und aus dem Satz über die vollständige Induktion folgt $P\qty\big(m)$ für alle
+  $m \in \mathbb{N}$.
+
+  \textbf{Alternativ nach der Übung:} Es ist
+  \[
+    A^{m + 1} \cdot v = A \cdot A^m \cdot v
+    \overset{\text{Induktionsvoraussetzung}}= A \cdot \lambda^m \cdot v
+    \overset{\text{Linear}}= \lambda^m \cdot A \cdot v
+    \overset{\text{Eigenvektor}}= \lambda^m \cdot \lambda \cdot v
+    = \lambda^{m + 1} \cdot v
+  \]
+
+\item Zeigen Sie, dass jeder Eigenvektor von $A$ auch ein Eigenvektor von $A^m$
+  ist.
+
+  \subparagraph{Lsg.} Sei $\lambda$ ein beliebiger Eigenwert von $A$.
+  Nun wurde in Teilaufgabe (a) bereits gezeigt, dass
+  $A^m \cdot v = \lambda^m \cdot v$ und somit ist
+  $v \in \text{Eig}\qty\big(A^m, \lambda^m)$.
+
+\newpage
+\item In (b) wurde bewiesen, dass
+  $\text{Eig}\qty\big(A, \lambda) \subseteq \text{Eig}\qty\big(A^m, \lambda^m)$
+  gilt.
+  Zeigen Sie, dass die Eigenräume i.A. nicht gleich sind.
+  Dazu können Sie z.B. die Eigenräume von $A = \begin{pmatrix}
+    0 & 1 \\
+    1 & 0 \\
+  \end{pmatrix}$ und $m = 2$ betrachten (Sie können den Beweis aber auch anders
+  führen).
+
+  \subparagraph{Lsg.} Es ist
+  $\det\qty(A - \lambda \cdot E_2) = \qty\big(\lambda + 1)\qty\big(\lambda - 1)$.
+  Somit besitzt die Matrix die beiden Eigenwerte $\lambda_1 = -1$ und
+  $\lambda_2 = 1$ mit den Eigenräumen
+  $\text{Eig}\qty\big(A, \lambda_1) = \text{Span}\qty(\qty\big(1, 1)^T)$ und
+  $\text{Eig}\qty\big(A, \lambda_2) = \text{Span}\qty(\qty\big(-1, 1)^T)$.
+
+  Nun ist $A^2 = E_2$ mit dem einzigen Eigenwert 1 und dem Eigenraum
+  $\text{Eig}\qty\big(A^2, 1) = \mathbb{R}^2$.
+  Dabei gilt wie bereits gezeigt
+  $\text{Eig}\qty\big(A, \lambda_1) \subseteq \text{Eig}\qty\big(A^2, \lambda_1^2)$
+  und
+  $\text{Eig}\qty\big(A, \lambda_2) \subseteq \text{Eig}\qty\big(A^2, \lambda_2^2)$,
+  allerdings nicht
+  $\text{Eig}\qty\big(A, \lambda_1) \supseteq \text{Eig}\qty\big(A^2, \lambda_1^2)$.
+\end{enumerate}
+
+\paragraph{Ü 10.5 Determinante und Eigenwerte}
+
+Es sei $n \in \mathbb{N} \setminus \qty\big{0}, K$ ein Körper und
+$A \in K^{n \times n}$.
+Beweisen Sie folgende Aussagen:
+
+\fcolorbox{black}{gray!20}{
+  \begin{minipage}{\textwidth}
+    Im Folgenden wird das charakteristische Polynom von $A$ als
+    $\det\qty\big(\lambda \cdot E_n - A)$ definiert.
+    Damit ist das Polynom normiert und anders machen die Aufgaben keinen Sinn.
+  \end{minipage}
+}
+
+\begin{enumerate}[(a)]
+\item $A$ ist genau dann invertierbar, wenn $0$ kein Eigenwert von $A$ ist.
+
+  \subparagraph{Lsg.} Angenommen 0 wäre ein Eigenwert von $A$, dann ist $0$ auch
+  eine Nullstelle des charakteristischen Polynoms von $A$.
+
+  Nun ist das charakteristische Polynom von $A$ definiert als
+  $\det\qty\big(\lambda \cdot E_n - A)$ und für $\lambda = 0$ also
+  $\det\qty\big(0 \cdot E_n - A) = \qty\big(-1)^n \det\qty\big(A)$.
+
+  Folglich wäre mit 0 als Nullstelle $\det\qty\big(A) = 0$ und in der Vorlesung
+  wurde bereits gezeigt, dass eine Matrix genau dann invertierbar ist, wenn ihre
+  Determinante von 0 verschieden ist.
+
+\item Hat $A$ das charakteristische Polynom
+  $\chi_A\qty\big(X) = a_nX^n + \ldots + a_1X + a_0$, dann gilt
+  $a_0 = \qty\big(-1)^n\det\qty\big(A)$.
+
+  \subparagraph{Lsg.} Das Absolutglied $a_0$ ist gleich
+  \[
+    \chi_A\qty\big(0) = \det\qty\big(0 \cdot E_n - A)
+    = \det\qty\big(-A) = \qty\big(-1)^n \cdot \det\qty\big(A)
+  \]
+
+\item Hat die Matrix $A \in K^{n \times n}$ die Eigenwerte
+  $\lambda_1, \ldots, \lambda_n$, dann gilt
+  $\det\qty\big(A) = \prod_{i = 1}^n \lambda_i$.
+
+  \subparagraph{Lsg.} Jedes Polynom ist durch seine Nullstellen eindeutig
+  definiert.
+  Im gegebenen Fall wäre
+  $\chi_A\qty\big(X) = \prod_{i = 1}^n\qty\big(\lambda_i - X)$.
+  Nun ist
+  \[
+    \det\qty\big(A) = \qty\big(-1)^n \det\qty\big(0 \cdot E_n - A) =
+    \qty\big(-1)^n \chi_A\qty\big(0) = \qty\big(-1)^n \prod_{i = 1}^n \lambda_i
+  \]
+  Außerdem ist $\det\qty\big(-A) = \qty\big(-1)^n \det\qty\big(A)$.
+
+  $\Rightarrow \det\qty\big(A) = \prod_{i = 1}^n \lambda_i$
+\end{enumerate}
+\end{document}
