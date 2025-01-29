@@ -1,0 +1,493 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 13\\INF-B-110, Lineare Algebra}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 13.3 Orthogonalprojektion}
+
+Verifizieren Sie, dass die beiden Vektoren
+$u_1 = \qty\big(-7, 1, 4)^T$ und $u_2 = \qty\big(-1, 1, -2)^T$
+orthogonal sind.
+Nutzen Sie dies aus, um die Orthogonalprojektion von $v = \qty\big(-9, 1, 6)^T$
+auf die durch $u_1$ und $u_2$ erzeugte Ebene zu berechnen.
+
+\subparagraph{Lsg.} Es ist
+\[
+  \begin{pmatrix}
+    -7 \\
+    1  \\
+    4  \\
+  \end{pmatrix} \bullet \begin{pmatrix}
+    -1 \\
+    1  \\
+    -2 \\
+  \end{pmatrix} =
+  \qty\big(-7) \cdot \qty\big(-1) + 1 \cdot 1 + 4 \cdot \qty\big(-2)
+  = 7 + 1 - 8
+  = 0
+\]
+Somit sind $u_1$ und $u_2$ tatsächlich orthogonal zueinander und bilden
+eine Orthogonalbasis von $U$.
+
+Somit ist
+\[
+  \hat{v}
+  = \frac{v \bullet u_1}{u_1 \bullet u_1}u_1 + \frac{v \bullet u_2}{u_2 \bullet u_2}u_2
+  = \frac{4}{3}u_1 + \frac{11}{3}u_2
+  = \begin{pmatrix}
+    -\frac{28}{3} \\
+    \frac{4}{3}   \\
+    \frac{16}{3}  \\
+  \end{pmatrix} + \begin{pmatrix}
+    -\frac{11}{3} \\
+    \frac{11}{3}  \\
+    -\frac{22}{3} \\
+  \end{pmatrix} = \begin{pmatrix}
+    -13 \\
+    5   \\
+    -2  \\
+  \end{pmatrix}
+\]
+und schließlich $w = v - \hat{v} = \qty\big(4, -4, 8)^T$.
+
+\paragraph{Ü 13.4 Orthogonalprojektion zur Abstandsberechnung}
+
+Bestimmen Sie den Abstand des Punktes $v = \qty\big(2, -2, 4)^T$ von derjenigen
+Geraden $g$, die durch die Punkte $w_1 = \qty\big(1, 0, 1)^T$ und
+$w_2 = \qty\big(2, 2, 3)^T$ verläuft.
+
+\subparagraph{Lsg.} Es ist $g = w_1 + \text{Span}\qty\big{w_2 - w_1}
+= \qty\big(1, 0, 1)^T + \text{Span}\qty{\qty\big(1, 2, 2)^T}$.
+Nun verläuft $g$ leider nicht durch den Ursprung und stellt damit keinen
+Untervektorraum von $\mathbb{R}^3$ dar.
+Um $g$ zu einen Untervektorraum zu machen verschieben wir $g$ (und dann auch
+$v$) um $-w_1$.
+
+Nun ist
+\[
+  g' =  \text{Span}\qty{\qty\big(1, 2, 2)^T}
+  \text{ und }
+  v' = v - w_1 = \qty\big(1, -2, 3)^T
+\]
+Anschließend ist
+\[
+  \hat{v'} = \frac{v' \bullet \qty\big(1, 2, 2)^T}{\qty\big(1, 2, 2)^T \bullet \qty\big(1, 2, 2)^T}\qty\big(1, 2, 2)^T
+  = \frac{1}{3}\qty\big(1, 2, 2)^T
+  = \qty(\frac{1}{3}, \frac{2}{3}, \frac{2}{3})^T
+\]
+und
+\[
+  w = v' - \hat{v'} = \qty\big(\frac{2}{3}, -\frac{8}{3}, \frac{7}{3})
+\]
+Schließlich
+\[
+  \hat{v} = \hat{v'} + w_1 = \qty(\frac{4}{3}, \frac{2}{3}, \frac{5}{3})^T
+\]
+
+\newpage
+\textbf{Probe:} Ist $\hat{v} \in g$?
+\[
+  \hat{v} = \qty(\frac{4}{3}, \frac{2}{3}, \frac{5}{3})^T = \qty\big(1, 0, 1)^T + \frac{1}{3} \cdot \qty\big(1, 2, 2)^T
+\]
+$\Rightarrow \hat{v} \in g$
+
+Ist $w$ orthogonal zu $g$?
+\[
+  w \bullet \qty\big(w_2 - w_1) =
+  \qty\big(\frac{2}{3}, -\frac{8}{3}, \frac{7}{3})^T \bullet \qty\big(1, 2, 2)^T
+  = \frac{2}{3} \cdot 1 - \frac{8}{3} \cdot 2 + \frac{7}{3} \cdot 2
+  = \frac{2}{3} - \frac{16}{3} + \frac{14}{3} = 0
+\]
+$\Rightarrow g \bot w$
+
+Ist $v = \hat{v} + w$?
+\[
+  \hat{v} + w =
+  \qty(\frac{4}{3}, \frac{2}{3}, \frac{5}{3})^T + \qty\big(\frac{2}{3}, -\frac{8}{3}, \frac{7}{3})^T
+  = \qty\big(2, -2, 4)^T = v
+\]
+
+Und nun ist der Abstand
+\[
+  \norm{w} = \norm{\begin{pmatrix}
+    \frac{2}{3}  \\
+    -\frac{8}{3} \\
+    \frac{7}{3}  \\
+  \end{pmatrix}} = \sqrt{
+    \qty(\frac{2}{3})^2 + \qty(-\frac{8}{3})^2 + \qty(\frac{7}{3})^2
+  } = \sqrt{
+    \frac{4}{9} + \frac{64}{9} + \frac{49}{9}
+  } = \sqrt{\frac{117}{9}} = \sqrt{13}
+\]
+
+\paragraph{Ü 13.5 Gram-Schmidt-Verfahren} Bestimmen Sie eine Orthonormalbasis $B$
+mit dem Gram-Schmidtschen Orthonormalisierungsverfahren für den von den Vektoren
+\[
+  v_1 = \qty\big(3, 1, -1, 3)^T, v_2 = \qty\big(-5, 1, 5, -7)^T
+  \text{ und } v_3 = \qty\big(4, 4, 2, 2)^T
+\]
+aufgespannten Untervektorraum
+$U \coloneqq \text{Span}\qty\big{v_1, v_2, v_3} \subseteq \mathbb{R}^4$.
+
+Bestimmen Sie die Koordinaten von $w = \qty\big(-4, 4, 8, -8)^T \in U$
+bezüglich der Basis $B$.
+
+Berechnen Sie den Orthogonalraum $U^{\bot} \subseteq \mathbb{R}^4$
+
+\subparagraph{Lsg.} Es ist
+\begin{flalign*}
+  \bar{b_1} &= v_1 \\
+  b_1 &= \frac{1}{\norm{\bar{b_1}}} \cdot b_1 = \frac{1}{\norm{\qty\big(3, 1, -1, 3)^T}} \cdot \qty\big(3, 1, -1, 3)^T \\
+      &= \frac{1}{\sqrt{20}} \qty\big(3, 1, -1, 3)^T = \qty(\frac{3}{\sqrt{20}}, \frac{1}{\sqrt{20}}, -\frac{1}{\sqrt{20}}, \frac{3}{\sqrt{20}})^T
+\end{flalign*}
+\begin{flalign*}
+  \bar{b_2} &= v_2 - \qty\big(v_2 \bullet b_1) b_1
+  = \begin{pmatrix}
+    -5 \\
+    1  \\
+    5  \\
+    -7 \\
+  \end{pmatrix} - \qty(\begin{pmatrix}
+    -5 \\
+    1  \\
+    5  \\
+    -7 \\
+  \end{pmatrix} \bullet \begin{pmatrix}
+    \frac{3}{\sqrt{20}}  \\
+    \frac{1}{\sqrt{20}}  \\
+    -\frac{1}{\sqrt{20}} \\
+    \frac{3}{\sqrt{20}}  \\
+  \end{pmatrix}) \cdot \begin{pmatrix}
+    \frac{3}{\sqrt{20}}  \\
+    \frac{1}{\sqrt{20}}  \\
+    -\frac{1}{\sqrt{20}} \\
+    \frac{3}{\sqrt{20}}  \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+    -5 \\
+    1  \\
+    5  \\
+    -7 \\
+  \end{pmatrix} + \frac{40}{\sqrt{20}}\begin{pmatrix}
+    \frac{3}{\sqrt{20}}  \\
+    \frac{1}{\sqrt{20}}  \\
+    -\frac{1}{\sqrt{20}} \\
+    \frac{3}{\sqrt{20}}  \\
+  \end{pmatrix} \\
+  &= \begin{pmatrix}
+    -5 \\
+    1  \\
+    5  \\
+    -7 \\
+  \end{pmatrix} + \begin{pmatrix}
+    6  \\
+    2  \\
+    -2 \\
+    6  \\
+  \end{pmatrix}
+  = \begin{pmatrix}
+    1  \\
+    3  \\
+    3  \\
+    -1 \\
+  \end{pmatrix} \\
+  b_2 &= \frac{1}{\norm{\bar{b_2}}} \cdot b_2
+       = \frac{1}{\norm{\begin{pmatrix}
+         1  \\
+         3  \\
+         3  \\
+         -1 \\
+       \end{pmatrix}}}\begin{pmatrix}
+         1  \\
+         3  \\
+         3  \\
+         -1 \\
+       \end{pmatrix}
+       = \frac{1}{\sqrt{20}} \begin{pmatrix}
+         1  \\
+         3  \\
+         3  \\
+         -1 \\
+       \end{pmatrix} \\
+  \bar{b_3} &= v_3 - \qty\big(v_3 \bullet b_1)b_1 - \qty\big(v_3 \bullet b_2)b_2 \\
+            &= \begin{pmatrix}
+              4 \\
+              4 \\
+              2 \\
+              2 \\
+            \end{pmatrix} - \qty(
+              \begin{pmatrix}
+                4 \\
+                4 \\
+                2 \\
+                2 \\
+              \end{pmatrix} \bullet \frac{1}{\sqrt{20}} \begin{pmatrix}
+                3  \\
+                1  \\
+                -1 \\
+                3  \\
+              \end{pmatrix}
+            ) \frac{1}{\sqrt{20}} \begin{pmatrix}
+              3  \\
+              1  \\
+              -1 \\
+              3  \\
+            \end{pmatrix} - \qty(
+              \begin{pmatrix}
+                4 \\
+                4 \\
+                2 \\
+                2 \\
+              \end{pmatrix} \bullet \frac{1}{\sqrt{20}} \begin{pmatrix}
+                1  \\
+                3  \\
+                3  \\
+                -1 \\
+              \end{pmatrix}
+            ) \frac{1}{\sqrt{20}} \begin{pmatrix}
+              1  \\
+              3  \\
+              3  \\
+              -1 \\
+            \end{pmatrix} \\
+            &= \begin{pmatrix}
+              4 \\
+              4 \\
+              2 \\
+              2 \\
+            \end{pmatrix} - \frac{20}{\sqrt{20}}\frac{1}{\sqrt{20}} \begin{pmatrix}
+              3  \\
+              1  \\
+              -1 \\
+              3  \\
+            \end{pmatrix} - \frac{20}{\sqrt{20}}\frac{1}{\sqrt{20}} \begin{pmatrix}
+              1  \\
+              3  \\
+              3  \\
+              -1 \\
+            \end{pmatrix} \\
+            &= \begin{pmatrix}
+              4 \\
+              4 \\
+              2 \\
+              2 \\
+            \end{pmatrix} - \begin{pmatrix}
+              3  \\
+              1  \\
+              -1 \\
+              3  \\
+            \end{pmatrix} - \begin{pmatrix}
+              1  \\
+              3  \\
+              3  \\
+              -1 \\
+            \end{pmatrix} = \begin{pmatrix}
+              0 \\
+              0 \\
+              0 \\
+              0 \\
+            \end{pmatrix}
+\end{flalign*}
+Hierbei fällt jetzt auch auf, dass schon $v_1, v_2$ und $v_3$ linear abhängig
+sind mit
+\[
+  3 \cdot v_1 + v_2 = 3 \cdot \begin{pmatrix}
+    3  \\
+    1  \\
+    -1 \\
+    3  \\
+  \end{pmatrix} + \begin{pmatrix}
+    -5 \\
+    1  \\
+    5  \\
+    -7 \\
+  \end{pmatrix} = \begin{pmatrix}
+    4 \\
+    4 \\
+    2 \\
+    2 \\
+  \end{pmatrix} = v_3
+\]
+Anyway, $B = \qty\big(b_1, b_2)$.
+Weiter ist (das $\frac{1}{\sqrt{20}}$ wurde in der Matrix weggelassen um
+Schreibaufwand zu sparen.
+Beim Ergebnis ist es unbedingt wieder einzufügen)
+\begin{flalign*}
+  \qty(\begin{array}{cc|c}
+    3  & 1  & -4 \\
+    1  & 3  & 4  \\
+    -1 & 3  & 8  \\
+    3  & -1 & -8 \\
+  \end{array})
+  \overset{Z_4 = -\frac{1}{2} \cdot \qty\big(Z_4 - Z_1)}&\leadsto
+  \qty(\begin{array}{cc|c}
+    3  & 1 & -4 \\
+    1  & 3 & 4  \\
+    -1 & 3 & 8  \\
+    0  & 1 & 2  \\
+  \end{array}) \\
+  \overset{Z_2 = Z_2 - 3 \cdot Z_4}&\leadsto
+  \qty(\begin{array}{cc|c}
+    3  & 1 & -4 \\
+    1  & 0 & -2 \\
+    -1 & 3 & 8  \\
+    0  & 1 & 2  \\
+  \end{array})  \\
+\end{flalign*}
+Und somit ist $w = -2\sqrt{20} \cdot b_1 + 2\sqrt{20} \cdot b_2$ und
+$w_B = \sqrt{20}\qty\big(-2, 2)^T$.
+
+Zum Schluss (das $\frac{1}{\sqrt{20}}$ ist hier wieder egal)
+\begin{flalign*}
+  U^{\bot} &= \text{Ker}\begin{pmatrix}
+    3 & 1 & -1 & 3  \\
+    1 & 3 & 3  & -1 \\
+  \end{pmatrix} \\
+  \overset{Z_1 = -\frac{1}{8}\qty\big(Z_1 - 3 \cdot Z_2)}&= \text{Ker}\begin{pmatrix}
+    0 & 1  & \frac{5}{4} & -\frac{3}{4}  \\
+    1 & 3  & 3           & -1            \\
+  \end{pmatrix} \\
+  \overset{Z_2 = Z_2 - 3 \cdot Z_1}&= \text{Ker}\begin{pmatrix}
+    0 & 1  & \frac{5}{4}  & -\frac{3}{4}  \\
+    1 & 0  & -\frac{3}{4} & \frac{5}{4}   \\
+  \end{pmatrix} \\
+  &= \qty{
+    \begin{pmatrix}
+      \frac{3}{4}x - \frac{5}{4}y  \\
+      -\frac{5}{4}x + \frac{3}{4}y \\
+      x                            \\
+      y                            \\
+    \end{pmatrix}
+    \:\middle|\:
+    x, y \in \mathbb{R}
+  } \\
+  &= \qty{
+    x \cdot \begin{pmatrix}
+      \frac{3}{4}  \\
+      -\frac{5}{4} \\
+      1            \\
+      0            \\
+    \end{pmatrix} + y \cdot \begin{pmatrix}
+      -\frac{5}{4} \\
+      \frac{3}{4}  \\
+      0            \\
+      1            \\
+    \end{pmatrix}
+    \:\middle|\:
+    x, y \in \mathbb{R}
+  } \\
+  &= \text{Span}\qty{
+    \begin{pmatrix}
+      3  \\
+      -5 \\
+      4  \\
+      0  \\
+    \end{pmatrix}, \begin{pmatrix}
+      -5 \\
+      3  \\
+      0  \\
+      4  \\
+    \end{pmatrix}
+  }
+\end{flalign*}
+
+\newpage
+\paragraph{Ü 13.6 Gram-Schmidt-Verfahren für einen Polynom-VR}
+
+Die Menge aller reellen Polynomfunktionen $p\qty\big(x)$ vom Grad höchstens 2
+bildet zusammen mit der Addition von Polynomen und der Skalarmultiplikation
+bekanntermaßen den $\mathbb{R}$-Vektorraum $\mathbb{P}_{\leq 2}$.
+\begin{enumerate}[(a)]
+\item Das Tripel $\qty\big(f_1, f_2, f_3)$ mit $f_1\qty\big(x) = 1$,
+  $f_2\qty\big(x) = x$, $f_3\qty\big(x) = x^2$ ist eine Basis von
+  $\mathbb{P}_{\leq 2}$.
+  Bestimmen Sie aus dieser Basis eine Orthonormalbasis $B$ mit Hilfe des
+  Gram-Schmidt-Verfahres bezüglich des Skalarprodukts
+  \[
+    f \bullet g = \int_{-1}^1 f\qty\big(x)g\qty\big(x)dx
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \bar{b_1} &= f_1 = 1 \\
+    b_1 &= \frac{1}{\norm{\bar{b_1}}}\bar{b_1}
+         = \frac{1}{\sqrt{\int_{-1}^1 1 dx}}
+         = \frac{1}{\sqrt{\qty[x]_{-1}^{1}}}
+         = \frac{1}{\sqrt{2}} \\
+    \bar{b_2} &= f_2 - \qty\big(f_2 \bullet b_1)b_1
+               = x - x \bullet \frac{1}{\sqrt{2}}
+               = x - \int_{-1}^1 \frac{x}{\sqrt{2}} dx \\
+              &= x - \qty[\frac{1}{2}x^2]_{-1}^1
+               = x - 0 = x \\
+    b_2 &= \frac{1}{\norm{\bar{b_2}}}\bar{b_2}
+         = \frac{1}{\sqrt{\int_{-1}^1 x^2 dx}}x
+         = \frac{1}{\sqrt{\qty[\frac{x^3}{3}]_{-1}^1}}x
+         = \frac{\sqrt{3}}{\sqrt{2}}x  \\
+    \bar{b_3} &= f_3 - \qty\big(f_3 \bullet b_1)b_1 - \qty\big(f_3 \bullet b_2)b_2
+               = x^2 - \qty(x^2 \bullet \frac{1}{\sqrt{2}})\frac{1}{\sqrt{2}} - \qty(x^2 \bullet \frac{\sqrt{3}}{\sqrt{2}}x) \frac{\sqrt{3}}{\sqrt{2}}x \\
+              &= x^2 - \qty(\int_{-1}^1 \frac{x^2}{\sqrt{2}} dx)\frac{1}{\sqrt{2}} -
+                 \qty(\int_{-1}^1\frac{\sqrt{3}}{\sqrt{2}}x^3 dx)\frac{\sqrt{3}}{\sqrt{2}}x \\
+              &= x^2 - \qty[\frac{x^3}{3\sqrt{2}}]_{-1}^1\frac{1}{\sqrt{2}} -
+                \qty[\frac{\sqrt{3}}{4\sqrt{2}}x^4]_{-1}^1\frac{\sqrt{3}}{\sqrt{2}}x \\
+              &= x^2 - \frac{1}{3} \\
+  \end{flalign*}
+  \begin{flalign*}
+    b_3 &= \frac{1}{\norm{\bar{b_3}}}\bar{b_3}
+         = \frac{1}{\sqrt{\int_{-1}^1 x^4 - \frac{2}{3}x^2 + \frac{1}{9} dx}}\qty(x^2 - \frac{1}{3}) \\
+        &= \frac{1}{\sqrt{\qty[\frac{1}{5}x^5 - \frac{2}{9}x^3 + \frac{1}{9}x]_{-1}^1}} \qty(x^2 - \frac{1}{3}) \\
+        &= \frac{1}{\sqrt{\frac{8}{45}}}\qty(x^2 - \frac{1}{3}) \\
+        &= \frac{3\sqrt{5}}{2\sqrt{2}}\qty(x^2 - \frac{1}{3}) \\
+        &= \frac{3\sqrt(5)}{2\sqrt(2)}x^2 - \frac{\sqrt{5}}{2\sqrt{2}}
+  \end{flalign*}
+  $B = \qty\big(b_1, b_2, b_3)$
+
+\item Bestimmen Sie die Koordinaten von $g\qty\big(x) = x^2 - x$ bezüglich der
+  orthonormierten Basis $B$.
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    g\qty\big(x) = x^2 - x =
+    \frac{2\sqrt{2}}{3\sqrt{5}}\frac{3\sqrt(5)}{2\sqrt(2)}x^2 - \frac{2\sqrt{2}}{3\sqrt{5}}\frac{\sqrt{5}}{2\sqrt{2}}
+    + \frac{\sqrt{2}}{3}\frac{1}{\sqrt{2}} - \frac{\sqrt{2}}{\sqrt{3}}\frac{\sqrt{3}}{\sqrt{2}}x
+  \]
+  und $g_B = \qty(\frac{\sqrt{2}}{3}, -\frac{\sqrt{2}}{\sqrt{3}}, \frac{2\sqrt{2}}{3\sqrt{5}})^T$.
+\end{enumerate}
+\end{document}
