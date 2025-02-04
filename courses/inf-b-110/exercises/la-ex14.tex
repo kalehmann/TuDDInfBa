@@ -1,0 +1,538 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2024/25}
+\title{Übungsblatt 14\\INF-B-110, Lineare Algebra}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 14.2 Bestapproximation, Normalgleichungssystem}
+
+Das lineare Gleichungssystem $Ax = b$ mit
+\[
+  A = \begin{pmatrix}
+    4 & 0 \\
+    0 & 2 \\
+    1 & 1 \\
+  \end{pmatrix} \in \mathbb{R}^{3 \times 2}
+  \text{ und }
+  b = \begin{pmatrix}
+    2  \\
+    0  \\
+    11 \\
+  \end{pmatrix} \in \mathbb{R}^3
+\]
+besitzt keine reelle Lösung.
+Gesucht ist der Vektor $\hat{x} \in \mathbb{R}^2$ für den bezüglich der
+Standardbasis im $\mathbb{R}^2$ gilt
+\[
+  \norm{b - A\hat{x}} = \min_{x \in \mathbb{R}^2}\norm{b - Ax}
+\]
+\begin{enumerate}[(a)]
+\item Berechnen Sie $\hat{x}$ durch Bestapproximation.
+
+  \subparagraph{Lsg.} Es ist $\qty\big(4, 0, 1)^T \bullet \qty\big(0, 2, 1) = 1$
+  und damit sind die Spalten der Matrix $A$ nicht orthogonal zueinander.
+  im ersten Schritt muss eine Orthogonalbasis für den Spaltenraum der Matrix
+  $A$ bestimmt werden.
+  Nun ist
+  \begin{flalign*}
+    b_1 &= \qty\big(0, 2, 1)^T \\
+    b_2 &= \qty\big(4, 0, 1)^T - \frac{\qty\big(4, 0, 1)^T \bullet \qty\big(0, 2, 1)^T}{\qty\big(0, 2, 1)^T \bullet \qty\big(0, 2, 1)^T}\qty\big(0, 2, 1)^T \\
+        &= \qty\big(4, 0, 1)^T - \frac{1}{5}\qty\big(0, 2, 1)^T \\
+        &= \frac{1}{5}\qty\big(20, -2, 4)^T
+  \end{flalign*}
+  und $B = \qty\big(b_1, b_2)$ eine Orthogonalbasis des Spaltenraumes von $A$.
+  Weiter ist
+  \begin{flalign*}
+    \hat{b} &= \text{proj}_{\text{Col}\qty\big(A)}b \\
+            &= \frac{\qty\big(2, 0, 11)^T \bullet \qty\big(0, 2, 1)^T}{\qty\big(0, 2, 1)^T \bullet \qty\big(0, 2, 1)^T}\qty\big(0, 2, 1)^T
+              + \frac{\qty\big(2, 0, 11)^T \bullet \frac{1}{5}\qty\big(20, -2, 4)^T}{\frac{1}{5}\qty\big(20, -2, 4)^T \bullet \frac{1}{5}\qty\big(20, -2, 4)^T}\frac{1}{5}\qty\big(20, -2, 4)^T \\
+            &= \frac{11}{5}\qty\big(0, 2, 1)^T + \frac{\frac{84}{5}}{\frac{84}{5}}\frac{1}{5}\qty\big(20, -2, 4)^T \\
+            &= \frac{1}{5}\qty\big(20, 20, 15)^T = \qty\big(4, 4, 3)^T
+  \end{flalign*}
+  Schließlich ist eine Lösung
+  \[
+    \begin{pmatrix}
+      4 & 0 \\
+      0 & 2 \\
+      1 & 1 \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      x \\
+      y \\
+    \end{pmatrix} =  \begin{pmatrix}
+      4 \\
+      4 \\
+      3 \\
+    \end{pmatrix}
+  \]
+  gesucht und diese ist offensichtlich $\hat{x} = \qty\big(1, 2)^T$.
+
+\newpage
+\item Berechnen Sie $\hat{x}$ durch Lösung der Normalgleichung.
+
+  \subparagraph{Lsg.} Gesucht ist eine Lösung des Normalengleichungssystems
+  $\qty(A^TA)\hat{x} = A^Tb$.
+  Nun ist
+  \begin{flalign*}
+    \qty(A^TA)\hat{x}
+    &= A^Tb \\
+    \qty(\begin{pmatrix}
+      4 & 0 & 1 \\
+      0 & 2 & 1 \\
+    \end{pmatrix}\begin{pmatrix}
+      4 & 0 \\
+      0 & 2 \\
+      1 & 1 \\
+    \end{pmatrix})\hat{x}
+    &= \begin{pmatrix}
+      4 & 0 & 1 \\
+      0 & 2 & 1 \\
+    \end{pmatrix}\begin{pmatrix}
+    2  \\
+    0  \\
+    11 \\
+    \end{pmatrix} \\
+    \begin{pmatrix}
+      17 & 1 \\
+      1  & 5 \\
+    \end{pmatrix}\hat{x}
+    &= \begin{pmatrix}
+      19 \\
+      11 \\
+    \end{pmatrix}
+  \end{flalign*}
+  und $\hat{x} = \qty\big(1, 2)^T$
+\end{enumerate}
+
+\paragraph{Ü 14.3 Ein Normalgleichungssystem} \phantom{\null}
+
+\begin{minipage}{.8\textwidth}
+  Ein Physiker will durch ein Experiment den Zusammenhang dreier Größen $x$, $y$
+  und $z$ untersuchen.
+  Er erhält die angegebenen Messwerte.
+  Bestimmen Sie drei Zahlen $a_0, a_1, a_2 \in \mathbb{R}$, so dass die Funktion
+  $f\qty\big(x, y) = a_0 + a_1x + a_2y$ den Zusammenhang $z = f\qty\big(x, y)$
+  zwischen $x$, $y$ und $z$ möglichst gut beschreibt.
+\end{minipage}
+\begin{minipage}{.2\textwidth}
+  \begin{tabular}{|c|ccc|}
+    \hline
+    $x$ & 1 & 3 & 4  \\
+    \hline
+    $y$ & 4 & 8 & 10 \\
+    \hline
+    $z$ & 1 & 2 & 3  \\
+    \hline
+  \end{tabular}
+\end{minipage}
+
+\subparagraph{Lsg.} Sei $A = \begin{pmatrix}
+  1 & 1 & 4  \\
+  1 & 3 & 8  \\
+  1 & 4 & 10 \\
+\end{pmatrix}$.
+Dann ist eine bestmögliche Lösung für
+\[
+  \begin{pmatrix}
+    1 & 1 & 4  \\
+    1 & 3 & 8  \\
+    1 & 4 & 10 \\
+  \end{pmatrix} \cdot \begin{pmatrix}
+    a_0 \\
+    a_1 \\
+    a_2 \\
+  \end{pmatrix} = \begin{pmatrix}
+    1 \\
+    2 \\
+    3 \\
+  \end{pmatrix}
+\]
+gesucht.
+Dafür muss das Normalgleichungssystem $\qty\big(A^TA)x = A^T\qty\big(1, 2, 3)$
+gelöst werden.
+Nun ist
+\begin{flalign*}
+  \qty(
+    \begin{pmatrix}
+      1 & 1 & 1  \\
+      1 & 3 & 4  \\
+      4 & 8 & 10 \\
+    \end{pmatrix}\begin{pmatrix}
+      1 & 1 & 4  \\
+      1 & 3 & 8  \\
+      1 & 4 & 10 \\
+    \end{pmatrix}
+  ) \cdot \begin{pmatrix}
+    a_0 \\
+    a_1 \\
+    a_2 \\
+  \end{pmatrix}
+  &= \begin{pmatrix}
+    1 & 1 & 1  \\
+    1 & 3 & 4  \\
+    4 & 8 & 10 \\
+  \end{pmatrix}\begin{pmatrix}
+    1 \\
+    2 \\
+    3 \\
+  \end{pmatrix} \\
+  \begin{pmatrix}
+    3  & 8  & 22  \\
+    8  & 26 & 68  \\
+    22 & 68 & 180 \\
+  \end{pmatrix}\begin{pmatrix}
+    a_0 \\
+    a_1 \\
+    a_2 \\
+  \end{pmatrix}
+  &= \begin{pmatrix}
+    6  \\
+    19 \\
+    50 \\
+  \end{pmatrix}
+\end{flalign*}
+\newpage
+\begin{flalign*}
+  \qty(
+    \begin{array}{ccc|c}
+      3  & 8  & 22  & 6  \\
+      8  & 26 & 68  & 19 \\
+      22 & 68 & 180 & 50 \\
+    \end{array}
+  )
+  \overset{Z_3 = Z_3 - 2 \cdot Z_2 - 2 \cdot Z_1}&\leadsto
+  \qty(
+    \begin{array}{ccc|c}
+      3  & 8  & 22  & 6  \\
+      8  & 26 & 68  & 19 \\
+      0  & 0  & 0   & 0  \\
+    \end{array}
+  ) \\
+  \overset{Z_2 = 3 \cdot Z_2 - 8 \cdot Z_1}&\leadsto
+  \qty(
+    \begin{array}{ccc|c}
+      3  & 8  & 22  & 6 \\
+      0  & 14 & 28  & 9 \\
+      0  & 0  & 0   & 0 \\
+    \end{array}
+  ) \\
+  \overset{Z_2 = \frac{1}{14} \cdot Z_2}&\leadsto
+  \qty(
+    \begin{array}{ccc|c}
+      3  & 8 & 22 & 6            \\
+      0  & 1 & 2  & \frac{9}{14} \\
+      0  & 0 & 0  & 0            \\
+    \end{array}
+  ) \\
+  \overset{Z_1 = Z_1 - 8 \cdot Z_2}&\leadsto
+  \qty(
+    \begin{array}{ccc|c}
+      3  & 0 & 6  & \frac{6}{7}  \\
+      0  & 1 & 2  & \frac{9}{14} \\
+      0  & 0 & 0  & 0            \\
+    \end{array}
+  ) \\
+  \overset{Z_1 = \frac{1}{3} \cdot Z_1}&\leadsto
+  \qty(
+    \begin{array}{ccc|c}
+      1  & 0 & 2  & \frac{2}{7}  \\
+      0  & 1 & 2  & \frac{9}{14} \\
+      0  & 0 & 0  & 0            \\
+    \end{array}
+  ) \\
+\end{flalign*}
+\[
+  L^* = \qty{
+    \begin{pmatrix}
+      \frac{2}{7}  - 2a_3 \\
+      \frac{9}{14} - 2a_3 \\
+      a_3                 \\
+    \end{pmatrix}
+    \:\middle|\:
+    a_3 \in \mathbb{R}
+  } = \frac{1}{14}\begin{pmatrix}
+    4 \\
+    9 \\
+    0 \\
+  \end{pmatrix} + \text{Span}\qty{
+    \begin{pmatrix}
+      -2 \\
+      -2 \\
+      1  \\
+    \end{pmatrix}
+  }
+\]
+\textbf{Probe:} Sei $a_0 = \frac{2}{7}$, $a_1 = \frac{9}{14}$ und $a_2 = 0$.
+Dann ist
+\begin{flalign*}
+  \frac{2}{7} + \frac{9}{14} \cdot 1 + 0 \cdot 4  &= \frac{13}{14} \approx 1 \\
+  \frac{2}{7} + \frac{9}{14} \cdot 3 + 0 \cdot 8  &= \frac{31}{14} \approx 2 \\
+  \frac{2}{7} + \frac{9}{14} \cdot 4 + 0 \cdot 10 &= \frac{40}{14} \approx 3 \\
+\end{flalign*}
+ Sei $a_0 = -\frac{12}{7}$, $a_1 = -\frac{19}{14}$ und $a_2 = 1$.
+Dann ist
+\begin{flalign*}
+  -\frac{12}{7} - \frac{19}{14} \cdot 1 + 1 \cdot 4  &= \frac{13}{14} \approx 1 \\
+  -\frac{12}{7} - \frac{19}{14} \cdot 3 + 1 \cdot 8  &= \frac{31}{14} \approx 2 \\
+  -\frac{12}{7} - \frac{19}{14} \cdot 4 + 1 \cdot 10 &= \frac{40}{14} \approx 3 \\
+\end{flalign*}
+Sieht passend aus.
+
+\newpage
+\paragraph{Ü 14.4 Eigenschaften orthogonaler Matrizen}
+\begin{enumerate}[(a)]
+\item Beweisen oder widerlegen Sie: Das Produkt und die Inversen orthogonaler
+  Matrizen sind wieder orthogonal.
+
+  \subparagraph{Lsg.} Sei $A, B \in \mathbb{R}^{n \times n}$ orthogonal.
+  Nun ist die Multiplikation quadratischer Matrizen assoziativ und damit
+  \begin{flalign*}
+    \qty\big(A \cdot B) \cdot \qty\big(A \cdot B)^T
+    &=  \qty\big(A \cdot B) \cdot \qty\big(B^T \cdot A^T) & \\
+    &=  A \cdot \qty\big(B \cdot B^T) \cdot A^T \\
+    &=  A \cdot E^n \cdot A^T \\
+    &=  A \cdot A^T \\
+    &=  E^n
+  \end{flalign*}
+
+  Weiter folgt aus $A$ ist orthogonal, dass $A \cdot A^T = E_n$.
+  Da das Inverse einer Matrix eindeutig bestimmt ist, folgt $A^{-1} = A^T$.
+  Schließlich ist
+  \[
+    A^{-1} \cdot \qty(A^{-1})^T = A^T \cdot \qty(A^T)^T = A^T \cdot A = E_n
+  \]
+
+\item Beweisen Sie: Ist $A \in \mathbb{R}^{n \times n}$ orthogonal, dann ist die
+  lineare Abbildung $f \colon \mathbb{R}^n \times \mathbb{R}^n, v \mapsto Av$
+  längentreu und winkeltreu.
+
+  \subparagraph{Lsg.} Seien $z_1, \ldots, z_n$ die Zeilen von $A$ und
+  $u, v \in \mathbb{R}^n$.
+  Dann ist
+  \begin{flalign*}
+    f\qty\big(u) \bullet f\qty\big(v)
+    &= \qty\big(Au) \bullet \qty\big(Av) \\
+    &= \qty\big(u_1z_1 + \ldots + u_nz_n) \bullet \qty\big(v_1z_1 + \ldots + v_nz_n) \\
+    \overset{\text{Bilinear}}&= u_1z_1 \bullet \qty\big(v_1z_1 + \ldots + v_nz_n) + \ldots + u_nz_n \bullet \qty\big(v_1z_1 + \ldots + v_nz_n) \\
+    \overset{\text{Bilinear}}&= u_1z_1 \bullet v_1z_1 + \ldots + v_1z_1 \bullet u_nz_n + \ldots + u_nz_n \bullet v_nz_1 + \ldots + u_nz_n \bullet v_nz_n \\
+    \overset{\text{Bilinear}}&= u_1v_1 \underset{1}{\underbrace{\qty(z_1 \bullet z_1)}} + \ldots +
+                                v_1u_n \underset{0}{\underbrace{\qty\big(z_1 \bullet z_n)}} + \ldots +
+                                v_vu_n \underset{0}{\underbrace{\qty\big(z_1 \bullet z_n)}} + \ldots +
+                                v_nu_n \underset{1}{\underbrace{\qty\big(z_n \bullet z_n)}} \\
+    &= u_1v_1 + \ldots + u_nv_n \\
+    &= u \bullet v
+  \end{flalign*}
+  und somit
+  \[
+    \norm{v} = \sqrt{v \bullet v} = \sqrt{f\qty\big(v) \bullet f\qty\big(v)} = \norm{f\qty\big(v)}
+  \]
+  als auch
+  \[
+    \cos\sphericalangle u, v = \frac{u \bullet v}{\norm{u} \bullet \norm{v}}
+    = \frac{f\qty\big(u) \bullet f\qty\big(v)}{\norm{f\qty\big(u)} \bullet \norm{f\qty\big(v)}}
+    = \cos\sphericalangle f\qty\big(u), f\qty\big(v)
+  \]
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 14.5 Die orthogonale Gruppe $O\qty\big(2)$}
+In dieser Aufgabe wollen wir überlegen, welche orthogonalen Abbildungen es im
+$\mathbb{R}^2$ gibt.
+Zeigen Sie dazu folgende Aussagen:
+\begin{enumerate}[(a)]
+\item Jede Spiegelung $s_{\alpha} \colon \mathbb{R}^2 \to \mathbb{R}^2$
+  bezüglich einer Spiegelgeraden mit Anstiegswinkel $\frac{\alpha}{2}$
+  ist eine orthogonale Abbildung.
+
+  \subparagraph{Lsg.} Die Spiegelungsmatrix um den Winkel $\frac{\alpha}{2}$ ist
+  $\begin{pmatrix}
+    \cos\alpha & \sin\alpha  \\
+    \sin\alpha & -\cos\alpha \\
+  \end{pmatrix}$ und
+  \begin{flalign*}
+    \begin{pmatrix}
+      \cos\alpha & \sin\alpha  \\
+      \sin\alpha & -\cos\alpha \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      \cos\alpha & \sin\alpha \\
+      \sin\alpha & -\cos\alpha  \\
+    \end{pmatrix} &= \begin{pmatrix}
+      \cos^2\alpha + \sin^2\alpha                  & \cos\alpha\sin\alpha -\cos\alpha\sin\alpha \\
+      \cos\alpha\sin\alpha - \cos\alpha\sin\alpha  & \sin^2\alpha+\cos^2\alpha                  \\
+    \end{pmatrix} \\
+                 &= \begin{pmatrix}
+                   1 & 0 \\
+                   0 & 1 \\
+                 \end{pmatrix}
+  \end{flalign*}
+
+\item Jede Drehung $d_{\alpha} \colon \mathbb{R}^2 \to \mathbb{R}^2$ um den
+  Winkel $\alpha$ ist eine orthogonale Abbildung.
+
+  \subparagraph{Lsg.} Eine Drehung um einen Winkel $\alpha$ wird durch die Matrix
+  $\begin{pmatrix}
+    \cos\alpha & -\sin\alpha \\
+    \sin\alpha & \cos\alpha  \\
+  \end{pmatrix}$ beschrieben.
+  Nun ist
+  \begin{flalign*}
+    \begin{pmatrix}
+      \cos\alpha & -\sin\alpha \\
+      \sin\alpha & \cos\alpha  \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      \cos\alpha & \sin\alpha \\
+      -\sin\alpha & \cos\alpha  \\
+    \end{pmatrix} &= \begin{pmatrix}
+      \cos^2\alpha + \sin^2\alpha                  & \cos\alpha\sin\alpha -\cos\alpha\sin\alpha \\
+      \cos\alpha\sin\alpha - \cos\alpha\sin\alpha  & \sin^2\alpha+\cos^2\alpha                  \\
+    \end{pmatrix} \\
+                 &= \begin{pmatrix}
+                   1 & 0 \\
+                   0 & 1 \\
+                 \end{pmatrix}
+  \end{flalign*}
+
+\item Jede orthogonale Abbildung $f \colon \mathbb{R}^2 \to \mathbb{R}^2$ ist
+  eine Drehung oder Spiegelung.
+
+  \subparagraph{Lsg.} Eine lineare Abbildung mit Abbildungsmatrix
+  $\begin{pmatrix}
+    a & b \\
+    c & d \\
+  \end{pmatrix} \in \mathbb{R}^2$ ist orthogonal genau dann wenn
+  \[
+    \begin{pmatrix}
+      a & b \\
+      c & d \\
+    \end{pmatrix} \begin{pmatrix}
+      a & c \\
+      b & d \\
+    \end{pmatrix} = \begin{pmatrix}
+      a^2 + b^2 & ac + bd   \\
+      ac + bd   & c^2 + d^2 \\
+    \end{pmatrix} = \begin{pmatrix}
+      1 & 0 \\
+      0 & 1 \\
+    \end{pmatrix}
+  \]
+  Weiter wurde in der Vorlesung gezeigt, dass
+  $\abs{\det A} = 1$, somit in $\mathbb{R}$ gilt
+  $\det A = \pm 1$.
+
+  Somit hat man zweimal vier Gleichungen mit 4 Unbekannten:
+  \begin{flalign*}
+    a^2 + b^2 &= 1 \\
+    c^2 + d^2 &= 1 \\
+    ac + db   &= 0 \\
+    ad - cb   &\pm 1 \\
+  \end{flalign*}
+  Durch Umstellen der 1. Gleichung erhält man $b = \sqrt{1 - a^2}$
+  und durch Umstellen der 3. Gleichung $c = -\frac{db}{a}$.
+  Setzt man dies in die 4. Gleichung ein, erhält man
+  \begin{flalign*}
+    \pm 1 &= ad - cb = ad + \frac{db^2}{a} = ad - \frac{d\qty\big(1 - a^2)}{a} && {\Big |} \cdot a && && \\
+    \pm a &= a^2d + d - a^2d = d
+  \end{flalign*}
+  Nun der Rest für
+
+  \begin{minipage}{.45\textwidth}
+    $a = d$:
+
+    \begin{flalign*}
+      0 &= ac + db \\
+      \overset{a = d}&= dc + db \\
+        &= d \cdot (b + c)
+    \end{flalign*}
+    $\Rightarrow b = \pm\sqrt{1 - a^2}$
+
+    $\Rightarrow c = \mp\sqrt{1 - a^2}$
+  \end{minipage}
+  \hspace{.05\textwidth}
+  \vrule
+  \hspace{.05\textwidth}
+  \begin{minipage}{.45\textwidth}
+    $a = -d$:
+
+    \begin{flalign*}
+      0 &= ac + db \\
+      \overset{a = -d}&= -dc + db \\
+        &= d \cdot (b - c)
+    \end{flalign*}
+    $\Rightarrow b = \pm\sqrt{1 - a^2}$
+
+    $\Rightarrow c = \pm\sqrt{1 - a^2}$
+  \end{minipage}
+
+  Somit hat eine orthogonale Matrix im $\mathbb{R}^{2 \times 2}$ eine der beiden
+  Formen
+  \[
+    \begin{pmatrix}
+      a                    & \pm\sqrt{1 - a^2} \\
+      \mp\sqrt{1 - a^2} & a                    \\
+    \end{pmatrix}, \begin{pmatrix}
+      a                 & \pm\sqrt{1 - a^2}  \\
+      \pm\sqrt{1 - a^2} & -a                 \\
+    \end{pmatrix}
+  \]
+
+  Sieht man nun die beiden Matrizen aus den Aufgaben zuvor, dann kann man
+  $a = \cos\qty\big(\alpha)$ setzen und
+  \begin{flalign*}
+    b &= \sqrt{1 - \cos^2\qty\big(\alpha)} \\
+    \overset{Trigonometrischer Pythagoras}&= \sqrt{1 - \qty(1 - \sin^2\qty\big(\alpha))} \\
+      &= \sqrt{\sin^2\qty\big(\alpha)} \\
+      &= \pm \sin\qty\big(\alpha)
+  \end{flalign*}
+  Schließlich folgt aus $a, b \in \mathbb{R}$ und $a^b + b^2 = 1$, dass
+  $a \in \qty\big[-1, 1]$ und somit findet sich für jedes $a$ auch ein $\alpha$
+  mit $\cos\qty\big(\alpha) = a$.
+
+  Folglich hat jede orthogonale Matrix im $\mathbb{R}^{2 \times 2}$ die Form
+  \[
+    \begin{pmatrix}
+      \cos\qty\big(\alpha)    & \pm\sin\qty\big(\alpha) \\
+      \mp\sin\qty\big(\alpha) & \cos\qty\big(\alpha)    \\
+    \end{pmatrix} \text{ oder } \begin{pmatrix}
+      \cos\qty\big(\alpha)    & \pm\sin\qty\big(\alpha) \\
+      \pm\sin\qty\big(\alpha) & -\cos\qty\big(\alpha)   \\
+    \end{pmatrix}
+  \]
+  und das sind genau die Matrizen für Drehungen und Spiegelungen.
+\end{enumerate}
+\end{document}
