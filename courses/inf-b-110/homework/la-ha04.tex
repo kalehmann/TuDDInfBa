@@ -1,0 +1,133 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 4\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 4.2} Beweisen, bzw. widerlegen Sie, dass die folgenden Mengen
+Untervektorräume der angegebenen $\mathbb{R}$-Vektorräume sind.
+\begin{enumerate}[(a)]
+  \item $\qty{f \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R}) \:\middle|\: f \text{ ist bijektiv}} \subseteq \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+  \item $\qty{f \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R}) \:\middle|\: \forall\: x \in \mathbb{R} \colon f\qty\big(x) = -f\qty\big(-x)} \subseteq \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+  \item $\qty{f \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R}) \:\middle|\: \exists\: y \in \mathbb{R} \: \forall\: x \in \mathbb{R} \colon f\qty\big(x) = y} \subseteq \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$
+  \end{enumerate}
+
+  \subparagraph{Lsg.}
+  \begin{enumerate}[(a)]
+  \item Sei $g \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ mit
+    $g\qty\big(x) = 0$ das Nullelement aus dem $\mathbb{R}$-Vektorraum
+    $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+    Dann ist $g$ nicht injektiv, da für $1, 2 \in \mathbb{R}$ gilt
+    $g\qty\big(1) = 0 = g\qty\big(2)$.
+    Somit ist $g$ auch nicht bijektiv und damit das Nullelement nicht in der
+    gegebenen Menge enthalten.
+
+    $\Rightarrow$ kein Untervektorraum.
+
+  \item Sei $g \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ mit
+    $g\qty\big(x) = 0$ das Nullelement aus dem $\mathbb{R}$-Vektorraum
+    $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+
+    Dann gilt für alle $x \in \mathbb{R}$, dass
+    $g\qty\big(x) = 0 = -g\qty\big(-x)$.
+
+    $\Rightarrow$ das Nullelement ist in der gegebenen Menge enthalten.
+
+    Seien nun $f, h \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ beliebig mit
+    $f$ ist bijektiv und $h$ ist bijektiv.
+    Sei weiter auch $x \in \mathbb{R}$ beliebig.
+    Dann ist
+    \[
+      \qty\big(f + h)\qty\big(x) = f\qty\big(x) + h\qty\big(x)
+      = -f\qty\big(-x) - h\qty\big(-x)
+      = -\qty(f\qty\big(-x) + h\qty\big(-x))
+      = -\qty\big(f + h)\qty\big(-x)
+    \]
+
+    $\Rightarrow f + h$ ist in der Menge enthalten.
+
+    $\Rightarrow$ die Menge ist bezüglich der Addition abgeschlossen.
+
+    Seien nun $f \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ beliebig mit
+    $f$ ist injektiv und $\lambda \in \mathbb{R}$ beliebig.
+    Dann ist
+    \[
+      \qty\big(\lambda \cdot f)\qty\big(x) = \lambda \cdot f\qty\big(x) = \lambda \cdot \qty(-f\qty\big(-x))
+      = -\lambda \cdot f\qty\big(-x) = -\qty\big(\lambda \cdot f)\qty\big(-x)
+    \]
+
+    $\Rightarrow$ die Menge ist bezüglich der Skalarmultiplikation abgeschlossen.
+
+    $\Rightarrow$ die Menge ist ein Untervektorraum von dem $\mathbb{R}$-Vektorraum
+    $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+
+  \item Sei $g \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ mit
+    $g\qty\big(x) = 0$ das Nullelement aus dem $\mathbb{R}$-Vektorraum
+    $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+
+    Dann existiert $0 \in \mathbb{R}$, so dass für alle $x \in \mathbb{R}$
+    gilt $g\qty\big(x) = 0$.
+
+    $\Rightarrow$ das Nullelement ist in der Menge enthalten.
+
+    Seien weiter $f, h \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ sowie
+    $\lambda \in \mathbb{R}$ beliebig.
+    Dann existieren $y_f, y_h \in \mathbb{R}$ mit $f\qty\big(x) = y_f$ sowie
+    $h\qty\big(x) = y_h$ für alle $x \in \mathbb{R}$ mit
+    $y_f + y_h \in \mathbb{R}$ als auch $\lambda \cdot y_f \in \mathbb{R}$.
+
+    Sei noch $j, k \in \text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$ mit
+    $j\qty\big(x) = y_f + y_h$ und $k\qty\big(x) = \lambda \cdot y_f$.
+
+    Schließlich ist
+    \[
+      \qty\big(f + h)\qty\big(x) = f\qty\big(x) + h\qty\big(x) = y_f + y_h
+      = j\qty\big(x)
+    \]
+    und
+    \[
+      \qty\big(\lambda \cdot f)\qty\big(x) = \lambda \cdot f\qty\big(x)
+      = \lambda \cdot y_f = k\qty\big(x)
+    \]
+    $\Rightarrow$ die Menge ist bezüglich der Addition und Skalarmultiplikation
+    abgeschlossen.
+
+    $\Rightarrow$ die Menge ist ein Untervektorraum von dem $\mathbb{R}$-Vektorraum
+    $\text{Abb}\qty\big(\mathbb{R}, \mathbb{R})$.
+  \end{enumerate}
+\end{document}

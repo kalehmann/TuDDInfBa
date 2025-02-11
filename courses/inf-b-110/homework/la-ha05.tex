@@ -1,0 +1,527 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 5\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 5.2}
+\begin{enumerate}[(a)]
+\item Die Ziffern Ihrer 7-stelligen Immatrikulationsnummer seien (von links nach
+  rechts gelesen) die Zahlen $x_1$ $x_2$ $x_3$ $x_4$ $x_5$ $x_6$ $x_7$.
+
+  Bestimmen Sie, für welche $a \in \mathbb{R}$ die Vektoren
+  \[
+    \qty\big(x_1, x_2, x_3)^T,
+    \qty\big(x_4, a, x_5)^T,
+    \qty\big(x_6, x_7, a)^T
+    \in \mathbb{R}^3
+  \]
+  linear abhängig bzw. linear unabhängig sind.
+
+  Machen Sie die Probe, indem Sie die von Ihnen gefundenen Zahlen $a$
+  einsetzen.
+
+  \subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+    \hline
+    $x_1$ & $x_2$ & $x_3$ & $x_4$ & $x_5$ & $x_6$ & $x_7$ \\
+    \hline
+  \end{tabular}
+
+  Die drei gegebenen Vektoren sind linear unabhängig, wenn
+  \[
+    \lambda_1 \cdot \qty\big(4, 9, 3)^T +
+    \lambda_2 \cdot \qty\big(5, a, 7)^T +
+    \lambda_3 \qty\big(5, 8, a)^T = 0
+    \iff \lambda_1 = \lambda_2 = \lambda_3 = 0 \quad
+    \lambda_1, \lambda_2, \lambda_3 \in \mathbb{R}
+  \]
+
+  Nun ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      4 & 5 & 5 & 0 \\
+      9 & a & 8 & 0 \\
+      3 & 7 & a & 0 \\
+    \end{array})
+    \overset{Z_2 = 4 \cdot Z_2 - 9 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5      & 0 \\
+      0 & 4a - 45 & -13    & 0 \\
+      3 & 7       & a      & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = 4 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 13      & 4a - 15 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \qty\big(4a - 45) \cdot Z_3 - 13 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 0       & \qty\big(4a - 45)\qty\big(4a - 15) + 13^2 & 0 \\
+    \end{array}) && \hyperref[hint:null_1]{\qty\big(*)} \\
+    &=
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 0       & 16a^2 + 4a \cdot \qty\big(-60) + \qty\big(-45)\cdot\qty\big(-15) + 13^2 & 0 \\
+    \end{array}) \\
+    &=
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 0       & 16a^2 - 240a + 675 + 169 & 0 \\
+    \end{array}) \\
+    &=
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 0       & 16a^2 - 240a + 844 & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \frac{1}{4} \cdot Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5       & 5       & 0 \\
+      0 & 4a - 45 & -13     & 0 \\
+      0 & 0       & 4a^2 - 60a + 211 & 0 \\
+    \end{array}) && \hyperref[hint:null_2]{\qty\big(**)}\\
+  \end{flalign*}
+
+  \phantomsection
+  \label{hint:null_1}
+  $\qty\big(*) \quad$ Während der Umformung der Matrix wurde eine Zeile mit
+  $\qty\big(4a - 45)$ multipliziert.
+  Da die Multiplikation einer Zeile mit $0$ keine elementare Zeilenumformung
+  darstellt, muss der Fall $a = \frac{45}{4}$ separat betrachtet werden.
+
+  \textbf{Zwischenprobe für $a = \frac{45}{4}$:}
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      4 & 5            & 5            & 0 \\
+      9 & \frac{45}{4} & 8            & 0 \\
+      3 & 7            & \frac{45}{4} & 0 \\
+    \end{array})
+    \overset{Z_3 = 4 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5            & 5  & 0 \\
+      9 & \frac{45}{4} & 8  & 0 \\
+      0 & 13           & 30 & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{13}\qty\big(4 \cdot Z_2 - 9 \cdot Z_1)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5  & 5  & 0 \\
+      0 & 0  & 1  & 0 \\
+      0 & 13 & 30 & 0 \\
+    \end{array}) \\
+    \overset{Z_2 \leftrightarrow Z_3}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5  & 5  & 0 \\
+      0 & 13 & 30 & 0 \\
+      0 & 0  & 1  & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{13}\qty\big(Z_2 - 30 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5 & 5 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = \frac{1}{4}\qty\big(Z_1 - 5 \cdot Z_2 - 5 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      1 & 0 & 0 & 0 \\
+      0 & 1 & 0 & 0 \\
+      0 & 0 & 1 & 0 \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow$ die Vektoren sind für $a = \frac{45}{4}$ linear unabhängig und
+  eine weitere Betrachtung dieses Falls ist nicht erforderlich.
+
+  \phantomsection
+  \label{hint:null_2}
+  $\qty\big(**) \quad$ Am Ende der Umformung steht am Index $\qty\big(3, 3)$ der
+  Matrix der Ausdruck $4a^2 - 60a + 211$ und dieser kann in Abhängigkeit von $a$
+  auch 0 ergeben.
+  Um mit diesem Wert weiter arbeiten zu können, folgt ein kurzer Einwurf der
+  Lösungsformel:
+  \begin{flalign*}
+    x_{1|2} &= -\frac{-15}{2} \pm \sqrt{\qty(\frac{15}{2})^2 - \frac{211}{4}} \\
+            &= \frac{15}{2} \pm \sqrt{\frac{225}{4} - \frac{211}{4}} \\
+            &= \frac{15}{2} \pm \sqrt{\frac{14}{4}} \\
+    x_1     &= \frac{15}{2} + \sqrt{\frac{7}{2}}, \quad x_2 = \frac{15}{2} - \sqrt{\frac{7}{2}}
+  \end{flalign*}
+  $\Rightarrow 4a^2 - 60a + 211 = 4\qty(a - \frac{15}{2} - \sqrt{\frac{7}{2}})\qty(a - \frac{15}{2} + \sqrt{\frac{7}{2}})$
+
+  Somit ist der Rang der Matrix für $a = \frac{15}{2} \pm \sqrt{\frac{7}{2}}$
+  offensichtlich kleiner 3 und die Vektoren wären für diese beiden Werte von
+  $a$ linear abhängig.
+
+  \newpage
+  Sei nun
+  $f\qty\big(a) = 4\qty(a - \frac{15}{2} - \sqrt{\frac{7}{2}})\qty(a - \frac{15}{2} + \sqrt{\frac{7}{2}})$:
+  \begin{flalign*}
+    \overset{\text{Siehe Rückseite}}=
+    &\qty(\begin{array}{ccc|c}
+      4 & 5       & 5            & 0 \\
+      0 & 4a - 45 & -13          & 0 \\
+      0 & 0       & f\qty\big(a) & 0 \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{4}\qty(f\qty\big(a) \cdot Z_2 + 13 \cdot Z_3)}\leadsto
+    &\qty(\begin{array}{ccc|c}
+      4 & 5                                  & 5            & 0 \\
+      0 & \qty(a - \frac{45}{4})f\qty\big(a) & 0            & 0 \\
+      0 & 0                                  & f\qty\big(a) & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = f\qty\big(a) \cdot Z_1 - 5 \cdot Z_3}\leadsto
+    &\qty(\begin{array}{ccc|c}
+      4f\qty\big(a) & 5f\qty\big(a)                      & 0            & 0 \\
+      0             & \qty(a - \frac{45}{4})f\qty\big(a) & 0            & 0 \\
+      0             & 0                                  & f\qty\big(a) & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = \frac{1}{4}\qty(\qty(a - \frac{45}{4}) \cdot Z_1 - 5 \cdot Z_2)}\leadsto
+    &\qty(\begin{array}{ccc|c}
+      \qty(a - \frac{45}{4})f\qty\big(a) & 0                                  & 0            & 0 \\
+      0                                   & \qty(a - \frac{45}{4})f\qty\big(a) & 0            & 0 \\
+      0                                   & 0                                  & f\qty\big(a) & 0 \\
+    \end{array})
+  \end{flalign*}
+
+  Nun leitet sich aus der Diagonalmatrix kein weiterer Erkenntnisgewinn ab und
+  die Vektoren sind lediglich für $a = \frac{15}{2} \pm \sqrt{\frac{7}{2}}$
+  linear unabhängig.
+
+  \textbf{Probe für $a = \frac{15}{2} + \sqrt{\frac{7}{2}}$:}
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      4 & 5                                 & 5                                 & 0 \\
+      9 & \frac{15}{2} + \sqrt{\frac{7}{2}} & 8                                 & 0 \\
+      3 & 7                                 & \frac{15}{2} + \sqrt{\frac{7}{2}} & 0 \\
+    \end{array})
+    \overset{Z_2 = 4 \cdot Z_2 - 9 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5                                 & 0 \\
+      0 & -15 + 2\sqrt{14} & -13                               & 0 \\
+      3 & 7                & \frac{15}{2} + \sqrt{\frac{7}{2}} & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = 4 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5               & 0 \\
+      0 & -15 + 2\sqrt{14} & -13             & 0 \\
+      0 & 13               & 15 + 2\sqrt{14} & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \qty\big(-15 + 2\sqrt(14)) \cdot Z_3 - 13 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5   & 0 \\
+      0 & -15 + 2\sqrt{14} & -13 & 0 \\
+      0 & 0                & 0   & 0 \\
+    \end{array})
+  \end{flalign*}
+
+  \textbf{Probe für $a = \frac{15}{2} - \sqrt{\frac{7}{2}}$:}
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|c}
+      4 & 5                                 & 5                                 & 0 \\
+      9 & \frac{15}{2} - \sqrt{\frac{7}{2}} & 8                                 & 0 \\
+      3 & 7                                 & \frac{15}{2} - \sqrt{\frac{7}{2}} & 0 \\
+    \end{array})
+    \overset{Z_2 = 4 \cdot Z_2 - 9 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5                                 & 0 \\
+      0 & -15 - 2\sqrt{14} & -13                               & 0 \\
+      3 & 7                & \frac{15}{2} - \sqrt{\frac{7}{2}} & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = 4 \cdot Z_3 - 3 \cdot Z_1}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5               & 0 \\
+      0 & -15 - 2\sqrt{14} & -13             & 0 \\
+      0 & 13               & 15 - 2\sqrt{14} & 0 \\
+    \end{array}) \\
+    \overset{Z_3 = \qty\big(-15 - 2\sqrt(14)) \cdot Z_3 - 13 \cdot Z_2}&\leadsto
+    \qty(\begin{array}{ccc|c}
+      4 & 5                & 5   & 0 \\
+      0 & -15 - 2\sqrt{14} & -13 & 0 \\
+      0 & 0                & 0   & 0 \\
+    \end{array})
+  \end{flalign*}
+
+\item Wir betrachten in dieser Aufgabe den $\mathbb{R}$-Vektorraum
+  $\mathbb{R}^{2 \times 2}$.
+  \begin{enumerate}[(i)]
+  \item Zeigen Sie, dass durch
+    \label{2_b_1}
+    \[
+      A \coloneqq \begin{pmatrix}
+        0 & 1 \\
+        0 & 0 \\
+      \end{pmatrix}, \quad
+      B \coloneqq \begin{pmatrix}
+        1 & 0 \\
+        0 & 1 \\
+      \end{pmatrix}, \quad
+      C \coloneqq \begin{pmatrix}
+        1 & 0 \\
+        1 & 0 \\
+      \end{pmatrix}, \quad
+      D \coloneqq \begin{pmatrix}
+        1 & 1 \\
+        1 & 1 \\
+      \end{pmatrix}
+    \]
+    eine angeordnete Basis $F \coloneqq \qty\big(A, B, C, D)$ von
+    $\mathbb{R}^{2 \times 2}$ gegeben ist.
+    Welche Dimension hat dieser Vektorraum?
+
+    \subparagraph{Lsg.} Aus der Vorlesung bereits bekannt, dass die Standardbasis
+    von $\mathbb{R}^{2 \times 2}$ aus vier Elementen besteht.
+    Folglich ist $\dim\qty(\mathbb{R}^{2 \times 2}) = 4$ und 4 beliebige Elemente
+    aus $\mathbb{R}^{2 \times 2}$ bilden eine Basis, wenn sie linear unabhängig
+    sind.
+
+    Somit bleibt noch zu zeigen, dass die gegebenen Vektoren Linear unabhängig
+    sind.
+    Sei nun
+    \[
+      A = \begin{pmatrix}
+        a_{1} & a_{2} \\
+        a_{3} & a_{4}
+      \end{pmatrix}, \text{ mit } a_1 = 0, a_2 = 1, a_3 = 0, a_4 = 0
+    \]
+    und die Vektoren $B$, $C$ und $D$ ebenso definiert.
+    Dann sind die Vektoren linear unabhängig, wenn
+    \[
+      \lambda_1 \cdot A + \lambda_2 \cdot B + \lambda_3 \cdot C + \lambda_4 \cdot D = 0
+      \iff \lambda_1 = \lambda_2 = \lambda_3 = \lambda_4 = 0
+    \]
+    oder
+    \[
+      \begin{pmatrix}
+        a_1 & b_1 & c_1 & d_1 \\
+        a_2 & b_2 & c_2 & d_2 \\
+        a_3 & b_3 & c_3 & d_3 \\
+        a_4 & b_4 & c_4 & d_4 \\
+      \end{pmatrix} \cdot \begin{pmatrix}
+        \lambda_1 \\
+        \lambda_2 \\
+        \lambda_3 \\
+        \lambda_4 \\
+      \end{pmatrix} = \begin{pmatrix} 0 \\ 0 \\ 0 \\ 0 \end{pmatrix}
+      \iff \lambda_1 = \lambda_2 = \lambda_3 = \lambda_4 = 0
+    \]
+    Und dieses LGS lässt sich nach dem üblichen Vorgehen lösen:
+    \begin{flalign*}
+      \qty(\begin{array}{cccc|c}
+        0 & 1 & 1 & 1 & 0 \\
+        1 & 0 & 0 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 0 \\
+        0 & 1 & 0 & 1 & 0 \\
+      \end{array})
+      \overset{Z_1 \leftrightarrow Z_2}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 0 \\
+        0 & 1 & 0 & 1 & 0 \\
+      \end{array})
+      \overset{Z_4 = Z_4 - Z_2 + Z_3}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 1 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array}) \\
+      \overset{Z_3 = Z_3 - Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 1 & 1 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array})
+      \overset{Z_2 = Z_2 - Z_3 - Z_4}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 0 \\
+        0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array}) \\
+      \overset{Z_1 = Z_1 - Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array})
+    \end{flalign*}
+    $\Rightarrow \lambda_1 = \lambda_2 = \lambda_3 = \lambda_4 = 0$
+    und damit bildet $\qty\big(A, B, C, D)$ eine angeordnete Basis von
+    $\mathbb{R}^{2 \times 2}$
+
+  \item Bestimmen Sie den Koordinatenvektor $M_F$ der Matrix
+    $M \coloneqq \begin{pmatrix} x_4 & x_5 \\ x_6 & x_7 \end{pmatrix}$,
+    dabei seien $x_4$, $x_5$, $x_6$, $x_7$ die letzten 4 Ziffern Ihrer
+    Immatrikulationsnummer.
+
+    \subparagraph{Lsg.} Es ist
+    $M = \begin{pmatrix} 5 & 7 \\ 5 & 8 \end{pmatrix}$.
+    Analog zur vorherigen Aufgabe lösen wir
+    $\lambda_1 \cdot A + \lambda_2 \cdot B + \lambda_3 \cdot C + \lambda_4 \cdot D = M$:
+        \begin{flalign*}
+      \qty(\begin{array}{cccc|c}
+        0 & 1 & 1 & 1 & 5 \\
+        1 & 0 & 0 & 1 & 7 \\
+        0 & 0 & 1 & 1 & 5 \\
+        0 & 1 & 0 & 1 & 8 \\
+      \end{array})
+      \overset{Z_1 \leftrightarrow Z_2}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 7 \\
+        0 & 1 & 1 & 1 & 5 \\
+        0 & 0 & 1 & 1 & 5 \\
+        0 & 1 & 0 & 1 & 8 \\
+      \end{array})
+      \overset{Z_4 = Z_4 - Z_2 + Z_3}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 7 \\
+        0 & 1 & 1 & 1 & 5 \\
+        0 & 0 & 1 & 1 & 5 \\
+        0 & 0 & 0 & 1 & 8 \\
+      \end{array}) \\
+      \overset{Z_3 = Z_3 - Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 7  \\
+        0 & 1 & 1 & 1 & 5  \\
+        0 & 0 & 1 & 0 & -3 \\
+        0 & 0 & 0 & 1 & 8  \\
+      \end{array})
+      \overset{Z_2 = Z_2 - Z_3 - Z_4}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 1 & 7  \\
+        0 & 1 & 0 & 0 & 0  \\
+        0 & 0 & 1 & 0 & -3 \\
+        0 & 0 & 0 & 1 & 8  \\
+      \end{array}) \\
+      \overset{Z_1 = Z_1 - Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 0 & -1 \\
+        0 & 1 & 0 & 0 & 0  \\
+        0 & 0 & 1 & 0 & -3 \\
+        0 & 0 & 0 & 1 & 8  \\
+      \end{array})
+     \end{flalign*}
+     Somit ist
+     \[
+       -1 \cdot \begin{pmatrix}
+        0 & 1 \\
+        0 & 0 \\
+      \end{pmatrix} + 0 \cdot \begin{pmatrix}
+        1 & 0 \\
+        0 & 1 \\
+      \end{pmatrix} -3 \cdot \begin{pmatrix}
+        1 & 0 \\
+        1 & 0 \\
+      \end{pmatrix} + 8 \cdot \begin{pmatrix}
+        1 & 1 \\
+        1 & 1 \\
+      \end{pmatrix} = \begin{pmatrix}
+        5 & 7 \\
+        5 & 8 \\
+      \end{pmatrix} \text{ und }
+      M_F = \begin{pmatrix}
+        -1 & 0 \\
+        -3 & 8
+      \end{pmatrix}
+    \]
+
+
+  \item Ist das Tupel $\tilde{F} \coloneqq \qty\big(B, C, D, M)$ eine Basis von
+    $\mathbb{R}^{2 \times 2}$?
+
+    \subparagraph{Lsg.} Analog zur Teilaufgabe \hyperref[2_b_1]{(i)}:
+    \begin{flalign*}
+      \qty(\begin{array}{cccc|c}
+        1 & 1 & 1 & 5 & 0 \\
+        0 & 0 & 1 & 7 & 0 \\
+        0 & 1 & 1 & 5 & 0 \\
+        1 & 0 & 1 & 8 & 0 \\
+      \end{array})
+      \overset{Z_2 \leftrightarrow Z_3}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 1 & 1 & 5 & 0 \\
+        0 & 1 & 1 & 5 & 0 \\
+        0 & 0 & 1 & 7 & 0 \\
+        1 & 0 & 1 & 8 & 0 \\
+      \end{array})
+      \overset{Z_4 = Z_4 - Z_1 + Z_2 - Z_3}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 1 & 1 & 5 & 0 \\
+        0 & 1 & 1 & 5 & 0 \\
+        0 & 0 & 1 & 7 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array}) \\
+      \overset{Z_3 = Z_3 - 7 \cdot Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 1 & 1 & 5 & 0 \\
+        0 & 1 & 1 & 5 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array})
+      \overset{Z_2 = Z_2 - Z_3 - 5 \cdot Z_4}\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 1 & 1 & 5 & 0 \\
+        0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array}) \\
+      \overset{Z_1 = Z_1 - Z_2 - Z_3 - 5 \cdot Z_4}&\leadsto
+      \qty(\begin{array}{cccc|c}
+        1 & 0 & 0 & 0 & 0 \\
+        0 & 1 & 0 & 0 & 0 \\
+        0 & 0 & 1 & 0 & 0 \\
+        0 & 0 & 0 & 1 & 0 \\
+      \end{array})
+    \end{flalign*}
+    Somit bilden die vier linear unabhängigen Vektoren ebenfalls eine Basis in
+    $\mathbb{R}^{2 \times 2}$, da
+    $\lambda_1 \cdot B + \lambda_2 \cdot C + \lambda_3 \cdot D + \lambda_4 \cdot M = 0
+    \iff \lambda_1 = \lambda_2 = \lambda_3 = \lambda_4 = 0$
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}

@@ -1,0 +1,351 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 6\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 6.2} Es seien
+\[
+  m_1 \quad m_2 \quad m_3 \quad m_4 \quad m_5 \quad m_6 \quad m_7
+\]
+die Ziffern Ihrer Matrikelnummer.
+
+Für beliebige $k \in \mathbb{R}$ ist die folgende Matrix $A_k$ gegeben:
+\[
+  A_k \coloneqq \begin{pmatrix}
+    1 & -2 & -2 & k   \\
+    1 & -1 & 2  & 2   \\
+    0 & 1  & 4  & k^2 \\
+  \end{pmatrix} \in \mathbb{R}^{3 \times 4}
+\]
+\begin{enumerate}[(a)]
+\item \label{n_6_2_b} Bestimmen Sie (in Abhängigkeit von $k$) den Rang von $A_k$
+  und die Dimension des Kerns von $A_k$.
+  Verifizieren Sie die Dimensionsformel für Matrizen.
+
+  \subparagraph{Lsg.} In Übung 6.6 wurde bereits gezeigt, dass elementare
+  Zeilenumformungen nicht den Rang einer Matrix ändern.
+  Nun ist
+  \begin{flalign*}
+    \begin{pmatrix}
+      1 & -2 & -2 & k   \\
+      1 & -1 & 2  & 2   \\
+      0 & 1  & 4  & k^2 \\
+    \end{pmatrix}
+    \overset{Z_1 = -1 \cdot \qty\big(Z_1 - Z_2)}&\leadsto
+    \begin{pmatrix}
+      0 & 1  & 4  & 2 - k \\
+      1 & -1 & 2  & 2     \\
+      0 & 1  & 4  & k^2   \\
+    \end{pmatrix} \\
+    \overset{Z_3 = Z_3 - Z_1}&\leadsto
+    \begin{pmatrix}
+      0 & 1  & 4  & 2 - k \\
+      1 & -1 & 2  & 2     \\
+      0 & 0  & 0  & k^2 + k - 2 \\
+    \end{pmatrix} \\
+    \overset{Z_1 \leftrightarrow Z_2}&\leadsto
+    \begin{pmatrix}
+      1 & -1 & 2  & 2     \\
+      0 & 1  & 4  & 2 - k \\
+      0 & 0  & 0  & \qty\big(k + 2)\qty\big(k - 1) \\
+    \end{pmatrix}
+  \end{flalign*}
+
+  Nun sind die ersten beiden Zeilen durch ${A_k}_{1, 1} = 1$ und
+  ${A_k}_{2, 1} = 0$ offensichtlich linear unabhängig.
+  Die dritte Zeile der Matrix wird ebenfalls von den ersten beiden Zeilen linear
+  unabhängig, falls sie eine ``\emph{Nullzeile}'' ist, d.h. ${A_k}_{3, 4} = 0$
+  für $k = -2$ oder $k  = 1$.
+
+  $\Rightarrow \text{Rang}\qty\big(A_1) = \text{Rang}\qty\big(A_{-2}) = 2$ und
+  für alle anderen $k \in \mathbb{R} \setminus \qty\big{-2, 1}$ ist
+  $\text{Rang}\qty\big(A_k) = 3$.
+
+  Für jeden Vektor $\qty\big(x_1, x_2, x_3, x_4)^T$ im Kern von $A_k$ ist
+  nun $x_4 \in \mathbb{R}$, falls $k \in \qty\big{-2, 1}$ und ansonsten
+  $x_4 = 0$.
+  Weiter sind
+  \begin{itemize}
+  \item für $k \in \qty\big{-2, 1}$
+    \begin{itemize}[\null]
+    \item $x_4 \in \mathbb{R}$
+    \item $x_3 \in \mathbb{R}$
+    \item $x_2 = \qty\big(k - 2)x_4 - 4x_3$
+    \item $x_1 = x_2 - 2 \cdot x_3 - 2 x_4 = \qty\big(k - 4) \cdot x_4 - 6 x_3$
+    \end{itemize}
+    \[
+      \text{Kern}\qty\big(A_k) = \text{Span}\qty(\qty{
+        \begin{pmatrix}
+          -6 \\
+          -4 \\
+          1  \\
+          0  \\
+        \end{pmatrix},
+        \begin{pmatrix}
+          k - 4 \\
+          k - 2 \\
+          0     \\
+          1     \\
+        \end{pmatrix}
+      }), \text{ mit }
+      \text{Dim}\qty(\text{Kern}\qty\big(A_k)) = 2
+    \]
+
+  \item für $k \in \mathbb{R} \setminus \qty\big{-2, 1}$
+    \begin{itemize}[\null]
+    \item $x_4 = 0$
+    \item $x_3 \in \mathbb{R}$
+    \item $x_2 = -4x_3$
+    \item $x_1 = x_2 - 2x_3 = -6x_3$
+    \end{itemize}
+    \[
+      \text{Kern}\qty\big(A_k) = \text{Span}\qty(\qty{
+        \begin{pmatrix}
+          -6 \\
+          -4 \\
+          1  \\
+          0  \\
+        \end{pmatrix}
+      }), \text{ mit }
+      \text{Dim}\qty(\text{Kern}\qty\big(A_k)) = 1
+    \]
+  \end{itemize}
+  Nun besagt die Dimensionsformel, dass für $A \in K^{m \times n}$ gilt
+  \[
+    \text{Rang}\qty\big(A) + \text{Dim}\qty(\text{Kern}\qty\big(A)) = n
+  \]
+  Und tatsächlich ist für die $\mathbb{R}^{3 \times 4}$ Matrizen $A_1$ und
+  $A_{-2}$
+  \[
+    \text{Rang}\qty\big(A_1) + \text{Dim}\qty(\text{Kern}\qty\big(A_1)) = 2 + 2 = 4
+  \]
+  und
+  \[
+    \text{Rang}\qty\big(A_{-2}) + \text{Dim}\qty(\text{Kern}\qty\big(A_{-2})) = 2 + 2 = 4
+  \]
+  sowie für alle anderen $k \in \mathbb{R} \setminus \qty\big{-2, 1}$
+  \[
+    \text{Rang}\qty\big(A_k) + \text{Dim}\qty(\text{Kern}\qty\big(A_k)) = 3 + 1 = 4
+  \]
+
+\item \label{n_6_2_b} Bestimmen Sie eine Basis $B$ des Kerns von $A_1$ und eine
+  Basis $C$ des Spaltenraums von $A_1$
+
+  \subparagraph{Lsg.} In der \hyperref[n_6_2_a]{Teilaufgabe (a)} wurde für
+  $k \in \qty\big{-2, 1}$ bereits
+  \[
+    \text{Kern}\qty\big(A_k) = \text{Span}\qty(\qty{
+      \begin{pmatrix}
+        -6 \\
+        -4 \\
+        1  \\
+        0  \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        k - 4 \\
+        k - 2 \\
+        0     \\
+        1     \\
+      \end{pmatrix}
+    })
+  \]
+  ermittelt.
+  Somit ist
+  \[
+    \text{Kern}\qty\big(A_1) = \text{Span}\qty(\qty{
+      \begin{pmatrix}
+        -6 \\
+        -4 \\
+        1  \\
+        0  \\
+      \end{pmatrix},
+      \begin{pmatrix}
+        -3 \\
+        -1 \\
+        0  \\
+        1  \\
+      \end{pmatrix}
+    })
+  \]
+  mit der Basis $B = \qty{\qty\big(-6, -4, 1, 0)^T, \qty\big(-3, -1, 0, 1)^T}$.
+
+  Weiter ist $\text{Dim}\qty(\text{Row}\qty\big(A_1)) =
+  \text{Dim}\qty(\text{Col}\qty\big(A_1)) = \text{Rang}\qty\big(A_1) = 2$.
+  Somit enthält eine Basis $C$ des Spaltenraums von $A_1$ zwei Elemente und da
+  die ersten beiden Spalten von $A_1$ offensichtlich linear unabhängig sind, ist
+  $C = \qty(\qty\big(1, 1, 0)^T, \qty\big(-2, -1, 1)^T)$ eine angeordnete Basis
+  des Spaltenraums von $A_1$.
+
+\newpage
+\item \label{n_6_2_c} Zeigen Sie, dass der Vektor
+  $\omega \coloneqq \qty\big(m_6, m_6 + m_7, m_7)^T$ im Spaltenraum
+  $\text{Col}\qty\big(A_1)$ liegt.
+  Bestimmen Sie reelle Zahlen $r, t \in \mathbb{R}$ so, dass für den Vektor
+  $v \coloneqq \qty\big(1, 1, t, r)^T$ gilt:
+  $A_1v = \omega$.
+
+  \subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+    \hline
+    $m_1$ & $m_2$ & $m_3$ & $m_4$ & $m_5$ & $m_6$ & $m_7$ \\
+    \hline
+  \end{tabular}
+
+  Nun ist $\omega = \qty\big(5, 13, 8)^T$.
+  Aus der \hyperref[n_6_2_a]{Teilaufgabe (a)} ist bereits
+  $\text{Rang}\qty\big(A_1) = 2$ bekannt.
+  Wenn nun ebenfalls
+  $\text{Rang}\qty\big(A_1|\omega) = \text{Rang}\qty\big(A_1) =  2$, dann ändert
+  die Erweiterung von $A_1$ um den Vektor $\omega$ den Spaltenrang nicht, und
+  $\omega$ wäre im Spaltenraum $A_1$ enthalten.
+
+  Nun ist
+  \begin{flalign*}
+    \qty(\begin{array}{cccc|c}
+      1 & -2 & -2 & 1 & 5  \\
+      1 & -1 & 2  & 2 & 13 \\
+      0 & 1  & 4  & 1 & 8  \\
+    \end{array})
+    \overset{Z_2 = Z_2 - Z_1}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & -2 & -2 & 1 & 5  \\
+      0 & 1  & 4  & 1 & 8 \\
+      0 & 1  & 4  & 1 & 8  \\
+    \end{array}) \\
+    \overset{Z_3 = Z_3 - Z_2}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & -2 & -2 & 1 & 5 \\
+      0 & 1  & 4  & 1 & 8 \\
+      0 & 0  & 0  & 0 & 0 \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - Z_2}&\leadsto
+    \qty(\begin{array}{cccc|c}
+      1 & -3 & -6 & 0 & -3 \\
+      0 & 1  & 4  & 1 & 8 \\
+      0 & 0  & 0  & 0 & 0 \\
+    \end{array})
+  \end{flalign*}
+  Somit ist tatsächlich $\text{Rang}\qty\big(A_1|\omega) = 2$ und $\omega$ im
+  Spaltenraum von $A_1$ enthalten.
+
+  Die Werte für $t, r$ erhält man, indem man den gegebenen Vektor in die
+  Einzelnen Zeilen von $A_1|\omega$ einsetzt.
+  So ist für die erste Zeile
+  \begin{flalign*}
+    1 - 3 - 6 \cdot t &= -3 && {\Big |} + 2 \\
+    -6 \cdot t &= -1 && {\Big |} \cdot -\frac{1}{6} \\
+    t &= \frac{1}{6}
+  \end{flalign*}
+  und für die zweite Zeile
+  \begin{flalign*}
+    1 + \frac{4}{6} + r &= 8 && {\Big |} - \frac{10}{6} \\
+    r &= \frac{38}{6}
+  \end{flalign*}
+
+  $\Rightarrow A_1 \cdot \qty(1, 1, \frac{1}{6}, \frac{38}{6})^T = \qty\big(5, 13, 8)^T$
+
+\newpage
+\item Geben Sie den Koordinatenvektor von $\omega$ bezüglich $C$ an, d.h.
+  berechnen Sie $\omega_C$.
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    21 \cdot \begin{pmatrix}
+      1 \\
+      1 \\
+      0 \\
+    \end{pmatrix} + 8 \cdot \begin{pmatrix}
+      -2 \\
+      -1 \\
+      1  \\
+    \end{pmatrix} = \begin{pmatrix}
+      5  \\
+      13 \\
+      8  \\
+    \end{pmatrix}
+  \]
+  Somit ist $\omega_C = \begin{pmatrix}
+    21 \\
+    8  \\
+  \end{pmatrix}$
+
+\item Bestimmen Sie mit Hilfe von \hyperref[n_6_2_b]{(b)} und
+  \hyperref[n_6_2_c]{(c)} die Lösungsmenge des linearen Gleichungssystemes
+  $A_1x = \omega$ an.
+
+  \subparagraph{Lsg.} Aus der Übung ist bereits bekannt, dass die Lösungsmenge
+  des inhomogenen Gleichungssystems $A_1|\omega$ eine zur Lösungsmenge des
+  homogenen Gleichungssystems $A_1|\qty\big(0, 0, 0)^T$ verschobene Ebene ist.
+  Die Verschiebung selbst ist dabei eine beliebige Lösung des inhomogenen
+  Gleichungssytems und in \hyperref[n_6_2_c]{Teilaufgabe (c)} wurde bereits
+  $v$ als Lösung ermittelt.
+
+  Weiter ist die Basis
+  $B = \qty{\qty\big(-6, -4, 1, 0)^T, \qty\big(-3, -1, 0, 1)^T}$ vom Kern des
+  homogenen Gleichungssystems $A_1|\qty\big(0, 0, 0)^T$ bereits aus
+  \hyperref[n_6_2_b]{Teilaufgabe (b)} bekannt und somit
+  \[
+    L = \qty{
+      \begin{pmatrix}
+        1 \\
+        1 \\
+        \frac{1}{6} \\
+        \frac{38}{6} \\
+      \end{pmatrix} + \lambda \cdot \begin{pmatrix}
+        -6 \\
+        -4 \\
+        1  \\
+        0  \\
+      \end{pmatrix} + \mu \cdot \begin{pmatrix}
+        -3 \\
+        -1 \\
+        0  \\
+        1  \\
+      \end{pmatrix}
+      \:\middle|\:
+      \lambda, \mu \in \mathbb{R}
+    }
+  \]
+
+\end{enumerate}
+\end{document}
