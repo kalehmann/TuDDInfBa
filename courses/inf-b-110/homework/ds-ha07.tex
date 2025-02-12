@@ -1,0 +1,136 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 7\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+\paragraph{N7}
+\begin{enumerate}[(a)]
+\item Geben Sie alle Elemente der Gruppe $\qty(\mathbb{Z}_{12}^*; \cdot)$ an und
+  stellen Sie die Verknüpfungstafel dieser Gruppe auf.
+
+  Ist $\qty(\mathbb{Z}_{12}^*; \cdot)$ zyklisch?
+  Begründen Sie Ihre Antwort!
+
+  \subparagraph{Lsg.} Die Gruppe $\qty(\mathbb{Z}_{12}^*; \cdot)$ enthält alle
+  Einheiten aus $\mathbb{Z}_{12}$ und hat $\phi\qty\big(12) = 4$ Elemente.
+
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1  & 5  & 7  & 11 \\
+    \hline
+    1       & 1  & 5  & 7  & 11 \\
+    5       & 5  & 1  & 11 & 7  \\
+    7       & 7  & 11 & 1  & 5  \\
+    11      & 11 & 7  & 5  & 1  \\
+    \hline
+  \end{tabular}
+
+  Nun ist die Gruppe nicht zyklisch, da jedes Element invers zu sich selbst ist.
+  So sind für jedes $a \in \qty(\mathbb{Z}_{12}^*; \cdot)$ die Verknüpfungen
+  $a^2 = 1$, $a^3 = a$ und $a^n = \begin{cases}
+    1 & 2|n \\
+    a & 2|(n + 1)
+  \end{cases}$.
+  Somit werden durch beliebige Verkettung eines Elementes maximal zwei der vier
+  Elemente der Gruppe erreicht.
+
+\item Es wird die Gruppe $\qty(\mathbb{Z}_{17}^*; \cdot)$ betrachtet.
+  \begin{enumerate}[(1)]
+  \item Zeigen Sie, dass 5 eine Primitivwurzel in
+    $\qty(\mathbb{Z}_{17}^*; \cdot)$ ist.
+
+    \subparagraph{Lsg.} Es ist
+
+    \begin{tabular}{c|c}
+      n & $5^n \mod 17$ \\
+      \hline
+       1 &  5 \\
+       2 &  8 \\
+       3 &  6 \\
+       4 & 13 \\
+       5 & 14 \\
+       6 &  2 \\
+       7 & 10 \\
+       8 & 16 \\
+       9 & 12 \\
+      10 &  9 \\
+      11 & 11 \\
+      12 &  4 \\
+      13 &  3 \\
+      14 & 15 \\
+      15 &  7 \\
+      16 &  1 \\
+    \end{tabular}
+
+    Somit lässt sich jedes Element der Gruppe auch durch mehrfache Verknüpfung
+    der 5 darstellen.
+
+  \item Nutzen Sie die Primitivwurzel 5, um alle $x \in \mathbb{Z}_{17}$ zu
+    berechnen, die
+    \[
+      14^{10} \cdot 9^{-1} \cdot x \equiv 13^7 \qty\big(\mod 17)
+    \]
+    erfüllen.
+
+    \subparagraph{Lsg.} In der vorherigen Teilaufgabe wurde bereits dargelegt,
+    dass $14 \equiv 5^5 \qty\big(\mod 17)$, $9 \equiv 5^{10} \qty\big(\mod 17)$
+    und $13 \equiv 5^4 \qty\big(\mod 17)$.
+    Außerdem ist
+    $9^{-1} \equiv \qty(5^{10})^{-1} \equiv 5^6 \equiv 2 \qty\big(\mod 17)$.
+    Somit ist
+    \begin{flalign*}
+      14^{10} \cdot 9^{-1} \cdot x \equiv 13^7 \qty\big(\mod 17)
+      &\iff 14^{10} \cdot 2 \cdot x \equiv 13^7 \qty\big(\mod 17) \\
+      &\iff \qty\big(5^5)^{10} \cdot 5^6 \cdot x \equiv \qty\big(5^4)^7 \qty\big(\mod 17) \\
+      &\iff 5^{50} \cdot 5^6 \cdot x \equiv 5^{28} \qty\big(\mod 17) \\
+      &\iff 5^{56} \cdot x \equiv 5^{28} \qty\big(\mod 17) \\
+      &\iff 3 \cdot 5^{17 - 1} \cdot 5^{8} \cdot x \equiv 5^{17 - 1} \cdot 5^{12} \qty\big(\mod 17) \\
+      \overset{\text{Lemma von Euler-Fermat}}&\iff  5^{8} \cdot x \equiv 5^{12} \qty\big(\mod 17)
+    \end{flalign*}
+    Somit ist $x = 5^4 \equiv 13 \qty\big(\mod 17)$
+  \item Bestimmen Sie die Anzahl der Erzeuger der Gruppe
+    $\qty(\mathbb{Z}_{17}^*; \cdot)$.
+
+    \subparagraph{Lsg.} 17 ist eine Primzahl, also ist die Anzahl der Erzeuger
+    von $\qty(\mathbb{Z}_{17}^*; \cdot)$ gleich $\phi\qty(\phi\qty\big(17))
+    = \phi\qty\big(16) = \phi\qty\big(2^4) = \qty\big(2 - 1) \cdot 2^3 = 8$.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
