@@ -1,0 +1,164 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 8\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+\paragraph{N8} Betrachtet wird die Gruppe der Einheiten
+$\qty\big(\mathbb{Z}_{20}^*; \cdot)$ mit der Multiplikation $\mod 20$.
+\begin{enumerate}[(a)]
+\item Geben Sie alle Elemente von $\mathbb{Z}_{20}^*$ an und stellen Sie die
+  Verknüpfungstafel dieser Gruppe auf.
+  \begin{scriptsize}
+    (Tipp: Nutzen Sie die Kommutativität der Multiplikation und die Sudokuregel)
+  \end{scriptsize}
+
+  \subparagraph{Lsg.} Es ist $20 = 2^2 \cdot 5$ und $\phi\qty\big(20)
+  = \qty\big(2 - 1) \cdot 2^{2 - 1} \cdot \qty\big(5 - 1) \cdot 5^{1 - 1} = 8$.
+  Folglich hat $\mathbb{Z}_{20}^*$ insgesamt 8 Elemente und diese sind
+  \[
+    \mathbb{Z}_{20}^* = \qty\big{1, 3, 7, 9, 11, 13, 17, 19}
+  \]
+  mit der Verknüpfungstafel
+
+  \begin{tabular}{|c|cccccccc|}
+    \hline
+    $\cdot$ & 1  & 3  & 7  & 9  & 11 & 13 & 17 & 19 \\
+    \hline
+    1       & 1  & 3  & 7  & 9  & 11 & 13 & 17 & 19 \\
+    3       & 3  & 9  & 1  & 7  & 13 & 19 & 11 & 17 \\
+    7       & 7  & 1  & 9  & 3  & 17 & 11 & 19 & 13 \\
+    9       & 9  & 7  & 3  & 1  & 19 & 17 & 13 & 11 \\
+    11      & 11 & 13 & 17 & 19 & 1  & 3  & 7  & 9  \\
+    13      & 13 & 19 & 11 & 17 & 3  & 9  & 1  & 7  \\
+    17      & 17 & 11 & 19 & 13 & 7  & 1  & 9  & 3  \\
+    19      & 19 & 17 & 13 & 11 & 9  & 7  & 3  & 1  \\
+    \hline
+  \end{tabular}
+
+\item Bestimmen Sie alle Untergruppen der Ordnung 2.
+  Wie viele Linksnebenklassen hat jede dieser Untergruppen?
+
+  \subparagraph{Lag} Alle Elemente mit Ordnung kleiner oder gleich 2 in
+  $\mathbb{Z}_{20}^*$ lassen sich leicht aus der Verknüpfungstafel ablesen.
+  Es sind
+  \begin{itemize}
+  \item $1^1 = 1$
+  \item $9^2 = 1$
+  \item $11^2 = 1$
+  \item $19^2 = 1$
+  \end{itemize}
+  Jede Untergruppe muss das neutrale Element 1 enthalten, also gibt es die
+  folgenden Untergruppen der Ordnung 2:
+  \[
+    \qty\big{1, 9}, \quad
+    \qty\big{1, 11}, \quad
+    \qty\big{1, 19}
+  \]
+  Nun hat jede dieser Untergruppen die Mächtigkeit 2 und nach dem Satz von
+  Lagrange ist $\qty\big[\mathbb{Z}_{20}^* \colon U]
+  = \frac{2}{\abs{\mathbb{Z}_{20}^*}}
+  = \frac{2}{8} = 4$ für jede Untergruppe $U$ der Ordnung 2.
+
+  $\Rightarrow$ jeder dieser Untergruppen hat 4 Linksnebenklassen.
+
+\newpage
+\item Begründen Sie kurz, dass $U \coloneq \qty\big{1, 3, 7, 9}$ eine Untergruppe
+  von $\qty\big(\mathbb{Z}_{20}^*)$ ist.
+  Geben Sie alle Linksnebenklasse von $U$ an.
+
+  \subparagraph{Lsg.} Es ist $1$ als neutrales Element aus
+  $\qty\big(\mathbb{Z}_{20}^*)$ in $U$ enthalten.
+  Außerdem lässt sich aus der Verknüpfungstafel von $U$ ablesen, dass die
+  Gruppe bezüglich der Multiplikation und $^{-1}$ abgeschlossen ist:
+
+  \begin{tabular}{|c|cccc|}
+    \hline
+    $\cdot$ & 1 & 3 & 7 & 9 \\
+    \hline
+    1       & 1 & 3 & 7 & 9 \\
+    3       & 3 & 9 & 1 & 7 \\
+    7       & 7 & 1 & 9 & 3 \\
+    7       & 9 & 7 & 3 & 1 \\
+    \hline
+  \end{tabular}
+
+  $\Rightarrow U$ ist eine Untergruppe von $\qty\big(\mathbb{Z}_{20}^*)$.
+
+  Nun hat $U$ genau $\qty\big[U \colon \qty\big(\mathbb{Z}_{20}^*)]
+  = \frac{\abs{U}}{\abs{\mathbb{Z}_{20}^*}}
+  = \frac{4}{8} = 2$ Linksnebenklassen und diese sind
+  \begin{flalign*}
+    \qty\big{1, 3, 7, 9} &= 1 \cdot U = 3 \cdot U = 7 \cdot U = 9 \cdot U \\
+    \qty\big{11, 13, 17, 19} &= 11 \cdot U = 13 \cdot U = 17 \cdot U = 19 \cdot U
+  \end{flalign*}
+
+\item Berechnen Sie alle $x \in \mathbb{Z}_{20}$, die die Gleichung
+  $9883^{8899} \cdot x \equiv 8 \mod 20$ erfüllen.
+  Verwenden Sie dabei, wenn möglich, den Satz von Euler-Fermat.
+
+  \subparagraph{Lsg.} Es ist $9883 \equiv 3 \qty\big(\mod 20)$ und da sich die
+  modulo-Operation auch auf alle Zwischenschritte einer Rechnung anwenden lässt
+  \[
+    9883^{8899} \equiv 3 \qty\big(\mod 20)
+  \]
+  Nun ist $20 = 2^2 \cdot 5$ und $\phi\qty\big(20)
+  = \qty\big(2 - 1) \cdot 2^{2 - 1} \cdot \qty\big(5 - 1) \cdot 5^{1 - 1}
+  = 1 \cdot 2 \cdot 4 \cdot 1 = 8$.
+
+  Da $\ggT\qty\big(3, 20) = 1$ ist nach dem Satz von Euler-Fermat
+  $3^{\phi\qty\big(20)} = 3^8 \equiv 1 \qty\big(\mod 20)$.
+  Schließlich folgt
+  \[
+    3^{8899} = \qty(3^8)^{1112} \cdot 3^3 \equiv 3^3 \equiv 7 \qty\big(\mod 20)
+  \]
+  Nun werden noch alle $x \in \mathbb{Z}_{20}$ mit
+  $7 \cdot x \equiv 8 \qty\big(\mod 20)$ gesucht.
+  Dabei muss für diese $x$ auch
+  $7 \cdot \qty\big(x - 1) \equiv 1 \qty\big(\mod 20)$ gelten.
+  Nun ist $7 \cdot 3 \equiv 1 \qty\big(\mod 20)$ und damit $x = 4$.
+
+  (Die Aufgabenstellung spricht von ``allen $x \in \mathbb{Z}_{20}$''.
+  Weitere Lösungen kann es jedoch nicht geben, da für ein $x' \ne x$, welches
+  die Gleichung erfüllt auch $x' - 1$ invers zu 7 und damit in
+  $\mathbb{Z}_{20}^*$ enthalten wäre - ein Widerspruch zur Eindeutigkeit des
+  Inversen in Gruppen.
+  Somit ist $x = 4$ auch wirklich die einzige Lösung.)
+\end{enumerate}
+\end{document}

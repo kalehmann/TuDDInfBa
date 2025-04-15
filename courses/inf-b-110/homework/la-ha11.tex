@@ -1,0 +1,451 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 11\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 11.2}
+Wir betrachten, in Abhängigkeit von den Parametern $m, n \in \mathbb{R}$, die
+Matrix
+\[
+  A_{m, n} = \begin{pmatrix}
+    2 & m & 0 \\
+    0 & 1 & n \\
+    0 & n & 1 \\
+  \end{pmatrix} \in \mathbb{R}^{3 \times 3}
+\]
+\begin{enumerate}[(a)]
+\item Bestimmen Sie die Eigenwerte von $A_{m, n}$
+
+  \subparagraph{Lsg.} Vorbetrachung: Seien
+  \begin{flalign*}
+    x + y &= -2 \\
+    x \cdot y &= 1 - n^2
+  \end{flalign*}
+  Dann ist $x = -2 - y$ und
+  \begin{flalign*}
+    \qty\big(-2 - y) \cdot y &= 1 - n^2 \\
+    -2y - y^2 &= 1 - n^2 \\
+    -y^2 - 2y - 1 &= -n^2 \\
+    y^2 + 2y + 1 &= n^2 \\
+    \qty\big(y + 1)^2 &= n^2 \\
+    y + 1 &= n \\
+    y &= n - 1, x = -n + 1 && (1)
+  \end{flalign*}
+
+  Es ist
+  \begin{flalign*}
+    \det\qty(A_{m, n} - \lambda \cdot E_3)
+    &= \det\begin{pmatrix}
+      2 - \lambda & m           & 0           \\
+      0           & 1 - \lambda & n           \\
+      0           & n           & 1 - \lambda \\
+    \end{pmatrix} \\
+    \overset{\text{Entwicklung nach 1. Spalte}}&=
+    \qty\big(2 - \lambda) \cdot \det\begin{pmatrix}
+      1 - \lambda & n           \\
+      n           & 1 - \lambda \\
+    \end{pmatrix} \\
+    &= \qty\big(2 - \lambda)\qty(\qty\big(1 - \lambda)^2 - n^2) \\
+    &= \qty\big(2 - \lambda)\qty(\lambda^2 - 2\lambda + 1 - n^2) \\
+    \overset{(1)}&= \qty\big(2 - \lambda)\qty\big(\lambda + n - 1)\qty\big(\lambda - n + 1)
+  \end{flalign*}
+  Nun sind $\lambda_1 = 2$, $\lambda_2 = 1 + n$ und $\lambda_3 = 1 - n$.
+
+\newpage
+\item Für welche Wertepaare $\qty\big(m, n)$ ist
+  $v = \qty\big(0, 1, 1)^T \in \mathbb{R}^3$ ein Eigenvektor von $A_{m, n}$?
+  Bestimmen Sie den zugehörigen Eigenwert $\lambda$ und den Eigenraum
+  $\text{Eig}\qty\big(A_{m, n}, \lambda)$.
+
+  \begin{small}
+    Hinweis: Zur Berechnung des Eigenraums sollten Sie eine Fallunterscheidung
+    machen mit den drei Fällen: $n = 0, n = 1$ und $n \notin \qty\big{0, 1}$.
+  \end{small}
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    \begin{pmatrix}
+      2 & m & 0 \\
+      0 & 1 & n \\
+      0 & n & 1 \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      0 \\
+      1 \\
+      1 \\
+    \end{pmatrix} = \begin{pmatrix}
+      m \\
+      1 + n \\
+      1 + n \\
+    \end{pmatrix}
+  \]
+  Somit ist $\qty\big(0, 1, 1)^T$ ein Eigenvektor aller Matrizen
+  $A_{0, n}, n \in \mathbb{R}$ mit dem Eigenwert $\lambda_2 = 1 + n$.
+
+  Weiter ist
+  \begin{flalign*}
+    \text{Ker}\qty\big(A_{m, n} - \lambda_2 \cdot E_3)
+    &= \text{Ker}\begin{pmatrix}
+      1 - n & 0  & 0  \\
+      0     & -n & n  \\
+      0     & n  & -n \\
+    \end{pmatrix} \\
+    \overset{Z_3 = Z_3 + Z_2}&= \text{Ker}\begin{pmatrix}
+      1 - n & 0  & 0 \\
+      0     & -n & n \\
+      0     & 0  & 0 \\
+    \end{pmatrix}
+  \end{flalign*}
+  und für
+  \begin{itemize}
+  \item[$n = 0$:] $\text{Eig}\qty\big(A_{0, 0}, \lambda_2) = \qty{
+      \begin{pmatrix}
+        0   \\
+        x_2 \\
+        x_3 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2, x_3 \in \mathbb{R}
+    } = \text{Span}\qty{
+      \begin{pmatrix}
+        0 \\
+        1 \\
+        0 \\
+      \end{pmatrix}, \begin{pmatrix}
+        0 \\
+        0 \\
+        1 \\
+      \end{pmatrix}
+    }$
+
+  \item[$n = 1$:] $\text{Eig}\qty\big(A_{0, 0}, \lambda_2) = \qty{
+      \begin{pmatrix}
+        x_1 \\
+        x_2 \\
+        x_2 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_1, x_2 \in \mathbb{R}
+    } = \text{Span}\qty{
+      \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix}, \begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+      \end{pmatrix}
+    }$
+  \item[$n \notin \qty\big{0, 1}$:]
+    $\text{Eig}\qty\big(A_{0, 0}, \lambda_2) = \qty{
+      \begin{pmatrix}
+        0  \\
+        x_2 \\
+        x_2 \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_2 \in \mathbb{R}
+    } = \text{Span}\qty{
+      \begin{pmatrix}
+        0 \\
+        1 \\
+        1 \\
+      \end{pmatrix}
+    }$
+  \end{itemize}
+
+\newpage
+\item Wählen Sie $m$ gleich der vorletzten und $n$ gleich der letzten Ziffer
+  Ihrer Matrikelnummer.
+  Untersuchen Sie, ob die Matrix $A_{m, n}$ für diese konkreten Werte von $m$ und
+  $n$ diagonalisierbar ist.
+  Geben Sie in diesem Fall eine Diagonalmatrix $D$ sowie eine invertierbare Matrix
+  $S$ an, für die $D = S^{-1}A_{m, n}S$ gelten.
+  Machen Sie eine Probe, indem Sie $S^{-1}A_{m, n}S$ ausrechnen.
+
+  \subparagraph{Lsg.} Die Matrikelnummer ist 4935758.
+  Somit sind $m = 5$ und $n = 8$.
+
+  Wie in Teilaufgabe (a) bereits gezeigt, hat $A_{5, 8}$ die Eigenwerte
+  $\lambda_1 = 2$, $\lambda_2 = 9$ und $\lambda_3 = -7$.
+  Nun sind
+  \begin{flalign*}
+    \text{Eig}\qty\big(A_{5, 8}, \lambda_1)
+    = \text{Ker}\qty\big(A_{5, 8} - \lambda_1 \cdot E_3)
+    &= \text{Ker}\begin{pmatrix}
+      0 & 5  & 0  \\
+      0 & -1 & 8  \\
+      0 & 8  & -1 \\
+    \end{pmatrix} \\
+    \overset{Z_3 = \frac{1}{63}\qty\big(Z_3 + 8 \cdot Z_2)}&= \text{Ker}\begin{pmatrix}
+      0 & 5  & 0 \\
+      0 & -1 & 8 \\
+      0 & 0  & 1 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = -1 \cdot \qty\big(Z_2 - 8 \cdot Z_3)}&= \text{Ker}\begin{pmatrix}
+      0 & 5 & 0 \\
+      0 & 1 & 0 \\
+      0 & 0 & 1 \\
+    \end{pmatrix} \\
+    \overset{Z_1 = Z_1 - 5 \cdot Z_2}&= \text{Ker}\begin{pmatrix}
+      0 & 5 & 0 \\
+      0 & 1 & 0 \\
+      0 & 0 & 1 \\
+    \end{pmatrix} \\
+    &= \qty{
+      \begin{pmatrix}
+        x_1 \\
+        0   \\
+        0   \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_1 \in \mathbb{R}
+    } \\
+    &= \text{Span}\qty{
+      \begin{pmatrix}
+        1 \\
+        0 \\
+        0 \\
+      \end{pmatrix}
+    }
+  \end{flalign*}
+  \begin{flalign*}
+    \text{Eig}\qty\big(A_{5, 8}, \lambda_2)
+    = \text{Ker}\qty\big(A_{5, 8} - \lambda_2 \cdot E_3)
+    &= \text{Ker}\begin{pmatrix}
+      -7 & 5  & 0  \\
+      0  & -8 & 8  \\
+      0  & 8  & -8 \\
+    \end{pmatrix} \\
+    \overset{Z_3 = Z_3 + Z_2}&= \text{Ker}\begin{pmatrix}
+      -7 & 5  & 0 \\
+      0  & -8 & 8 \\
+      0  & 0  & 0 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = -\frac{1}{8} \cdot Z_2}&= \text{Ker}\begin{pmatrix}
+      -7 & 5 & 0  \\
+      0  & 1 & -1 \\
+      0  & 0 & 0  \\
+    \end{pmatrix} \\
+    \overset{Z_1 = -\frac{1}{7} \cdot \qty\big(Z_1 - 5 \cdot Z_2)}&= \text{Ker}\begin{pmatrix}
+      1 & 0 & -\frac{5}{7} \\
+      0 & 1 & -1           \\
+      0 & 0 & 0            \\
+    \end{pmatrix} \\
+    &= \qty{
+      \begin{pmatrix}
+        \frac{5}{7}x_3 \\
+        x_3            \\
+        x_3            \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_3 \in \mathbb{R}
+    } \\
+    &= \text{Span}\qty{
+      \begin{pmatrix}
+        5 \\
+        7 \\
+        7 \\
+      \end{pmatrix}
+    }
+  \end{flalign*}
+  \begin{flalign*}
+    \text{Eig}\qty\big(A_{5, 8}, \lambda_3)
+    = \text{Ker}\qty\big(A_{5, 8} - \lambda_3 \cdot E_3)
+    &= \text{Ker}\begin{pmatrix}
+      9 & 5 & 0 \\
+      0 & 8 & 8 \\
+      0 & 8 & 8 \\
+    \end{pmatrix} \\
+    \overset{Z_3 = Z_3 - Z_2}&= \text{Ker}\begin{pmatrix}
+      9 & 5 & 0 \\
+      0 & 8 & 8 \\
+      0 & 8 & 8 \\
+    \end{pmatrix} \\
+    \overset{Z_2 = \frac{1}{8} \cdot Z_2}&= \text{Ker}\begin{pmatrix}
+      9 & 5 & 0 \\
+      0 & 1 & 1 \\
+      0 & 0 & 0 \\
+    \end{pmatrix} \\
+    \overset{Z_1 = \frac{1}{9} \cdot \qty\big(Z_1 - 5 \cdot Z_2)}&= \text{Ker}\begin{pmatrix}
+      1 & 0 & -\frac{5}{9} \\
+      0 & 1 & 1            \\
+      0 & 0 & 0            \\
+    \end{pmatrix} \\
+    &= \qty{
+      \begin{pmatrix}
+        \frac{5}{9}x_3 \\
+        -x_3           \\
+        x_3            \\
+      \end{pmatrix}
+      \:\middle|\:
+      x_3 \in \mathbb{R}
+    } \\
+    &= \text{Span}\qty{
+      \begin{pmatrix}
+        5  \\
+        -9 \\
+        9  \\
+      \end{pmatrix}
+    }
+  \end{flalign*}
+
+  \newpage
+  Nun sind die 3 Vektoren
+  \[
+    v_1 = \begin{pmatrix}
+      1 \\
+      0 \\
+      0 \\
+    \end{pmatrix}, v_2 = \begin{pmatrix}
+      5 \\
+      7 \\
+      7 \\
+    \end{pmatrix}, v_3 = \begin{pmatrix}
+      5  \\
+      -9 \\
+      9  \\
+    \end{pmatrix}
+  \]
+  augenscheinlich linear unabhängig und somit eine Eigenvektorbasis von
+  $A_{5, 8}$ in $\mathbb{R}^3$.
+  (Der Beweis für die lineare Unabhängigkeit wird durch die Diagonalisierung
+  gegeben)
+
+  Sei nun
+  \[
+    D = \begin{pmatrix}
+      \lambda_1 & 0         & 0         \\
+      0 &       & \lambda_2 & 0         \\
+      0 &       & 0         & \lambda_3 \\
+    \end{pmatrix} = \begin{pmatrix}
+      2 & 0 & 0  \\
+      0 & 9 & 0  \\
+      0 & 0 & -7 \\
+    \end{pmatrix}, \qquad
+    S = \begin{pmatrix}
+      v_1 & v_2 & v_3
+    \end{pmatrix} = \begin{pmatrix}
+      1 & 5 & 5  \\
+      0 & 7 & -9 \\
+      0 & 7 & 9  \\
+    \end{pmatrix}
+  \]
+  Dann ist
+  \begin{flalign*}
+    \qty(\begin{array}{ccc|ccc}
+      1 & 5 & 5  & 1 & 0 & 0 \\
+      0 & 7 & -9 & 0 & 1 & 0 \\
+      0 & 7 & 9  & 0 & 0 & 1 \\
+    \end{array})
+    \overset{Z_3 = \frac{1}{18}\qty\big(Z_3 - Z_2)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 5 & 5  & 1 & 0             & 0            \\
+      0 & 7 & -9 & 0 & 1             & 0            \\
+      0 & 0 & 1  & 0 & -\frac{1}{18} & \frac{1}{18} \\
+    \end{array}) \\
+    \overset{Z_2 = \frac{1}{7}\qty\big(Z_2 + 9 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 5 & 5  & 1 & 0             & 0            \\
+      0 & 1 & 0  & 0 & \frac{1}{14}  & \frac{1}{14} \\
+      0 & 0 & 1  & 0 & -\frac{1}{18} & \frac{1}{18} \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 5 \cdot Z_2)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 0 & 5  & 1 & -\frac{5}{14} & -\frac{5}{14} \\
+      0 & 1 & 0  & 0 & \frac{1}{14}  & \frac{1}{14}  \\
+      0 & 0 & 1  & 0 & -\frac{1}{18} & \frac{1}{18}  \\
+    \end{array}) \\
+    \overset{Z_1 = Z_1 - 5 \cdot Z_3)}&\leadsto
+    \qty(\begin{array}{ccc|ccc}
+      1 & 0 & 0 & 1 & -\frac{20}{252}  & -\frac{160}{252} \\
+      0 & 1 & 0 & 0 & \frac{1}{14}     & \frac{1}{14}    \\
+      0 & 0 & 1 & 0 & -\frac{1}{18}    & \frac{1}{18}    \\
+    \end{array})
+  \end{flalign*}
+  $\Rightarrow S^{-1} = \frac{1}{252}\begin{pmatrix}
+    252 & -20 & -160 \\
+    0   & 18  & 18   \\
+    0   & -14 & 14   \\
+  \end{pmatrix} = \frac{1}{126}\begin{pmatrix}
+    126 & -10 & -80 \\
+    0   & 9   & 9   \\
+    0   & -7  & 7   \\
+  \end{pmatrix}$
+
+  Und schlussendlich die Probe:
+  \begin{flalign*}
+    S^{-1}A_{5, 8}S &=
+    \frac{1}{126}\begin{pmatrix}
+      126 & -10 & -80 \\
+      0   & 9   & 9   \\
+      0   & -7  & 7   \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      2 & 5 & 0 \\
+      0 & 1 & 8 \\
+      0 & 8 & 1 \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      1 & 5 & 5  \\
+      0 & 7 & -9 \\
+      0 & 7 & 9  \\
+    \end{pmatrix} \\
+    &= \frac{1}{126}\begin{pmatrix}
+      252 & -20 & -160 \\
+      0   & 81  & 81   \\
+      0   & 49  & -49  \\
+    \end{pmatrix} \cdot \begin{pmatrix}
+      1 & 5 & 5  \\
+      0 & 7 & -9 \\
+      0 & 7 & 9  \\
+    \end{pmatrix} \\
+    &= \frac{1}{126}\begin{pmatrix}
+      252 & 0    & 0    \\
+      0   & 1134 & 0    \\
+      0   & 0    & -882 \\
+    \end{pmatrix} \\
+    &= \begin{pmatrix}
+      2 & 0 & 0  \\
+      0 & 9 & 0  \\
+      0 & 0 & -7 \\
+    \end{pmatrix} = D
+  \end{flalign*}
+\end{enumerate}
+\end{document}

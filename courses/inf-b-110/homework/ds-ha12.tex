@@ -1,0 +1,180 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{pifont}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usetikzlibrary{arrows, arrows.meta}
+\usetikzlibrary{calc}
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 12\\INF-B-110, Diskrete Strukturen}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\newcommand{\ggT}[0]{\text{ggT}}
+\newcommand{\cmark}{\ding{51}}
+\newcommand{\xmark}{\ding{55}}
+\DeclarePairedDelimiter{\floor}{\lfloor}{\rfloor}
+
+\begin{document}
+\paragraph{N12} Auf der Menge $A \coloneqq \qty\big{1, 2, 3, 4, 5, 6}$ ist die
+Relation
+\[
+  R \coloneqq \qty{
+    \qty\big(1, 1),
+    \qty\big(1, 4),
+    \qty\big(2, 2),
+    \qty\big(2, 5),
+    \qty\big(3, 3),
+    \qty\big(3, 1),
+    \qty\big(3, 2),
+    \qty\big(3, 4),
+    \qty\big(3, 5),
+    \qty\big(4, 4),
+    \qty\big(4, 1),
+    \qty\big(5, 5),
+    \qty\big(5, 2),
+    \qty\big(6, 6)
+  }
+\]
+gegeben.
+\begin{enumerate}[(a)]
+\item Zeigen Sie, dass $R$ eine Quasiordnung ist, jedoch keine partielle Ordnung.
+  (Zeigen Sie die Transitivität, indem Sie alle Fälle konkret aufschreiben.)
+
+  \subparagraph{Lsg.} Die Relation $R$ ist eine Quasiordnung genau dann, wenn $R$
+  \emph{reflexiv} und \emph{transitiv} ist.
+
+  \begin{itemize}
+  \item[\emph{reflexiv}:] In der obigen Mengendarstellung der Relation ist
+    ersichtlich, dass $\qty\big(a, a) \in R$ für alle $a \in A$.
+
+  \item[\emph{transitiv}:] Die Relation ist transitiv, falls für $a, b, c \in A$
+    gilt $\qty\big(a, b) \in A \land \qty\big(b, c) \in A
+    \Rightarrow \qty\big(a, c) \in A$.
+    Da die Reflexivität von $R$ bereits gezeigt wurde, werden im Folgenden nur
+    noch paarweise verschiedene $a, b, c$ betrachtet.
+
+    % >>> A = [1,2,3,4,5,6]
+    % >>> r = [(1,1),(1,4),(2,2),(2,5),(3,3),(3,1),(3,2),(3,4),(3,5),(4,4),(4,1),(5,5),(5,2),(6,6)]
+    % >>> for a in A:
+    % ...     for b in A:
+    % ...         for c in A:
+    % ...             if a==b or b==c or a==c:
+    % ...                 continue
+    % ...             print(f"      {a}   & {b}   & {c}   & {'\\cmark' if (a,b) in r else '\\xmark'}                 & {'\\cmark' if (b,c) in r else '\\xmark'}                 & {'\\cmark' if (a,c) in r else '\\xmark'}                 \\\\")
+    \begin{tabular}{|c|c|c|c|c|c|}
+      \hline
+      $a$ & $b$ & $c$ & $\qty\big(a, b) \in A$ & $\qty\big(b, c) \in A$ & $\qty\big(a, c) \in A$ \\
+      \hline
+      3   & 1   & 4   & \cmark                 & \cmark                 & \cmark                 \\
+      3   & 2   & 5   & \cmark                 & \cmark                 & \cmark                 \\
+      3   & 4   & 1   & \cmark                 & \cmark                 & \cmark                 \\
+      3   & 5   & 2   & \cmark                 & \cmark                 & \cmark                 \\
+      \hline
+    \end{tabular}
+
+    $\Rightarrow R$ ist \emph{transitiv}.
+  \end{itemize}
+
+  Angenommen $R$ wäre nun eine partielle Ordnung, dann wäre $R$ zusätzlich noch
+  \emph{antisymmetrisch}, dass heißt
+  $\qty\big(a, b) \in R \land \qty\big(b, a) \in R \Rightarrow a = b$.
+  Nun sind aber $\qty\big(1, 4) \in R$ und $\qty\big(4, 1) \in R$, allerdings
+  ist $1 \ne 4$.
+  Somit ist $R$ keine partielle Ordnung.
+
+\item Bestimmen Sie die Elemente der Faktormenge $A/\sim$ für die
+  Äquivalenzrelation
+  \[
+    \sim \coloneqq \qty{
+      \qty\big(a, b) \in A^2
+      \:\middle|\:
+      \qty\big(a, b) \in R, \qty\big(b, a) \in R
+    }
+  \]
+
+  \subparagraph{Lsg.} Es ist
+  \[
+    \sim = \qty{
+      \qty\big(1, 1),
+      \qty\big(1, 4),
+      \qty\big(4, 1),
+      \qty\big(2, 2),
+      \qty\big(2, 5),
+      \qty\big(5, 2),
+      \qty\big(3, 3),
+      \qty\big(4, 4),
+      \qty\big(5, 5),
+      \qty\big(6, 6)
+    }
+  \]
+  und
+  \begin{itemize}
+  \item $1 / \sim = \qty\big{1, 4} = 4 / \sim$
+  \item $2 / \sim = \qty\big{2, 5} = 5 / \sim$
+  \item $3 / \sim = \qty\big{3}$
+  \item $6 / \sim = \qty\big{6}$
+  \end{itemize}
+
+  Schließlich ist die Faktormenge $A / \sim = \qty\big{1 / \sim, 2 / \sim, 3 / \sim, 6 / \sim}
+  = \qty{\qty\big{1, 4}, \qty\big{2, 5}, \qty\big{3}, \qty\big{6}}$.
+
+\newpage
+\item Geben Sie die zu $R$ gehörige Faktorordnung $\leq$ auf der Menge
+  $A/\sim$ als Menge von Paaren an und zeichnen Sie ein Hassediagramm dieser
+  Faktorordnung.
+
+  \subparagraph{Lsg.} Die Relation $\leq$ auf $A / \sim$ ist definiert als
+  $\qty\Big(\qty\big(a/\sim), \qty\big(b/\sim)) \in \leq \iff \qty\big(a, b) \in R$.
+
+  Nun ist
+  \[
+    \leq = \qty{
+      \qty\Big(\qty\big{1, 4}, \qty\big{1, 4}),
+      \qty\Big(\qty\big{2, 5}, \qty\big{2, 5}),
+      \qty\Big(\qty\big{3}, \qty\big{3}),
+      \qty\Big(\qty\big{3}, \qty\big{1, 5}),
+      \qty\Big(\qty\big{3}, \qty\big{1, 5}),
+      \qty\Big(\qty\big{6}, \qty\big{6})
+    }
+  \]
+
+  Und das Hasse-Diagramm:
+
+  \begin{tikzpicture}
+    \node[circle, draw, inner sep=0pt, minimum size=1mm,label=below:{$\qty\big{3}$}] (1) at (0,-1) {};
+    \node[circle, draw, inner sep=0pt, minimum size=1mm,label=above left:{$\qty\big{1, 4}$}] (2) at (-0.5,0) {};
+    \node[circle, draw, inner sep=0pt, minimum size=1mm,label=above right:{$\qty\big{2, 5}$}] (3) at (0.5,0) {};
+    \node[circle, draw, inner sep=0pt, minimum size=1mm,label=below:{$\qty\big{6}$}] (4) at (1.5,-1) {};
+
+    \draw (3) -- (1) -- (2);
+  \end{tikzpicture}
+\end{enumerate}
+\end{document}

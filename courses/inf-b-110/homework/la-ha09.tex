@@ -1,0 +1,224 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[shortlabels]{enumitem}
+\usepackage{framed}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{polynom}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+\usetikzlibrary{patterns}
+\usetikzlibrary{through}
+
+
+\author{Karsten Lehmann \\ 4935758}
+\date{WiSe 2024/25}
+\title{Nachbereitungsaufgaben 9\\INF-B-110, Lineare Algebra}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{N 9.2}
+\begin{enumerate}[(a)]
+\item Es seien $m_1 \quad m_2 \quad m_3 \quad m_4 \quad m_5 \quad m_6 \quad m_7$
+  die Ziffern Ihrer Matrikelnummer.
+  Bestimmen Sie die Determinante $\det\qty\big(AB)$ des Produkts der
+  $\mathbb{R}^{4 \times 4}$-Matrizen
+  \[
+    A = \begin{pmatrix}
+      1 & 0 & 0       & 1       \\
+      0 & 2 & 0       & 1       \\
+      0 & 0 & m_3 + 1 & m_4 + 1 \\
+      0 & 0 & m_5 + 1 & m_6 + 1 \\
+    \end{pmatrix}
+    \text{ und }
+    B = \begin{pmatrix}
+      1 & -1 & 3 & 4       \\
+      0 & 1  & 2 & 1       \\
+      0 & 0  & 1 & 5       \\
+      0 & 0  & 0 & m_7 + 1 \\
+    \end{pmatrix}
+  \]
+
+  \subparagraph{Lsg.} Die einzelnen Ziffern der Matrikelnummer sind
+
+  \begin{tabular}{|c|c|c|c|c|c|c|}
+    \hline
+    4 & 9 & 3 & 5 & 7 & 5 & 8 \\
+    \hline
+    $m_1$ & $m_2$ & $m_3$ & $m_4$ & $m_5$ & $m_6$ & $m_7$ \\
+    \hline
+  \end{tabular}
+
+  und somit
+  \[
+    A = \begin{pmatrix}
+      1 & 0 & 0 & 1 \\
+      0 & 2 & 0 & 1 \\
+      0 & 0 & 4 & 6 \\
+      0 & 0 & 8 & 6 \\
+    \end{pmatrix}
+    \text{ und }
+    B = \begin{pmatrix}
+      1 & -1 & 3 & 4 \\
+      0 & 1  & 2 & 1 \\
+      0 & 0  & 1 & 5 \\
+      0 & 0  & 0 & 9 \\
+    \end{pmatrix}
+  \]
+  Weiter gilt nach dem Multiplikationssatz
+  $\det\qty\big(AB) = \det\qty\big(A) \cdot \det\qty\big(B)$
+  und
+  \begin{flalign*}
+    \det\qty\big(A)
+    &= \det\qty(\begin{pmatrix}
+      1 & 0 & 0 & 1 \\
+      0 & 2 & 0 & 1 \\
+      0 & 0 & 4 & 6 \\
+      0 & 0 & 8 & 6 \\
+    \end{pmatrix}) \\
+    \overset{\text{Entwicklung nach der ersten Spalte}}&= \det\qty(\begin{pmatrix}
+      2 & 0 & 1 \\
+      0 & 4 & 6 \\
+      0 & 8 & 6 \\
+    \end{pmatrix}) \\
+    \overset{\text{Entwicklung nach der ersten Spalte}}&= 2 \cdot \det\qty(\begin{pmatrix}
+      4 & 6 \\
+      8 & 6 \\
+    \end{pmatrix}) \\
+    &= 2 \cdot \qty\big(4 \cdot 6 - 6 \cdot 8) \\
+    &= -48
+  \end{flalign*}
+  sowie
+  \begin{flalign*}
+    \det\qty\big(B) &= \det\qty(\begin{pmatrix}
+      1 & -1 & 3 & 4 \\
+      0 & 1  & 2 & 1 \\
+      0 & 0  & 1 & 5 \\
+      0 & 0  & 0 & 9 \\
+    \end{pmatrix}) \\
+    \overset{\text{Ü 9.6 (a)}}&= 1 \cdot 1 \cdot 1 \cdot 9 \\
+    &= 9
+  \end{flalign*}
+  Schließlich ist $\det\qty\big(AB) = -48 \cdot 9 = -432$
+
+\newpage
+\item Es seien $n \in \mathbb{N} \setminus \qty\big{0}, \lambda \in \mathbb{R}$
+  und $A\qty\big(n, \lambda) = \qty\big(A_{ij}) \in \mathbb{R}^{n \times n}$ mit
+  $a_{ij} \coloneqq \begin{cases}
+    \lambda, & i = j \\
+    1,       & \abs{i - j} = 1 \\
+    0,       & \text{sonst.}
+  \end{cases}$
+  \begin{enumerate}[(i)]
+  \item Bestimmen Sie $\det\qty(A\qty\big(2, \lambda))$ und
+    $\det\qty(A\qty\big(3, \lambda))$.
+
+    \subparagraph{Lsg.} Es ist
+    \[
+      A\qty\big(2, \lambda) = \begin{pmatrix}
+        \lambda & 1       \\
+        1       & \lambda \\
+      \end{pmatrix}
+    \]
+    mit $\det\qty(A\qty\big(2, \lambda)) = \lambda^2 - 1$ sowie
+    \[
+      A\qty\big(3, \lambda) = \begin{pmatrix}
+        \lambda & 1       & 0       \\
+        1       & \lambda & 1       \\
+        0       & 1       & \lambda \\
+      \end{pmatrix}
+    \]
+    mit
+    \begin{flalign*}
+      \det\qty(A\qty\big(3, \lambda))
+      &= \begin{pmatrix}
+        \lambda & 1       & 0       \\
+        1       & \lambda & 1       \\
+        0       & 1       & \lambda \\
+      \end{pmatrix} \\
+      \overset{\text{Entwicklung nach 1. Zeile}}&=
+      \lambda \cdot \det\qty(A\qty\big(2, \lambda))
+      -1 \cdot \det\qty(\begin{pmatrix}
+        1 & 0       \\
+        1 & \lambda \\
+      \end{pmatrix}) \\
+      & \lambda \cdot \qty(\lambda^2 - 1) - \lambda \\
+      &= \lambda^3 - 2\lambda
+    \end{flalign*}
+
+  \item Bestimmen Sie $\det\qty(A\qty\big(2k + 1, 0))$ für jedes
+    $k \in \mathbb{N}$.
+
+    \subparagraph{Lsg.} Der Fall $\det\qty(A\qty\big(2 \cdot 0 + 1, 0)) = 0$
+    ist trivial und $\det\qty(A\qty\big(2 \cdot  + 1, 0))= 0^3 - 2 \cdot 0 = 0$
+    wurde bereits in Teilaufgabe (i) gezeigt.
+    Sei nun $k \in \mathbb{N}$ mit $k > 1$ beliebig und $S_i$ die $i$-te Zeile
+    von $A\qty\big(2k + 1, 0)$.
+    Dann ist der $j$-te Eintrag $\qty\big(S_i)_j = \begin{cases}
+      1,       & \abs{i - j} = 1 \\
+      0,       & \text{sonst.}
+    \end{cases}$
+
+    Für $1 < i < 2k + 1$ hat $S_i$ somit zweimal den Eintrag 1, einmal an dem
+    Index $i - 1$ und einmal an dem Index $i + 1$.
+    Die restlichen Einträge sind jeweils Null.
+
+    Die Zeile $S_1$ hat dagegen nur eine 1 an dem Index $2$ und die Zeile
+    $S_{2k + 1}$ ebenfalls nur eine 1 an dem Index $2k$.
+
+    \newpage
+    Nehme nun die 3. Zeile.
+    Diese hat eine 1 am Index 2 und eine 1 am Index 4.
+    Alle anderen Einträge sind Null.
+    Ziehen wir von der 3. Zeile die erste Zeile ab verbleibt eine 1 am Index 4.
+    Durch das Abziehen einer Zeile von einer anderen ändert sich dabei die
+    Determinante der Matrix nicht.
+
+    Nun hat die 5. Zeile eine 1 am Index 4 und eine 1 am Index 6.
+    Die anderen Einträge sind Nullen.
+    Zieht man die 5. Zeile von der 3. Zeile ab, verbleibt in der 3. Zeile eine
+    -1 am Index 6 und alle anderen Einträge sind Nullen.
+
+    Weiter hat die 7. Zeile eine 1 am Index 6 und eine 1 am Index 8.
+    Die anderen Einträge sind Nullen.
+    Addiert man die 7. Zeile nun auf die 3. Zeile, dann verbleibt in der 3. Zeile
+    eine 1 am Index 8 und alle anderen Einträge sind Nullen.
+
+    Durch beliebige Fortführung des beschriebenen Vorgangs lässt sich für jeden
+    geraden Index die 3. Zeile so umformen, dass an diesem Index eine 1 oder -1
+    steht und alle anderen Einträge Nullen sind.
+
+    Dies führt man durch bis in der 3. Zeile lediglich am Index $2k$ eine 1 oder
+    -1 steht und addiert schließlich die $\qty\big(2k + 1)$-Zeile auf oder zieht
+    sie ab, um eine Nullzeile zu erhalten.
+
+    Da die Nullzeile durch äquivalente Zeilenumformungen entstanden ist, hat
+    $A\qty\big(2k + 1, 0)$ keinen vollen Rang und
+    $\det\qty(A\qty\big(2k + 1, 0)) = 0$.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
