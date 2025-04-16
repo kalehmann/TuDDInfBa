@@ -9,3 +9,4 @@ _site
 *.pdf
 *.out
 *.toc
+*.class
