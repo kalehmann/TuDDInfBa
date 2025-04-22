@@ -1,0 +1,235 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{SoSe 2025}
+\title{Übungsblatt 01\\INF-B-260, Informations- und Kodierungstheorie}
+
+\newcommand{\ld}{\text{ld}}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 1.1 Diskrete Informationsquellen mit unabhängigen Ereignissen}
+\begin{enumerate}[1.]
+\item Berechnen Sie den mittleren Informationsgehalt einer diskreten Quelle mit
+  6 Zeichen:
+
+  \begin{enumerate}[(a)]
+  \item
+    \begin{multicols}{3}
+      $p\qty\big(x_1) = 0.5$
+
+      $p\qty\big(x_4) = 0.1$
+
+      $p\qty\big(x_2) = 0.2$
+
+      $p\qty\big(x_5) = 0.05$
+
+      $p\qty\big(x_3) = 0.1$
+
+      $p\qty\big(x_6) = 0.05$
+    \end{multicols}
+
+    \subparagraph{Lsg.} Es sind
+    \begin{flalign*}
+      H_1 &= \ld \frac{1}{p\qty\big(x_1)} = \ld \frac{1}{0.5} = 1 \\
+      H_2 &= \ld \frac{1}{p\qty\big(x_2)} = \ld \frac{1}{0.2} \approx 2.32 \\
+      H_3 &= \ld \frac{1}{p\qty\big(x_3)} = \ld \frac{1}{0.1} \approx 3.32 \\
+      H_4 &= \ld \frac{1}{p\qty\big(x_4)} = \ld \frac{1}{0.1} \approx 3.32 \\
+      H_5 &= \ld \frac{1}{p\qty\big(x_5)} = \ld \frac{1}{0.05} \approx 4.32 \\
+      H_6 &= \ld \frac{1}{p\qty\big(x_6)} = \ld \frac{1}{0.05} \approx 4.32 \\
+    \end{flalign*}
+
+    Nun ist der mittlere Informationsgehalt
+    \[
+      H_m = \sum_{i = 1}^N p\qty\big(x_i)H_i \approx 2.06
+    \]
+
+  \item alle Zeichen sind gleich wahrscheinlich.
+
+    \subparagraph{Lsg.} Es ist $p\qty\big(x_i) = \frac{1}{6}, i \in 1 \ldots 6$
+    sowie $H_i = \ld \frac{1}{\sfrac{1}{6}} \approx 2.58$ und schließlich
+    \[
+      H_m = 6 \cdot \frac{1}{6} \cdot 2.58 = 2.58
+    \]
+  \end{enumerate}
+
+\newpage
+\item
+  \begin{enumerate}[(a)]
+  \item Bestimmen Sie die Entropien von Binärquellen, wenn die Wahrscheinlichkeiten
+    $p_i \qty\big(1) = 0.1 \cdot i \qty\big(i = 0, 1, \ldots, 5)$ gegeben sind.
+
+    \subparagraph{Lsg.} Es ist $H_{m_i} = p_i\qty\big(0) \ld\frac{1}{p_1\qty\big(0)} +
+    p_i\qty\big(1) \ld\frac{1}{p_1\qty\big(1)}$.
+
+    \begin{tabular}{c|c|c|c}
+      $i$ & $p\qty\big(0)$ & $p\qty\big(1)$ & $H_{m_i}$ \\
+      \hline
+      0 & 1   & 0   & 0 \\
+      1 & 0.9 & 0.1 & 0.47 \\
+      2 & 0.8 & 0.2 & 0.72 \\
+      3 & 0.7 & 0.3 & 0.88 \\
+      4 & 0.6 & 0.4 & 0.97\\
+      5 & 0.5 & 0.5 & 1 \\
+    \end{tabular}
+
+    \textbf{Achtung:} Wenn hier ein Ereignis eine Wahrscheinlichkeit von 100\%
+    hat, dann wird in der Rechnung durch 0 geteilt.
+    Allerdings wurde in der Vorlesung wohl mal gezeigt, warum dort trotzdem 0
+    hin muss.
+
+  \item Stellen Sie die Funktion $H\qty\big(p) = p \cdot \ld \frac{1}{p} +
+    \qty\big(1 - p)\ld\frac{1}{1 - p}$ für
+    $0 \leq p \leq 1$ grafisch dar!
+    Beachten Sie die Symmetrie!
+
+    \subparagraph{Lsg.} Es ist
+
+    \begin{tikzpicture}[scale=1.5]
+      \begin{axis}[
+        axis equal image,
+        axis x line=center,
+        axis y line=center,
+        grid=both,
+        samples=500,
+        xmin=-0.1,
+        xmax=1.1,
+        xtick distance=1,
+        ymin=-0.1,
+        ymax=1.1,
+        ytick distance=1,
+      ]
+        \addplot[domain=0:1, smooth] { \x * log2(1 / \x) + (1 - \x) * log2(1 / (1 - \x)) };
+      \end{axis}
+    \end{tikzpicture}
+  \end{enumerate}
+
+\newpage
+\item Bestimmen Sie den Informationsgehalt einer Buchseite (40 Zeilen,
+  65 Zeichen pro Zeile).
+  Für die Berechnung sind 45 unabhängige Zeichen anzunehmen.
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    H_{\text{Zeichen}} &= \ld 45 \\
+    H_{\text{Seite}} &= \frac{\text{Zeichen}}{\text{Seite}} \cdot H_{\text{Zeichen}} \\
+                       &= 65 \frac{\text{Zeichen}}{\text{Zeile}} \cdot 40 \frac{\text{Zeilen}}{\text{Seite}} \cdot \ld 45 = 14.3 \cdot 10^3 \frac{\text{bit}}{\text{Seite}}
+  \end{flalign*}
+
+\item Eine automatische Waage umfasst den Messbereich von $0 \ldots 100g$ mit
+  der Schrittweite von $1g$.
+  \begin{enumerate}[(a)]
+  \item Bestimmen Sie den mittleren Informationsgehalt je Messwert.
+
+    \subparagraph{Lsg.} Die Waage kann 101 Messwerte anzeigen, es wird davon
+    ausgegangen, dass diese gleichverteilt mit einer Wahrscheinlichkeit von
+    $p\qty\big(x_i) = \frac{1}{101}$ sowie
+    $H_i = \ld \frac{1}{\sfrac{1}{101}} = \ld 101 \approx 6.66 \text{Bits}$
+    und schließlich
+    \[
+      H_m = \sum{i = 1}^{101} p\qty\big(x_i) H_i = \frac{101}{101} H_i \approx 6.66 \frac{\text{Bits}}{\text{Messwert}}
+    \]
+
+  \item Wie groß wird der mittlere Informationsgehalt je Messwert bei einer
+    Schrittweite von $0.1g$?
+
+    \subparagraph{Lsg.} Analog zu Teilaufgabe (a)
+    \[
+      H_m = \ldots = \frac{1001}{1001} H_i = \ld 1001 \approx 9.97 \frac{\text{Bits}}{\text{Messwert}}
+    \]
+  \end{enumerate}
+
+\newpage
+\setcounter{enumi}{5}
+\item Ein kontinuierliches Signal mit exponentieller Verteilungsdichte soll
+  quantisiert werden.
+  Der Amplitudenbereich wird dazu in 7 Intervalle aufgeteilt, in denen die
+  Amplitudenwerte mit folgenden Wahrscheinlichkeiten auftreten:
+
+  \begin{tabular}{c|c}
+    Intervall $i$ & Auftrittswahrscheinlichkeit $p\qty\big(x_i)$ \\
+    \hline
+    1 & 0.47 \\
+    2 & 0.25 \\
+    3 & 0.13 \\
+    4 & 0.07 \\
+    5 & 0.04 \\
+    6 & 0.02 \\
+    7 & 0.02 \\
+  \end{tabular}
+
+  \begin{enumerate}[(a)]
+  \item Wie groß ist der mittlere Informationsgehalt eines Amplitudenwertes
+    (Intervalls)?
+
+    \subparagraph{Lsg.} Es ist
+
+    \begin{tabular}{c|c}
+      Intervall $i$ & $H_i = \ld\frac{1}{p\qty\big(x_i)}$ \\
+      \hline
+      1 & $\approx 0.76$ \\
+      2 & $\approx 1.39$ \\
+      3 & $\approx 2.04$ \\
+      4 & $\approx 2.66$ \\
+      5 & $\approx 3.22$ \\
+      6 & $\approx 3.91$ \\
+      7 & $\approx 3.91$ \\
+    \end{tabular}
+
+    und schließlich
+    \[
+      H_m = \sum_{i = 1}^7 p\qty\big(x_i) H_i \approx 2.07
+    \]
+
+  \newpage
+  \item Wie groß wird der mittlere Informationsgehalt, wenn jedes Intervall
+    zusätzlich in 16 Teilintervalle zerlegt wird?
+    (Gleiche Auftrittswahrscheinlichkeiten in den Teilintervallen angenommen!)
+
+    \subparagraph{Lsg.} Sei zuerst $M_i = 16$ die Intervallgröße.
+    Die Auftrittswahrscheinlichkeit jedes Teilintervalls ist dann
+    $\overline{p\qty\big(x_i)} = \frac{p\qty\big(x_i)}{M_i}$ und
+    \begin{flalign*}
+      H_m &= \sum_{i = 1}^{M_i \cdot N} \frac{p\qty\big(x_i)}{M_i} \ld \frac{1}{\sfrac{p\qty\big(x_i)}{M_i}} \\
+          &= \sum_{i = 1}^N M_i \cdot \frac{p\qty\big(x_i)}{M_i} \ld \frac{1}{\sfrac{p\qty\big(x_i)}{M_i}} \\
+          &= \sum_{i = 1}^N p\qty\big(x_1) \ld\qty(\frac{1}{p\qty\big(x_i) \cdot M_i}) \\
+          &= \sum_{i = 1}^N p\qty\big(x_1) \qty(\ld\qty(\frac{1}{p\qty\big(x_i)}) + \ld\qty\big(M_i)) \\
+          &\approx 6.07 \frac{\text{Bit}}{\text{Teilintervall}}
+    \end{flalign*}
+  \end{enumerate}
+\end{enumerate}
+
+\end{document}
