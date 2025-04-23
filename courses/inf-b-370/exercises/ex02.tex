@@ -1,0 +1,122 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{SoSe 2025}
+\title{Übungsblatt 02\\INF-B-370, Rechnernetze}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 2.1 Circuit Switching vs Packet Switching}
+\begin{enumerate}[(a)]
+\item Diskutieren Sie kurz die Vor- und Nachteile der beiden Implementierungen
+  für ein Netzwerk.
+
+  \subparagraph{Lsg.} \phantom{\null}
+
+  \begin{minipage}{0.45\textwidth}
+    \textbf{Circuit Switching}
+
+    \begin{itemize}
+    \item[$\oplus$] Kein Overhead
+    \item[$\oplus$] Geringe Latenz
+    \item[$\oplus$] Garantierte Leistung
+    \item[$\ominus$] Komplexer Aufbau
+    \item[$\ominus$] Nicht adaptiv bei Fehler
+    \item[$\ominus$] Ineffizient für kurze Verbindungen
+    \end{itemize}
+  \end{minipage}
+  \begin{minipage}{0.45\textwidth}
+    \textbf{Packet Switching}
+
+    \begin{itemize}
+    \item[$\oplus$] Flexibel
+    \item[$\oplus$] \ldots
+    \item[$\ominus$] Eventuell höhere Latenz
+    \item[$\ominus$] Overhead für jedes Paket
+    \item[$\ominus$] Puffer benötigt
+    \item[$\ominus$] Geringere Bandbreite
+    \end{itemize}
+  \end{minipage}
+
+\item Sie möchten zuverlässig Echtzeitdaten liefern.
+  Für welchen Ansatz entscheiden Sie sich?
+  Warum?
+
+  \subparagraph{Lsg.} Es sollte Circuit Switching verwendet werden für eine
+  geringe Latenz und garantierte Bandbreite.
+\end{enumerate}
+
+\paragraph{Ü 2.2 Dienste, Protokolle und Schichtenmodell}
+\begin{enumerate}[(a)]
+\item Grenzen Sie die Begriffe \emph{Dienst} und \emph{Protokoll} gegeneinander ab.
+
+  \subparagraph{Lsg.} \textbf{Dienst:} Kommunikation zwischen zwei verschiedenen
+  Schichten im OSI Modell.
+
+  \textbf{Protokoll:} Kommunikation zwischen zwei Systemen auf einer Schicht
+  des OSI-Modells.
+\setcounter{enumi}{2}
+\item Finden Sie die am besten passende Schicht für die folgenden
+  Aufgaben/Geräte:
+
+  \subparagraph{Lsg. } \phantom{\null}
+
+  \begin{tabular}{l|l}
+    \textbf{Aufgabe/Geräte} & \textbf{Schicht} \\
+    \hline
+    Verschlüsselung von Nachrichten & Application Layer / Transportlayer (TLS) \\
+    Switch in einem Netzwerk & Link Layer \\
+    Wegewahl & Network Layer \\
+    Ende-zu-Ende Kommunikation & Application Layer \\
+    Hinzufügen einer Sequenznummer zu einem Paket & Transport Layer \\
+    Router in einem Netzwerk & Network Layer \\
+    Deep-Packet-Inpsection für Mailware-Erkennung & Application Layer \\
+  \end{tabular}
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 2.3 Protokolle und Standards}
+
+Protokolle und Standards sind wichtig in der Netzwerkkommunikation.
+Warum?
+
+
+\subparagraph{Lsg.} Standards ermöglichen Interoperabilität und Protokolle
+definieren Syntax und Semantik.
+Damit Protokolle universell nutzbar sind, müssen sie standardisiert werden.
+
+\end{document}
