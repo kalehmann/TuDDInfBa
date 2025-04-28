@@ -1,0 +1,344 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{SoSe 2025}
+\title{Übungsblatt 03\\INF-B-120, Mathematische Methoden für Informatiker}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 3.1} Ist die folgende Aussage Wahr oder falsch?
+
+Für die Partialsummen $s_n$ der Reihe
+$\displaystyle \sum_{k = 1}^{\infty} \qty(\frac{1}{k} - \frac{1}{k + 1})$
+gilt $s_n < 1$ für alle $n \in \mathbb{N}$.
+
+\subparagraph{Lsg.} Das ist die Teleskopreihe, es ist
+\begin{flalign*}
+  s_s &= \sum_{k = 1}^{n} \qty(\frac{1}{k} - \frac{1}{k + 1}) \\
+      &= \qty(\frac{1}{1} - \frac{1}{2}) + \qty(\frac{1}{2} - \frac{1}{3}) + \ldots + \qty(\frac{1}{n - 1} - \frac{1}{n}) + \qty(\frac{1}{n} - \frac{1}{n + 1}) \\
+      &= \frac{1}{1} + \qty(-\frac{1}{2}) + \qty(\frac{1}{2}) + \ldots + \qty(-\frac{1}{n}) + \frac{1}{n}) - \frac{1}{n + 1} \\
+      &= 1 - \frac{1}{n + 1}
+\end{flalign*}
+Nun ist offensichtlich $0 < \frac{1}{n + 1} < 1$ damit $s_n < 1$ und die Aussage
+wahr.
+
+\paragraph{Ü 3.2} Welche der angegebenen Reihen sind konvergent?
+Verwenden Sie das Nullfolgenkriterium (Hauptkriterium), bekannte konvergente
+Reihen oder geeignete Rechnenregeln.
+
+\begin{multicols}{3}
+  \begin{enumerate}[(a)]
+  \item $\displaystyle \sum_{k = 0}^{\infty} \frac{2 + 3^{k + 1}}{5^k}$
+  \item $\displaystyle \sum_{n = 0}^{\infty} \frac{3^{n - 1} + 7\qty\big(-5)^n}{9^n}$
+  \item $\displaystyle \sum_{n = 0}^{\infty} \frac{\sqrt{10^n} + 1}{3^n}$
+  \item $\displaystyle \sum_{n = 0}^{\infty} \qty(\qty(1 + \frac{3}{n})^n - 1)$
+  \item $\displaystyle \sum_{k = 1}^{\infty} \qty(\frac{6}{k^2} - \frac{\sqrt{5} - \pi^2}{k!})$
+  \end{enumerate}
+\end{multicols}
+
+\subparagraph{Lsg.}
+\begin{enumerate}[(a)]
+\item Es ist
+  \begin{flalign*}
+    \frac{2 + 3^{k + 1}}{5^k} &\geq \frac{3^{k + 1}}{5^k} \\
+                              &= 3 \cdot \frac{3^k}{5^k} \\
+                              &= 3 \cdot \qty(\frac{3}{5})^k
+  \end{flalign*}
+  Nun ist $\displaystyle \lim_{k \to \infty} 3 \cdot \qty(\frac{3}{5})^k = 0$
+  und damit kann das Hauptkriterium hier nicht genutzt werden.
+
+  Allerdings sind die geometrischen Reihen
+  \[
+    \sum_{k = 0}^{\infty} \qty(\frac{1}{5})^k = \frac{1}{1 - \frac{1}{5}}
+  \]
+  und
+  \[
+    \sum_{k = 0}^{\infty} \qty(\frac{3}{5})^k = \frac{1}{1 - \frac{3}{5}}
+  \]
+  konvergent, somit folgt
+  \begin{flalign*}
+    \sum_{k = 0}^{\infty} \frac{2 + 3^{k + 1}}{5^k}
+    &= 2 \cdot \qty(\sum_{k = 0}^{\infty} \qty(\frac{1}{5})^k = \frac{1}{1 - \frac{1}{5}})
+      + 3 \cdot \qty(\sum_{k = 0}^{\infty} \qty(\frac{3}{5})^k = \frac{1}{1 - \frac{3}{5}}) \\
+    &= 2 \cdot \frac{5}{4} + 3 \cdot \frac{5}{2} \\
+    &= 10
+  \end{flalign*}
+
+\item Es ist
+  \begin{flalign*}
+    \sum_{n = 0}^{\infty} \frac{3^{n - 1} + 7\qty\big(-5)^n}{9^n}
+    &= \sum_{n = 0}^{\infty} 3^{-1}\frac{3^n}{9^n} + 7\frac{\qty\big(-5)^n}{9^n} \\
+    &= \sum_{n = 0}^{\infty} 3^{-1}\qty(\frac{3}{9})^n + 7\qty(\frac{-5}{9})^n
+  \end{flalign*}
+  und die beiden geometrischen Reihen
+  \[
+    \sum_{n = 0}^{\infty} \qty(\frac{3}{9})^n = \frac{1}{1 - \frac{1}{3}} = \frac{3}{2}
+  \]
+  und
+  \[
+    \sum_{n = 0}^{\infty} \qty(-\frac{5}{9})^n = \frac{1}{1 + \frac{5}{9}} = \frac{9}{14}
+  \]
+  konvergieren und somit folgt
+  \begin{flalign*}
+    \sum_{n = 0}^{\infty} \frac{3^{n - 1} + 7\qty\big(-5)^n}{9^n}
+    &= \frac{1}{3} \cdot \qty(\sum_{n = 0}^{\infty} \qty(\frac{3}{9})^n)
+      + 7 \cdot \qty(\sum_{n = 0}^{\infty} \qty(-\frac{5}{9})^n) \\
+    &= \frac{1}{3} \cdot \frac{3}{2} + 7 \cdot \frac{9}{14} \\
+    &= \frac{1}{2} + \frac{9}{2} = 5
+  \end{flalign*}
+
+\item Es ist
+  \begin{flalign*}
+    \frac{\sqrt{10^n} + 1}{3^n} &= \frac{\sqrt{10}^n + 1}{3^n} \\
+                                &\geq \frac{\sqrt{10}^n}{3^n} \\
+                                &= \qty(\frac{\sqrt{10}}{3})^n
+  \end{flalign*}
+  Und da $\frac{\sqrt{10}}{3} > 1$ divergiert die Folge und somit nach dem
+  Hauptkriterium auch die Reihe.
+
+\item Es ist $\displaystyle \lim_{n \to \infty} \qty(1 + \frac{3}{n})^n = e^3$
+  und $e^3 > 20$.
+  Damit ist $\qty(\qty(1 + \frac{3}{n})^n - 1)$ keine Nullfolge und die Reihe ist
+  nach dem Hauptkriterium divergent.
+
+\item Es ist
+  \begin{flalign*}
+    \sum_{k = 1}^{\infty} \qty(\frac{6}{k^2} - \frac{\sqrt{5} - \pi^2}{k!})
+    &= 6 \cdot \qty(\sum_{k = 0}^{\infty} \qty(\frac{1}{k^2})) - \qty(\sqrt{5} - \pi^2) \cdot \qty(\sum_{k = 0}^{\infty} \frac{1}{k!})
+  \end{flalign*}
+  und sowohl die harmonische Reihe
+  \[
+    \sum_{k = 1}^{\infty} \qty(\frac{1}{k^2}) = \frac{\pi^2}{6}
+  \]
+  als auch die Exponentialreihe
+  \[
+    \sum_{k = 1}^{\infty} \frac{1}{k!} = \sum_{k = 0}^{\infty} \frac{1}{k!} - 1 = e - 1
+  \]
+  konvergieren.
+  Daher ist
+  \begin{flalign*}
+    \sum_{k = 1}^{\infty} \qty(\frac{6}{k^2} - \frac{\sqrt{5} - \pi^2}{k!})
+    &= 6 \cdot \qty(\sum_{k = 1}^{\infty} \qty(\frac{1}{k^2})) - \qty(\sqrt{5} - \pi^2) \cdot \qty(\sum_{k = 1}^{\infty} \frac{1}{k!}) \\
+    &= 6 \cdot \frac{pi^2}{6} - \qty(\sqrt{5} - \pi^2) \cdot \qty\big(e - 1) \\
+    &= \pi^2 - \qty(\sqrt{5} - \pi^2) \cdot \qty\big(e - 1) \\
+    &= \pi^2 - \qty(e\sqrt{5} - e\pi2 - \sqrt{5} + \pi^2) \\
+    &= \pi^2 - e\sqrt{5} + e\pi2 + \sqrt{5} - \pi^2 \\
+    &= e\qty\big(\pi^2 -\sqrt{5}) + \sqrt{5} \\
+  \end{flalign*}
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 3.3}
+\begin{enumerate}[(a)]
+\item Verwenden Sie das Leibnitzkriterium um zu zeigen, dass die Reihe
+  $\displaystyle \sum_{k = 1}^{\infty} \frac{\qty\big(-1)^{k + 1}}{k} \qty(\frac{1}{2})^k$
+  konvergiert.
+
+  Wir betrachten nun allgemeiner die Reihe
+  $\displaystyle \sum_{k = 1}^{\infty} \frac{\qty\big(-1)^{k + 1}}{k} x^k$ mit
+  fest gewählten $x \in \mathbb{R}$.
+
+  Unter welchen Voraussetzungen an $x$ kann man anhand des Leibnitzkriteriums
+  auf Konvergenz schließen?
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    \sum_{k = 1}^{\infty} \frac{\qty\big(-1)^{k + 1}}{k} \qty(\frac{1}{2})^k
+    &= \sum_{k = 1}^{\infty} \qty\big(-1)^{k + 1} \cdot \frac{\qty(\sfrac{1}{2})^k}{k} \\
+    &= -1 \cdot \sum_{k = 1}^{\infty} \qty\big(-1)^k \cdot \frac{\qty(\sfrac{1}{2})^k}{k}
+  \end{flalign*}
+  Seien nun $x_k \coloneqq \frac{1}{k}$ und $y_k \coloneqq \qty(\frac{1}{2})^k$
+  Dann ist sowohl $\displaystyle \lim_{n \to \infty} x_k = 0$ als auch
+  $\displaystyle \lim_{n \to \infty} y_k = 0$ und beide Folgen sind
+  offensichtlich streng monoton fallend.
+
+  $\Rightarrow a_k = \coloneqq x_k \cdot y_k = \frac{\qty(\sfrac{1}{2})^k}{k}$
+  ist eine streng monoton fallende Nullfolge und damit konvergiert die Reihe
+  \[
+    \sum_{k = 1}^{\infty} \frac{\qty\big(-1)^{k + 1}}{k} \qty(\frac{1}{2})^k
+    = -1 \cdot \sum_{k = 1}^{\infty} \qty\big(-1)^k a_k
+  \]
+  nach dem Leipnitzkriterium.
+
+  Nun ist für die allgemeine Reihe
+  \[
+    \sum_{k = 1}^{\infty} \frac{\qty\big(-1)^{k + 1}}{k} x^k
+    = -1 \cdot \sum_{k = 1}^{\infty} \qty\big(-1)^k \cdot \frac{1}{k} \cdot x^k
+  \]
+  das Leipnitzkriterium anwendbar, sofern $\frac{1}{k} \cdot x^k$ gegen Null
+  konvergiert und somit $\abs{x} < 1$.
+
+\newpage
+\item Verwenden Sie das Quotientenkriterium oder das Wurzelkriterium, um zu
+  zeigen, dass die Reihe
+  $\displaystyle \sum_{k = 1}^{\infty} \frac{k - 1}{k^2 \cdot 5^k}$ absolut
+  konvergent ist.
+
+  \subparagraph{Lsg.} Sei $x_n \coloneqq \frac{n - 1}{n^2 \cdot 5^n}$.
+  Dann ist
+  \begin{flalign*}
+    \frac{x_{n + 1}}{x_n}
+    &= \frac{\frac{\qty\big(n + 1) - 1}{\qty\big(n + 1)^2 \cdot 5^{n + 1}}}{\frac{n - 1}{n^2 \cdot 5^n}} \\
+    &= \frac{\frac{n}{\qty\big(n^2 + 2n + 1) \cdot 5 \cdot 5^n}}{\frac{n - 1}{n^2 \cdot 5^n}} \\
+    &= \frac{n}{\qty\big(n^2 + 2n + 1) \cdot 5 \cdot 5^n} \cdot \frac{n^2 \cdot 5^n}{n - 1} \\
+    &= \frac{n}{\qty\big(n^2 + 2n + 1) \cdot 5} \cdot \frac{n^2}{n - 1} \\
+    &= \frac{n^3}{\qty\big(n^2 + 2n + 1) \cdot \qty\big(5n - 1)} \\
+    &= \frac{n^3}{5n^3 + 9n^2 + 3n - 1} \\
+    &= \frac{n^3}{n^3} \cdot \frac{1}{5 + \frac{9}{n} + \frac{3}{n^2} - \frac{1}{n^3}}
+  \end{flalign*}
+  $\Rightarrow \displaystyle  \lim_{n \to \infty} \frac{x_{n + 1}}{x_n} = \frac{1}{5}$
+  und die Reihe konvergiert nach dem Quotientenkriterium absolut.
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 3.4} Verwenden Sie geeignete Konvergenzkriterien, um die folgenden
+Reihen auf Konvergenz zu untersuchen.
+Bei welchen dieser Reihen können Sie sogar auf absolute Konvergenz schließen?
+\begin{multicols}{3}
+  \begin{enumerate}[(a)]
+  \item $\displaystyle \sum_{k = 1}^{\infty} \frac{\qty\big(k + 1)^2}{k \cdot 4^k}$
+  \item $\displaystyle \sum_{k = 1}^{\infty} \frac{5^k}{7\qty\big(k - 1)!}$
+  \item $\displaystyle \sum_{k = 1}^{\infty} \qty\big(-1)^{k + 1}\frac{\cos\qty\big(1 - \frac{1}{k})}{k + 1}$
+  \item $\displaystyle \sum_{k = 0}^{\infty} \frac{\qty\big(4k)^2}{2^k}$
+  \item $\displaystyle \sum_{k = 0}^{\infty} \frac{k^k}{2^k\qty\big(k + 1)!}$
+  \item $\displaystyle \sum_{k = 0}^{\infty} \qty\big(-1)^k\frac{k}{k + 1}$
+  \end{enumerate}
+\end{multicols}
+
+\subparagraph{Lsg.}
+\begin{enumerate}[(a)]
+\item Sei $x_n \coloneqq \frac{\qty\big(n + 1)^2}{n \cdot 4^n}$.
+  Dann ist
+  \begin{flalign*}
+    \frac{x_{n + 1}}{x_n}
+    &= \frac{\frac{\qty(\qty\big(n + 1) + 1)^2}{\qty\big(n + 1) \cdot 4^{n + 1}}}{\frac{\qty\big(n + 1)^2}{n \cdot 4^n}} \\
+    &= \frac{\frac{\qty\big(n + 2)^2}{\qty\big(n + 1) \cdot 4 \cdot 4^n}}{\frac{\qty\big(n + 1)^2}{n \cdot 4^n}} \\
+    &= \frac{\qty\big(n + 2)^2}{\qty\big(n + 1) \cdot 4 \cdot 4^n} \cdot \frac{n \cdot 4^n}{\qty\big(n + 1)^2} \\
+    &= \frac{\qty\big(n + 2)^2}{\qty\big(n + 1) \cdot 4} \cdot \frac{n}{\qty\big(n + 1)^2} \\
+    &= \frac{n^2 + 4n + 4}{4n + 4} \cdot \frac{n}{n^2 + 2n + 1} \\
+    &= \frac{n^3 + 4n^2 + 4n}{4n^3 + 12n^2 + 12n + 4} \\
+    &= \frac{n^3}{n^3} \cdot \frac{1 + \frac{4}{n} + \frac{4}{n^2}}{4 + \frac{12}{n} + \frac{12}{n^2} + \frac{4}{n^3}}
+  \end{flalign*}
+  $\Rightarrow \displaystyle \lim_{n \to \infty} \frac{x_{n + 1}}{x_n} = \frac{1}{4} < 1$
+  und damit konvergiert die Reihe nach dem Quotientenkriterium absolut.
+
+\newpage
+\item Sei $x_n \coloneqq \frac{5^n}{7\qty\big(n - 1)!}$.
+  Dann ist
+  \begin{flalign*}
+    \frac{x_{n + 1}}{x_n}
+    &= \frac{\frac{5^{n + 1}}{7\qty(\qty\big(n + 1) - 1)!}}{\frac{5^n}{7\qty\big(n - 1)!}} \\
+    &= \frac{\frac{5 \cdot 5^n}{n \cdot 7\qty(n - 1)!}}{\frac{5^n}{7\qty\big(n - 1)!}} \\
+    &= \frac{5 \cdot 5^n}{n \cdot 7\qty(n - 1)!} \cdot \frac{7\qty\big(n - 1)!}{5^k} \\
+    &= \frac{5}{n}
+  \end{flalign*}
+
+  $\Rightarrow \displaystyle \lim_{n \to \infty} \frac{x_{n + 1}}{x_n} = 0$ und
+  damit konvergiert die Reihe nach dem Quotientenkriterium absolut.
+
+\item Es ist
+  \begin{flalign*}
+    \sum_{k = 1}^{\infty} \qty\big(-1)^{k + 1}\frac{\cos\qty\big(1 - \frac{1}{k})}{k + 1}
+    &= -1 \cdot \sum_{k = 1}^{\infty} \qty\big(-1)^k\frac{\cos\qty\big(1 - \frac{1}{k})}{k + 1}
+  \end{flalign*}
+  Sei nun $x_n \coloneq \frac{\cos\qty(1 - \frac{1}{n})}{n + 1}$.
+  Dann ist bekannt, dass $-1 \leq \cos\qty\big(\ldots) \leq 1$ und somit
+  $-\frac{1}{n + 1} \leq x_n \leq \frac{1}{n + 1}$.
+  Da
+  \[
+    \lim_{n \to \infty} -\frac{1}{n + 1} = 0 = \lim_{n \to \infty} \frac{1}{n + 1}
+  \]
+  und somit konvergiert die Folge $x_n$ gegen Null und die Reihe konvergiert nach
+  dem Leipnitzkriterium.
+
+\item Sei $x_n \coloneqq \frac{\qty\big(4n)^2}{n \cdot 4^n}$.
+  Dann ist
+  \begin{flalign*}
+    \sqrt[n]{x_n}
+    &= \sqrt[n]{\frac{\qty\big(4n)^2}{n \cdot 4^n}} \\
+    &= \frac{\sqrt[n]{\qty\big(4n)^2}}{\sqrt[n]{n} \cdot \sqrt[n]{4^n}} \\
+    &= \frac{\sqrt[n]{16}\sqrt[n]{n}\sqrt[n]{n}}{4 \cdot \sqrt[n]{n}} \\
+    &= \frac{\sqrt[n]{16}{n}\sqrt[n]{n}}{4}
+  \end{flalign*}
+  und $\displaystyle \lim_{n \to \infty} \sqrt[n]{x_n} = \frac{1}{4}$.
+  Damit konvergiert die Reihe nach dem Wurzelkriterium absolut.
+
+\item Sei $x_n \coloneqq \frac{n^n}{2^n\qty\big(n + 1)!}$.
+  Dann ist
+  \begin{flalign*}
+    \frac{x_{n + 1}}{x_n}
+    &= \frac{\frac{\qty\big(n + 1)^{n + 1}}{2^{n + 1}\qty(\qty\big(n + 1) + 1)!}}{\frac{n^n}{2^n\qty\big(n + 1)!}} \\
+    &= \frac{\frac{\qty\big(n + 1)^{n + 1}}{2 \cdot 2^n\qty\big(n + 2)\qty\big(n + 1)!}}{\frac{n^n}{2^n\qty\big(n + 1)!}} \\
+    &= \frac{\qty\big(n + 1)^{n + 1}}{2 \cdot 2^n\qty\big(n + 2)\qty\big(n + 1)!} \cdot \frac{2^n\qty\big(n + 1)!}{n^n} \\
+    &= \frac{\qty\big(n + 1)^{n + 1}}{2 \cdot \qty\big(n + 2)} \cdot \frac{1}{n^n} \\
+    &= \frac{\qty\big(n + 1)\qty\big(n + 1)^n}{2n + 4} \cdot \frac{1}{n^n} \\
+    &= \frac{\qty\big(n + 1)\qty\big(n^n + \ldots + 1)}{2n^{n + 1} + 4n^n} \\
+    &= \frac{n^{n + 1} + \ldots + 1}{2n^{n + 1} + 4n^n}
+  \end{flalign*}
+  $\Rightarrow \displaystyle \lim_{n \to \infty} \frac{x_{n + 1}}{x_n} = \frac{1}{2}$
+  und damit konvergiert die Reihe nach dem Wurzelkriterium.
+
+\item Sei $x_n \coloneqq \qty\big(-1)^n \frac{n}{n + 1}$.
+  Dann ist
+  \begin{flalign*}
+    \sqrt[n]{\abs{x_b}}
+    &= \sqrt[n]{\abs{\qty\big(-1)^n \frac{n}{n + 1}}} \\
+    &= \sqrt[n]{\frac{n}{n + 1}} \\
+    &= \frac{\sqrt[n]{n}}{\sqrt[n]{n + 1}}
+  \end{flalign*}
+  und da $\displaystyle \lim_{n \to \infty} \sqrt[n]{\abs{x_n}} = 1$
+  hilft das Wurzelkriterium hier nicht weiter.
+
+  Sei stattdessen $a_n \coloneqq \frac{n}{n + 1}$, dann ist obviously
+  $a_n \geq 0$ für alle $n \in \mathbb{N}$
+  und
+  \begin{flalign*}
+    a_{n - 1} - a_n
+    &= \frac{n + 1}{\qty\big(n + 1) + 1} - \frac{n}{n + 1} \\
+    &= \frac{n + 1}{n + 2} - \frac{n}{n + 1} \\
+    &= \frac{\qty\big(n + 1)^2 - n\qty\big(n + 2)}{\qty\big(n + 2)\qty\big(n + 1)} \\
+    &= \frac{n^2 + 2n + 1 - n^2 - 2n}{\qty\big(n + 2)\qty\big(n + 1)} \\
+    &= \frac{1}{\qty\big(n + 2)\qty\big(n + 1)}
+  \end{flalign*}
+  und der Term ist größer als Null, damit lässt sich hier auch das
+  Leipnitzkriterium nicht anwenden.
+
+  Allerdings fällt mittlerweile auch auf, dass
+  $\lim_{n \to \infty} \qty\big(-1)^k \frac{k}{k + 1} \ne 0$ und damit divergiert
+  die Reihe nach dem Hauptkriterium.
+\end{enumerate}
+
+\end{document}
