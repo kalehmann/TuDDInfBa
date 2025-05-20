@@ -1,0 +1,245 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{SoSe 2025}
+\title{Übungsblatt 06\\INF-B-120, Mathematische Methoden für Informatiker}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 6.1} Stellen Sie für die folgenden zwei reellen Funktionen $f$
+jeweils eine Formel für die $n$-te Ableitung $f^\qty\big(n)$
+$\qty\big(n \in \mathbb{N}, n > 0)$ auf.
+Beweisen Sie die Gültigkeit der Formel mit vollständiger Induktion:
+\begin{enumerate}[(i)]
+\item $f\qty\big(x) \coloneqq 1 + \ln\qty\big(x)$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    f'\qty\big(x) &= \frac{1}{x} \\
+    f^{\qty\big(2)}\qty\big(x) &= -x^{-2} \\
+    f^{\qty\big(3)}\qty\big(x) &= 2x^{-3}
+  \end{flalign*}
+  Vermutung: $f^{n}\qty\big(x) = \qty\big(-1)^{n + 1}\qty\big(n - 1)!x^{-n}$
+
+  \textbf{Beweis durch vollständige Induktion:}
+
+  \textbf{Behauptung:} $P\qty\big(n) \colon f^{n} \qty\big(x) = \qty\big(-1)^{n + 1}\qty\big(n - 1)!x^{-n}$
+  ist für alle $n \in \mathbb{N}$ wahr.
+
+  \textbf{Induktionsanfang:} siehe oben
+
+  \textbf{Induktionsschritt:} Angenommen $P\qty\big(n)$ wäre für ein beliebiges
+  $n \in \mathbb{N}$ wahr (Induktionsvoraussetzung (IV)), dann
+  \begin{flalign*}
+    P\qty\big(n + 1) \colon \qty(f^{\qty\big(n)}\qty\big(x))'
+    &= \qty(\qty\big(-1)^{n + 1}\qty\big(n - 1)!x^{-n})' \\
+    &= \qty(\qty(\qty\big(-1)^{n + 1}\qty\big(n - 1)!) \cdot  x^{-n})' \\
+    &= -n \cdot \qty(\qty\big(-1)^{n + 1}\qty\big(n - 1)!) \cdot  x^{-\qty\big(n + 1)} \\
+    &= \qty\big(-1) \cdot n \cdot \qty(\qty\big(-1)^{n + 1}\qty\big(n - 1)!) \cdot  x^{-\qty\big(n + 1)} \\
+    &= \qty(\qty\big(-1)^{n + 2}n!) \cdot  x^{-\qty\big(n + 1)}
+  \end{flalign*}
+  Somit $P\qty\big(n) \Rightarrow P\qty\big(n + 1)$ und aus dem Satz über die
+  vollständige Induktion folgt die Behauptung.
+
+\item $f\qty\big(x) \coloneqq \frac{x}{1 - x}$
+
+  \subparagraph{Lsg.} Es ist
+  \begin{flalign*}
+    f'\qty\big(x) &= \frac{\qty\big(1 - x) - \qty\big(-1)x}{\qty\big(1 - x)^2}
+                    = \frac{\qty\big(1 - x) + x}{\qty\big(1 - x)^2} = \frac{1}{\qty\big(1 - x)^2} \\
+    f^{\qty\big(2)}\qty\big(x) &= \frac{2x - 2}{\qty\big(1 - x)^4} = \frac{2}{\qty\big(1 - x)^3} \\
+    f^{\qty\big(3)}\qty\big(x) &= \frac{-2 \cdot \qty\big(-3)\qty\big(1 - x)^2}{\qty\big(1 - x)^6}
+                                 = \frac{2 \cdot 3}{\qty\big(1 - x)^4}
+  \end{flalign*}
+  Vermutung: $f^{n}\qty\big(x) = \frac{n!}{\qty\big(1 - x)^{n + 1}}$
+
+  \textbf{Beweis durch vollständige Induktion:}
+
+  \textbf{Behauptung:} $P\qty\big(n) \colon f^{n} \qty\big(x) = \frac{n!}{\qty\big(1 - x)^{n + 1}}$
+  ist für alle $n \in \mathbb{N}$ wahr.
+
+  \textbf{Induktionsanfang:} siehe oben
+
+  \textbf{Induktionsschritt:} Angenommen $P\qty\big(n)$ wäre für ein beliebiges
+  $n \in \mathbb{N}$ wahr (Induktionsvoraussetzung (IV)), dann
+  \begin{flalign*}
+    P\qty\big(n + 1) \colon \qty(f^{\qty\big(n)}\qty\big(x))'
+    &= \qty( \frac{n!}{\qty\big(1 - x)^{n + 1}})' \\
+    &= \qty(n! \cdot \qty\big(1 - x)^{-\qty\big(n + 1)})' \\
+    &= - \qty\big(n + 1) \cdot n! \cdot \qty\big(1 - x)^{-\qty\big(n + 2)} \cdot \qty\big(-1) \\
+    &= \qty\big(n + 1)! \cdot \qty\big(1 - x)^{-\qty\big(n + 2)}
+  \end{flalign*}
+  Somit $P\qty\big(n) \Rightarrow P\qty\big(n + 1)$ und aus dem Satz über die
+  vollständige Induktion folgt die Behauptung.
+\end{enumerate}
+
+\paragraph{Ü 6.2} Berechnen Sie die Ableitungen der reellen Funktionen
+$f\qty\big(x) \coloneqq x^{x^x}$ und $g\qty\big(x) \coloneqq \qty(x^x)^x$.
+
+Verwenden Sie dazu die Methode des Logarithmischen Differenzierens.
+
+\subparagraph{Lsg.} Erinnerung: Es ist
+\[
+  \qty(x^x)' = \qty(e^{\ln\qty\big(x^x)})' = \qty(e^{x\ln\qty\big(x)})'
+  = e^{x\ln\qty\big(x)} \cdot \qty(\ln\qty\big(x) + \frac{x}{x})
+  = x^x \cdot \qty(1 + \ln\qty\big(x))
+\]
+
+Nun ist
+\begin{flalign*}
+  f'\qty\big(x)
+  &= \qty(x^{\qty\big(x^x)})' \\
+  &= \qty(e^{\ln\qty(x^{\qty\big(x^x)})})' \\
+  &= \qty(e^{x^x \ln\qty(x)})' \\
+  &= e^{x^x \ln\qty(x)} \cdot \qty(x^x \cdot \qty(1 + \ln\qty\big(x)) \cdot \ln\qty\big(x) + \frac{x^x}{x}) \\
+  &= x^{x^x} \cdot x^x \cdot \qty(\qty(1 + \ln\qty\big(x)) \cdot \ln\qty\big(x) + \frac{1}{x})
+\end{flalign*}
+und ebenso
+\begin{flalign*}
+  g'\qty\big(x)
+  &= \qty(\qty(x^x)^x)' \\
+  &= \qty(e^{\ln\qty(\qty(x^x)^x)})' \\
+  &= \qty(e^{x\ln\qty(x^x)})' \\
+  &= \qty(e^{x^2\ln\qty(x)})' \\
+  &= e^{x^2\ln\qty(x)} \cdot \qty(2x\ln\qty\big(x) + \frac{x^2}{x}) \\
+  &= \qty(x^x)^x \cdot \qty(2x\ln\qty\big(x) + x') \\
+\end{flalign*}
+
+\paragraph{Ü 6.3} Für die reelle Funktion
+$f\qty\big(x) \coloneqq 2 + \ln\qty(x^2 + 1)$ ist ein $c \in \mathbb{R}$
+gesucht, so dass gilt:
+\[
+  \forall x, y \in \qty\big[2, 8] \colon \abs{f\qty\big(x) - f\qty\big(y)} \leq c \abs\big{x - y}
+\]
+Verwenden Sie den Mittelwertsatz der Differentialrechnung, um eine Konstante $c$
+zu finden, die diese Ungleichung erfüllt.
+
+Die Funktion $f$ hat im Intervall $\qty\big[2, 8]$ einen Fixpunkt.
+Begründen Sie, dass die Iteration nach Picard für jeden Startwert
+$x_0 \in \qty\big[2, 8]$ kontrahiert.
+
+\subparagraph{Lsg.} Kurze Erinnerung an den Mittelwertsatz der
+Differentialrechnung:
+
+Sei $f$ eine auf dem Intervall $a, d$ differenzierbare Funktion sowie
+$b < c \in \qty\big[a, d]$, dann existiert ein $x \in \qty\big[a, d]$ mit
+$f'\qty\big(x) = \frac{f\qty\big(c) - f\qty\big(b)}{c - b}$.
+
+Nun sind
+\begin{flalign*}
+  f'\qty\big(x) &= \frac{1}{x^2 + 1} \cdot 2x = \frac{2x}{x^2 + 1} \\
+  f''\qty\big(x) &= \frac{\qty(2x^2 + 2) - \qty\big(2x \cdot 2x)}{\qty(x^2 + 1)^2}
+                   = \frac{2 - 2x^2}{\qty(x^2 + 1)^2}
+\end{flalign*}
+Nun ist $f''\qty\big(x) < 0$ für $x \in \qty\big[2, 8]$.
+Damit ist $f'$ auf dem Intervall $\qty\big[2, 8]$ streng monoton fallend und
+$f'\qty\big(2) = \frac{4}{5}$ der maximale Wert des Intervalls.
+
+Zusammen mit dem Mittelwertsatz der Differentialrechnung folgt
+\[
+  \forall x, y \in \qty\big[2, 8] \colon \abs{f\qty\big(x) - f\qty\big(y)} \leq \frac{4}{5} \abs\big{x - y}
+\]
+
+Weiter ist $f\qty(\qty\big[2, 8]) \overset{\text{Klappt, weil streng monoton}}= \qty[f\qty\big(2), f\qty\big(8)] \subseteq \qty\big[2, 8]$
+
+Nun gibt es nach einem Satz aus Seite 13 der Vorlesungsfolien 8 genau ein
+$\hat{x} \in \qty\big[2, 8]$ mit $f\qty(\hat{x}) = \hat{x}$ und für jedes
+$x_0 \in \qty\big[2, 8]$ konvergiert die durch
+\[
+  x_0, x_{n + 1} \coloneqq f\qty\big(x_n)
+\]
+definierte Folge $\qty(x_n)$ gegen $\hat{x}$.
+
+\paragraph{Ü 6.4} In Übung 5.1 wurde mit dem Nullstellensatz nachgewiesen,
+dass die reelle Funktion $f\qty\big(x) \coloneqq e^x + x$ eine Nullstelle
+besitzt.
+Diese Nullstelle soll nun mittels eines geeigneten Iterationsverfahrens
+näherungsweise berechnet werden.
+\begin{enumerate}[(a)]
+\item Stellen Sie für das Iterationsverfahren nach Picard die zugehörige
+  Iterationsvorschrift auf.
+  Untersuchen Sie, ob die Iteration kontrahiert und damit für die Approximation
+  der Nullstelle geeignet ist.
+
+  \subparagraph{Lsg.} Es ist $f'\qty\big(x) = e^x + 1$.
+  Nach Picard $e^x + x = 0 \iff \underset{= g\qty\big(x)}{\underbrace{e^x + x + x}} = x$.
+  Nun ist $g'\qty\big(x) = e^x + 2 > 2$ auf $\qty\big[-2, 0]$ und damit ist
+  die Iterationsvorschrift ungeeignet, weil
+  \[
+    \frac{\abs{f\qty\big(x) - f\qty\big(y)}}{\abs{x - y}} > 1
+  \]
+
+  Funfact (außerhalb der Übung): Alternativ geht auch $-x$ mit
+  $e^x + x = 0 \iff e^x + x - x = -x$.
+
+\item Verwenden Sie das Newtonverfahren mit Startwert $x_0 = 0$, um die
+  Nullstelle zu approximieren.
+  Führen Sie zwei Schritte des Verfahrens aus.
+
+  Zeigen Sie anhand einer Skizze des Funktionsgraphen und der betrachteten
+  Tangenten, wie das Verfahren funktioniert.
+
+  \subparagraph{Lsg.} \phantom{\null}
+
+  \begin{tikzpicture}[scale=0.9]
+    \begin{axis}[
+      axis x line=center,
+      axis y line=center,
+      grid=both,
+      samples=200,
+      xmin=-1.5,
+      xmax=0.5,
+      xtick distance=1,
+      ymin=-0.5,
+      ymax=1.5,
+      ytick distance=1,
+    ]
+      \addplot[domain=-2.5:2.5, smooth] { e^x + x };
+      \addplot[black!30!yellow, domain=-2.5:2.5, smooth] { 1 + 2 * x };
+      \addplot[black!30!green, domain=-2.5:2.5, smooth] { (e^(-1/2) + 1) * x + 3/(2 * sqrt(e))};
+      \node[black!10!yellow, circle, fill, inner sep=0pt, minimum width=3pt] at (0, 1) {};
+      \node[black!10!green, circle, fill, inner sep=0pt, minimum width=3pt] at (-0.5, 0.1065) {};
+    \end{axis}
+  \end{tikzpicture}
+
+  Es ist $g\qty\big(x) = x - \frac{f\qty\big(x)}{f'\qty\big(x)}$ und
+  \begin{flalign*}
+    x_1 &= 0 - \frac{e^0 + 0}{e^0 + 1} = -\frac{1}{2} \\
+    x_2 &= -\frac{1}{2} - \frac{e^{-\frac{1}{2}} -\frac{1}{2}}{e^{-\frac{1}{2}} + 1} \\
+  \end{flalign*}
+
+\end{enumerate}
+\end{document}
