@@ -1,0 +1,180 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2025/26}
+\title{Übungsblatt 01\\INF-B-270, Formale Systeme}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Aufgabe 1}
+Gegeben sind ein beliebiges Alphabet $\Sigma$ und die Sprachen
+$L_1, L_2, L_3, L_4 \subseteq \Sigma^*$.
+Zeigen Sie, dass die Operationen $\cup, \circ$ und $^*$ monoton sind, d.h.
+für $L_1 \subseteq L_3$ und $L_2 \subseteq L_4$ gilt:
+\begin{enumerate}[(a)]
+\item $L_1 \cup L_2 \subseteq L_3 \cup L_4$
+
+  \subparagraph{Lsg.} Sei $u \in L_1 \cup L_2$ beliebig.
+  Dann gilt nach der Definition der Vereinigung, dass
+  \begin{enumerate}[(1)]
+  \item $u \in L_1$, dann da $L_1 \subseteq L_3$ auch $u \in L_3$ und damit
+    auch $u \in L_3 \cup L_4$
+  \item $u \in L_2$, dann da $L_2 \subseteq L_4$ auch $u \in L_4$ und damit
+    auch $u \in L_3 \cup L_4$
+  \end{enumerate}
+
+\item $L_1 \circ L_2 \subseteq L_3 \circ L_4$
+
+  \subparagraph{Lsg.} Sei $u = wv \in L_1 \circ L_2$.
+  Dann sind $w \in L_1$ und $v \in L_2$.
+  Da $L_1 \subseteq L_3$ und $L_2 \subseteq L_4$ gilt somit auch
+  $w \in L_3$ und $v \in L_4$ und damit schließlich auch
+  $wv = u \in L_3 \cup L_4$.
+\item $L_1^* \subseteq L_3^*$
+
+  \subparagraph{Lsg.} Beweis über vollständige Induktion.in zwei Schritten:
+
+  \textbf{Behauptung:}
+  \[
+    P\qty\big(n) \colon L_1^n  \subseteq L_3^n
+  \]
+
+  \textbf{Induktionsanfang:}
+  \begin{flalign*}
+    P\qty\big(0) &\colon L_1^0 = \qty\big{\epsilon} \subseteq \qty\big{\epsilon} = L_3^0 \\
+    P\qty\big(1) &\colon L_1 \subseteq  L_3
+  \end{flalign*}
+
+  \textbf{Induktionsschritt:} Angenommen es wäre nun $P\qty\big(n)$ für ein
+  beliebiges $n \in \mathbb{N}$ wahr (Induktionsvoraussetzung (IV)), dann
+  \begin{flalign*}
+    P\qty\big(n + 1) \colon L_1^{n+1} \subseteq L_3^{n + 1}
+    &\iff L_1 \circ L_1^n \subseteq L_3 \circ L_3^n
+  \end{flalign*}
+  Sei nun $u = wv \in L_1 \circ L_1^n$ beliebig mit $w \in L_1$ und $v = L_1^n$,
+  dann ist auch $w \in L_3$ und nach der Induktionsvoraussetzung $v \in L_3^n$.
+
+  Somit ist $u \in L_3 \circ L_3^n$ und da $u$ beliebig, die Behauptung
+  $P\qty\big(n + 1)$ wahr.
+
+  Und aus dem Satz über die vollständige Induktion folgt die Behauptung.
+
+  Analog lässt sich auch über vollständige Induktion zeigen, dass
+  \[
+    L_1^0 \cup L_1^1 \cup \ldots L_1^n \subseteq L_3^0 \cup L_3^1 \cup \ldots L_3^n
+  \]
+
+\end{enumerate}
+
+\paragraph{Aufgabe 2}
+Zeigen oder widerlegen Sie die folgenden Identitäten.
+Dabei sind $L, L_1, L_2, L_3$ beliebige Sprachen.
+
+\begin{enumerate}[(a)]
+\item $L_1 \circ \qty(L_2 \cup L_3) = L_1 \circ L_2 \cup L_1 \circ L_3$,
+  $L_1 \circ \qty(L_2 \cup L_3) = \qty(L_1 \circ L_2+) \cap \qty(L_1 \circ L_3)$.
+
+  \subparagraph{Lsg.} Die Distributivität über die Vereinigung wurde bereits in
+  der ersten Vorlesung gezeigt.
+  Für den Schnitt hingegen gilt die Distributivität hingegen nicht, denn seien
+  $L_1 = \qty\big{\text{a}, \text{aa}}, L_2 = \qty\big{\text{b}}$
+  und $L_3 = \qty\big{\text{ab}}$, dann ist
+  \begin{flalign*}
+    L_1 \circ \qty(L_2 \cap L_3)
+    &= \qty\big{\text{a}, \text{aa}} \circ \qty(\qty\big{\text{b}} \cap \qty\big{\text{ab}}) \\
+    &= \qty\big{\text{a}, \text{aa}} \circ \emptyset \\
+    &= \emptyset \\
+    &\ne \qty\big{\text{aab}} \\
+    &= \qty\big{\text{ab}, \text{aab}} \cap \qty\big{\text{aab}, \text{aaab}} \\
+    &= \qty\big(\qty\big{\text{a}, \text{aa}} \circ \qty(\qty\big{\text{b}})) \cap \qty\big(\qty\big{\text{a}, \text{aa}} \circ \qty(\qty\big{\text{ab}})) \\
+    &= \qty\big(L_1 \circ L_2) \cap \qty\big(L_1 \circ L_3)
+  \end{flalign*}
+
+\setcounter{enumi}{3}
+\item $\emptyset^* = \qty\big{\epsilon}$
+
+  \subparagraph{Lsg.} Das ist korrekt, da per Definition
+  $\emptyset^0 = \qty\big{\epsilon}$ und $\emptyset^n = \emptyset$ für alle $n \ge 1$.
+  Somit ist
+  $\emptyset^0 \cup \emptyset^1 \cup \ldots \cup \emptyset^n = \qty\big{\epsilon}$.
+\end{enumerate}
+
+\paragraph{Aufgabe 3}
+Gegeben ist die Grammatik $G = \langle V, \Sigma, P, S \rangle$
+mit $V = \qty\big{S, B}, \Sigma = \qty\big{a, b, c}$ und
+$P = \qty\big{S \to aSBc, S \to abc, cB \to B, cB \to Bc, bB \to bb}$.
+
+\begin{enumerate}[(a)]
+\item Von welchem maximalen Typ ist $G$?
+  Begründen Sie Ihre Antwort.
+
+  \subparagraph{Lsg.} Die Sprache ist \textbf{nicht} kontextfrei, da in den
+  Regeln auf der linken Seite zum Teil mehr als nur eine Variable vorkommt.
+
+  Weiter ist die Sprache auch \textbf{nicht} kontextsensitiv, da für
+  $cB \to B$ nicht $\abs{cB} \le \abs{B}$.
+
+  Somit handelt es sich um eine Grammatik vom Typ 0.
+
+\item Bestimmen Sie drei Wörter $w$ der Sprache $L\qty\big(G)$.
+  Begründen Sie Ihre Antwort.
+
+  \subparagraph{Lsg.} Zum Beispiel
+  \begin{enumerate}[1)]
+  \item $S \to abc$
+  \item $S \to aSBc \to aabcBc \to aabBcc \to aabbcc$
+  \item $S \to aSBc \to aabcBc \to aabBc \to aabbc$
+  \end{enumerate}
+
+\newpage
+\item Gilt $\epsilon \in L\qty\big(G)$?
+  Begründen Sie Ihre Antwort!
+
+  \subparagraph{Lsg.} Nein, da egal ob $S$ nach der ersten oder
+  zweiten Regel aufgelöst wird, es steht immer ein $a$ am Anfang, welches auch
+  mit keiner weiteren Regel mehr entfernt werden kann.
+
+\item Beschreiben Sie die durch $G$ erzeugte Sprache $L\qty\big(G)$.
+
+  \subparagraph{Lsg.} In allen Regeln werden gleich viele $a$'s und $b$'s
+  hinzugefügt und nicht wieder entfernt.
+
+  Zusätzlich werden gleich viele $c$'s wie $a$'s und $b$'s eingefügt, allerdings
+  eventuell auch durch die 3. Regel wieder entfernt.
+
+  Somit ist $L\qty\big(G) = \qty{a^nb^nc^m \;{\big |}\; 1 \leq m \leq n}$
+\end{enumerate}
+\end{document}
