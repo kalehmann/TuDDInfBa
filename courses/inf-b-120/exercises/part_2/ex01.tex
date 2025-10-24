@@ -1,0 +1,300 @@
+\documentclass{scrreprt}
+
+\usepackage{aligned-overset}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{bm}
+\usepackage[inline,shortlabels]{enumitem}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{multicol}
+\usepackage{mathtools}
+\usepackage{pdflscape}
+\usepackage{physics}
+\usepackage{tabularx}
+\usepackage[table]{xcolor}
+\usepackage{titling}
+\usepackage{fancyhdr}
+\usepackage{xfrac}
+\usepackage{pgfplots}
+
+\pgfplotsset{compat = newest}
+\usepgfplotslibrary{fillbetween}
+\usetikzlibrary{calc}
+
+
+\author{Karsten Lehmann}
+\date{WiSe 2025/26}
+\title{Übungsblatt 01\\INF-B-120, Mathematische Methoden für Informatiker II}
+
+\setlength{\parindent}{0pt}
+
+\setlength{\headheight}{26pt}
+\pagestyle{fancy}
+\fancyhf{}
+\lhead{\thetitle}
+\rhead{\theauthor}
+\lfoot{\thedate}
+\rfoot{Seite \thepage}
+
+\begin{document}
+\paragraph{Ü 1.1}
+\begin{enumerate}[(a)]
+\item Bildet die Menge der ungeraden natürlichen Zahlen mit der Addition eine
+  Halbgruppe?
+
+  \subparagraph{Lsg.} Also die Menge der ungeraden natürlichen Zahlen ist schon
+  mal nicht leer (1 ist zum Beispiel eine ungerade natürliche Zahl) und die
+  Addition der ungeraden natürlichen Zahlen ist zwar assoziativ, allerdings nicht
+  abgeschlossen, da zum Beispiel $1 + 1 = 2$ und $2$ keine ungerade natürliche
+  Zahl ist.
+
+  $\Rightarrow$ keine Halbgruppe
+
+\item Ist $\qty(\mathbb{Z} \times \mathbb{Z}; +)$ mit komponentenweiser Addition
+  eine Gruppe?
+
+  \subparagraph{Lsg.} Es ist $\mathbb{Z} \times \mathbb{Z}$ nicht leer und
+  zusammen mit der komponentenweisen Addition eine Halbgruppe, da
+  die Addition auf $\mathbb{Z}$ bekannterweise assoziativ und abgeschlossen ist.
+
+  Weiter ist $\qty\big(0, 0)^T \in \mathbb{Z} \times \mathbb{Z}$ mit
+  $a + \qty\big(0, 0)^T = a$ für alle $a \in \mathbb{Z} \times \mathbb{Z}$.
+  Somit ist $\qty\big(0, 0)$ neutrales Element.
+
+  Schließlich ist $\qty(\mathbb{Z}; +)$ bereits als Gruppe bekannt, somit
+  existiert für $b \in \mathbb{Z}$ auch $-b \in \mathbb{Z}$ mit
+  $b + \qty\big(-b) = 0$ und schließlich für
+  $\qty(b, c)^T \in \mathbb{Z} \times \mathbb{Z}$ auch
+  $\qty(-b, -c)^T \in \mathbb{Z} \times \mathbb{Z}$ mit
+  \[
+    \qty(b, c)^T + \qty(-b, -c)^T = \qty\big(0, 0)^T
+  \]
+  $\Rightarrow$ Gruppe
+\end{enumerate}
+
+\paragraph{Ü 1.2} Es sei $\qty\big(G; \circ)$ die kleinste Gruppe der Ordnung
+6, die die paarweise verschiedenen Elemente $a$, $b$ und $e$ enthält und für die
+gilt: $e$ ist das neutrale Element der Gruppe, $a \circ a = e, b^3 = e$ und
+$a \circ b = b^{-1} \circ a$.
+
+Finden Sie alle Elemente von $G$ und stellen Sie die Verknüpfungstafel von
+$\qty\big(G; \circ)$ auf.
+
+\subparagraph{Lsg.} $G$ hat Ordnung 6, also 6 Elemente.
+
+\begin{enumerate}[(1)]
+\item Das inverse Element ist eindeutig bestimmt und die Elemente sind paarweise
+  verschieden.
+  Da $a$ selbstinvers ist, folgt $b^2 \ne a$
+  (ansonsten $b^3 = b^2 \circ b = a \circ b = e$).
+  Außerdem $b^2 \ne e$, da sonst $b^3 = b^2 \circ b = e \circ b = e$.
+
+  Sei somit $b^2 = c$. $\Rightarrow c \circ b = b \circ c = e$.
+
+\item Es ist $a \circ b \ne e$, da $a$ sonst zwei inverse hätte.
+  Außerdem ist $a \circ b \ne c$, da sonst
+  \[
+    a \circ b = c \circ a \overset{b\text{ in der Mitte}}\iff
+    a \circ b \circ b = c \circ b \circ a \iff
+    a \circ c = e \circ a
+  \]
+  womit $c$ zwei inverse Elemente hätte.
+
+  Sei daher $a \circ b = d$
+
+\item Jetzt haben $a$, $b$, $c$ und $e$ schon bekannte Inverse.
+  Somit kann $d$ entweder Selbstinvers oder Invers zu $f$ sein.
+
+  Machen wir es invers zu $f$ um mehr Felder in der Tabelle zu fühlen.
+
+\item Der Rest ist wie Sudoku.
+\end{enumerate}
+
+\begin{tabular}{c|cccccc}
+  $\circ$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ \\
+  \hline
+  $a$ & $e$ & $d$ & $f$ & $c$ & $a$ & $b$ \\
+  $b$ & $f$ & $c$ & $e$ & $a$ & $b$ & $d$ \\
+  $c$ & $d$ & $e$ & $b$ & $f$ & $c$ & $a$ \\
+  $d$ & $c$ & $f$ & $a$ & $b$ & $d$ & $e$ \\
+  $e$ & $a$ & $b$ & $c$ & $d$ & $e$ & $f$ \\
+  $f$ & $b$ & $a$ & $d$ & $e$ & $f$ & $c$ \\
+\end{tabular}
+
+\paragraph{Ü 1.3} Es sind die dreielementige Menge $A \coloneqq \qty\big{a, b, c}$
+und $T_A \coloneqq \qty{f {\big |} f \colon A \to A}$ gegeben.
+
+\begin{enumerate}[(a)]
+\item Zeigen Sie, dass $\qty(T_A; \circ)$ mit der Hintereinanderausführung
+  $\circ$ von Abbildungen eine Halbgruppe ist.
+
+  \subparagraph{Lsg.} $T_A$ ist nicht leer, da zum Beispiel
+  $\text{id}_A \in T_A$.
+
+  Seien nun $d, e, f \in T_A$ beliebige Abbildungen.
+  Dann ist $\qty\big(d \circ e) \circ f = d \circ \qty\big(e \circ f)$, da für
+  jedes $a \in A$ gilt
+  \[
+    \qty(\qty\big(d \circ e) \circ f)\qty\big(a)
+    = \qty\big(d \circ e)\qty(f\qty\big(a))
+    = d\qty(e\qty(f\qty\big(a)))
+    = d\qty(\qty\big(e \circ f)\qty\big(a))
+    = d \circ \qty\big(e \circ f)
+  \]
+  Schließlich handelt es sich ausschließlich um Abbildungen von $A$ nach $A$,
+  daher bildet auch jegliche Verknüpfung der Abbildungen wieder eine Abbildung
+  von $A$ nach $A$
+  $\Rightarrow$ die Verknüpfung ist über $A$ abgeschlossen.
+
+  Somit ist $\qty(T_A; \circ)$ eine Halbgruppe.
+
+\item Zeigen Sie, dass $\qty(T_A; \circ)$ ein Monoid aber keine Gruppe ist.
+
+  \subparagraph{Lsg.} Es ist $\text{id}_A$ das neutrale Element in
+  $\qty(T_A; \circ)$, da für jedes $a \in A, f \in T_A$ gilt
+  \[
+    \qty\big(f \circ \text{id}_A)\qty\big(a) = f\qty(\text{id}_A\qty\big(a))
+    = f\qty\big(a) =
+    \text{id}_A\qty(f\qty\big(a)) = \qty(\text{id}_A \circ f)\qty\big(a)
+  \]
+  Somit ist $\qty\big(T_A; \circ)$ ein Monoid.
+
+  Sei $f \in T_A$ nun die Abbildung definiert durch
+  $f\qty\big(a) = f\qty\big(b) = f\qty\big(c) = a$.
+  Angenommen $\qty(T_A; \circ)$ wäre eine Gruppe, dann müsste eine
+  Abbildung $g \in T_A$ mit $g \circ f = \text{id}_A$ existieren.
+
+  Somit müssten gleichzeitig
+  \begin{itemize}
+  \item $\qty\big(g \circ f)\qty\big(a) = g\qty(f\qty\big(a)) = g\qty\big(a) = a$ und
+  \item $\qty\big(g \circ f)\qty\big(b) = g\qty(f\qty\big(b)) = g\qty\big(a) = b$
+  \end{itemize}
+  gelten - ein Widerspruch und somit ist $\qty(T_A; \circ)$ keine Gruppe.
+\item Es werden Zwei Abbildungen $f$ und $g$, definiert durch
+  \begin{flalign*}
+    f&\colon A \to A \text{ mit } f\qty\big(a) = a, f\qty\big(b) = f\qty\big(c) = b \\
+    g&\colon A \to A \text{ mit } g\qty\big(a) = b, g\qty\big(b) = g\qty\big(c) = a
+  \end{flalign*}
+  betrachtet.
+  Zeigen Sie, dass $U \coloneqq \qty\big{f, g}$ eine Unterhalbgruppe von
+  $\qty(T_A; \circ)$ bildet.
+
+  \subparagraph{Lsg.} $U$ ist eine Unterhalbgruppe wenn jegliche Verknüpfung von
+  Elementen aus $U$ auch wieder ein Element in $U$ bildet.
+  Mit den zwei Elementen lässt sich dies schnell durchspielen:
+  \begin{itemize}
+  \item[$f \circ f = f$], da
+    \begin{itemize}
+    \item $f\qty(f\qty\big(a)) = f\qty\big(a) = a = f\qty\big(a)$
+    \item $f\qty(f\qty\big(b)) = f\qty\big(b) = b = f\qty\big(b)$
+    \item $f\qty(f\qty\big(c)) = f\qty\big(b) = b = f\qty\big(c)$
+    \end{itemize}
+  \item[$g \circ g = f$], da
+    \begin{itemize}
+    \item $g\qty(g\qty\big(a)) = g\qty\big(b) = a = f\qty\big(a)$
+    \item $g\qty(g\qty\big(b)) = g\qty\big(a) = b = f\qty\big(b)$
+    \item $g\qty(g\qty\big(c)) = g\qty\big(a) = b = f\qty\big(c)$
+    \end{itemize}
+  \item[$f \circ g = g$], da
+    \begin{itemize}
+    \item $f\qty(g\qty\big(a)) = f\qty\big(b) = b = g\qty\big(a)$
+    \item $f\qty(g\qty\big(b)) = f\qty\big(a) = a = g\qty\big(b)$
+    \item $f\qty(g\qty\big(c)) = f\qty\big(a) = a = g\qty\big(c)$
+    \end{itemize}
+  \item[$g \circ f = g$], da
+    \begin{itemize}
+    \item $g\qty(f\qty\big(a)) = g\qty\big(a) = b = g\qty\big(a)$
+    \item $g\qty(f\qty\big(b)) = g\qty\big(b) = a = g\qty\big(b)$
+    \item $g\qty(f\qty\big(c)) = g\qty\big(b) = a = g\qty\big(c)$
+    \end{itemize}
+  \end{itemize}
+\end{enumerate}
+
+\newpage
+\paragraph{Ü 1.4} Aus der symmetrischen Gruppe $\qty(S_5; \circ)$ über der
+Menge $A = \qty\big{1, 2, 3, 4, 5}$ werden die Permutationen
+\[
+  \alpha = \begin{pmatrix}
+    1 & 2 & 3 & 4 & 5 \\
+    3 & 4 & 5 & 2 & 1 \\
+  \end{pmatrix}, \qquad
+  \beta = \begin{pmatrix}
+    1 & 2 & 3 & 4 & 5 \\
+    4 & 2 & 3 & 1 & 5 \\
+  \end{pmatrix}
+\]
+betrachtet.
+\begin{enumerate}[(a)]
+\item Geben Sie $\alpha, \beta, \alpha^{-1}, \alpha \circ \beta$ und
+  $\beta \circ \alpha$ in Zyklenschreibweise an.
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $\alpha = \qty\big(3\;5\;1)\qty\big(4\;2)$
+  \item $\beta = \qty\big(4\;1)$
+  \item $\alpha^{-1} = \qty\big(5\;3\;1)\qty\big(4\;2)$
+  \item $\alpha \circ \beta = \qty\big(2\;4\;3\;5\;1)$
+  \item $\beta \circ \alpha = \qty\big(3\;5\;4\;2\;1)$
+  \end{itemize}
+
+\item Bestimmen Sie alle Elemente der Untergruppe $\langle \alpha \rangle$
+  von $\qty(S_5; \circ)$ in Zyklenschreibweise.
+
+  Wie viele Linksnebenklassen hat $\langle \alpha \rangle$?
+  Gilt
+  $\beta \circ \langle \alpha \rangle = \beta^2 \circ \langle \alpha \rangle$?
+
+  \subparagraph{Lsg.} Es sind
+  \begin{itemize}
+  \item $\alpha^0 = \text{id}_{S_5}$
+  \item $\alpha = \qty\big(3\;5\;1)\qty\big(4\;2)$
+  \item $\alpha^2 = \qty\big(3\;1\;5)$
+  \item $\alpha^3 = \qty\big(4\;2)$
+  \item $\alpha^4 = \qty\big(3\;5\;1)$
+  \item $\alpha^5 = \qty\big(3\;1\;5)\qty\big(4\;2)$
+  \end{itemize}
+  und somit
+  \[
+    \langle \alpha \rangle = \qty{\alpha^i \:{\big |}\: i \in \mathbb{N}}
+    = \qty\Big{
+      \text{id}_{S_5},
+      \qty\big(3\;5\;1)\qty\big(4\;2),
+      \qty\big(3\;1\;5),
+      \qty\big(4\;2),
+      \qty\big(3\;5\;1),
+      \qty\big(3\;1\;5)\qty\big(4\;2)
+    }
+  \]
+
+  \textbf{Alternativ nach der Übung:} von $\alpha^1$ bis $\alpha^6$ \\
+
+  Nun ist bekannt, dass zwei Linksnebenklassen entweder identisch oder disjunkt
+  sind.
+  Weiter ist $\abs{S_5} = 5! = 120$ und die Zahl der Linksnebenklassen
+  $\abs{S_5} / \abs{\langle \alpha \rangle} = 120 / 6 = 20$.
+
+\newpage
+\item Bekanntlich definiert die Untergruppe $U \coloneqq \langle \alpha \rangle$
+  eine Äquivalenzrelation $R_U$ in $\qty(S_5; \circ)$ durch
+  \[
+    \qty(\sigma, \tau) \in R_U \colon\iff \sigma^{-1} \circ \tau \in U
+  \]
+  \begin{enumerate}[(1)]
+  \item Wie viele Elemente besitzt die Faktormenge $S_5/R_U$?
+
+    \subparagraph{Lsg.} Die Faktormenge ist die Menge der Äquivalenzklassen
+    einer Äquivalenzrelation.
+    Hier entspricht eine Äquivalenzklasse jeweils einer Linksnebenklasse von
+    $U$ und somit besitzt die Faktormenge 20 Elemente.
+
+  \item Bestimmen Sie die Äquivalenzklasse
+    $\qty[\qty\big(1\;5\;3)\qty\big(2\;4)]_{R_U}$.
+
+    \subparagraph{Lsg.} Das entspricht $\alpha^5$, dementsprechend ist
+    $\qty\big(1\;5\;3)\qty\big(2\;4)$ und die Äquivalenzklasse
+    ist gleich $\langle \alpha \rangle$.
+  \end{enumerate}
+\end{enumerate}
+\end{document}
